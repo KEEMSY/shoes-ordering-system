@@ -4,8 +4,8 @@
 
 ## **Context**
 
-- [신발 주문 시스템을 계획하게 된 배경]()
-- [신발 주문 시스템의 아키텍처 특성 및 도메인 분석]()
+- [신발 주문 시스템을 계획하게 된 배경](https://github.com/KEEMSY/shoes-ordering-system/wiki/%EC%8B%A0%EB%B0%9C-%EC%A3%BC%EB%AC%B8-%EC%8B%9C%EC%8A%A4%ED%85%9C%EC%9D%84-%EA%B3%84%ED%9A%8D%ED%95%98%EA%B2%8C-%EB%90%9C-%EB%B0%B0%EA%B2%BD)
+- [신발 주문 시스템의 아키텍처 특성 및 도메인 분석](https://github.com/KEEMSY/shoes-ordering-system/wiki)
 
 <br><hr>
 
