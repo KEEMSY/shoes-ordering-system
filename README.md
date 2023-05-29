@@ -12,9 +12,13 @@
 
 ## **Conclusion**
 
-- 도메인 설계
+- [도메인 설계](https://github.com/KEEMSY/shoes-ordering-system/wiki/%EC%8B%A0%EB%B0%9C-%EC%A3%BC%EB%AC%B8-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EC%84%A4%EA%B3%84---%EB%8F%84%EB%A9%94%EC%9D%B8)
 - [아키텍처 설계](https://github.com/KEEMSY/shoes-ordering-system/wiki/%EC%8B%A0%EB%B0%9C-%EC%A3%BC%EB%AC%B8-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EC%84%A4%EA%B3%84---%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98)
-- 기능 
+- 도메인
+  - Member
+  - Product
+  - Order
+  - Payment    
 
 <br><hr>
 
