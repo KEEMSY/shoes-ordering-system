@@ -11,10 +11,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-//import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 class MemberTest {
     @Test
@@ -110,5 +108,43 @@ class MemberTest {
         }).isInstanceOf(MemberDomainException.class)
                 .hasMessageContaining("Member is not in correct state for signUp!");
 
+    }
+    @Test
+    @DisplayName("정상 signUp 확인")
+    public void testSignUp1() {
+        Member member = Member.Builder.builder()
+                .memberId(new MemberId(UUID.randomUUID()))
+                .memberStatus(MemberStatus.PENDING)
+                .name("KEEMSY")
+                .password("password")
+                .email("KEEMSY@example.com")
+                .memberKind(MemberKind.CUSTOMER)
+                .phoneNumber("1234567890")
+                .address(new StreetAddress(UUID.randomUUID(), "123 Street", "99999", "City"))
+                .build();
+
+        member.approve();
+        member.signUp();
+        assertThat(member.getMemberStatus()).isEqualTo(MemberStatus.ACTIVATE);
+    }
+    @Test
+    @DisplayName("비정상 signUp 에러 확인")
+    public void testSignUp2() {
+
+        assertThatThrownBy(() -> {
+            Member member = Member.Builder.builder()
+                    .memberId(new MemberId(UUID.randomUUID()))
+                    .memberStatus(MemberStatus.PENDING)
+                    .name("KEEMSY")
+                    .password("password")
+                    .email("KEEMSY@example.com")
+                    .memberKind(MemberKind.CUSTOMER)
+                    .phoneNumber("1234567890")
+                    .address(new StreetAddress(UUID.randomUUID(), "123 Street", "99999", "City"))
+                    .build();
+
+            member.signUp();
+        }).isInstanceOf(MemberDomainException.class)
+                .hasMessageContaining("Member is not in correct state for active!");
     }
 }

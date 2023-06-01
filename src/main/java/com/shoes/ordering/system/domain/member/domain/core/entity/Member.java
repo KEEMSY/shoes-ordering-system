@@ -47,6 +47,13 @@ public class Member extends AggregateRoot<MemberId> {
 
         memberStatus = MemberStatus.APPROVED;
     }
+    public void signUp() {
+        if (memberStatus != MemberStatus.APPROVED) {
+            throw new MemberDomainException("Member is not in correct state for active!");
+        }
+        memberStatus = MemberStatus.ACTIVATE;
+    }
+
     private boolean isValidEmail(String email) {
         boolean err = false;
         String regex = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
