@@ -1,11 +1,11 @@
 package com.shoes.ordering.system.domain.member.domain.core.entity;
 
 import com.shoes.ordering.system.domain.common.entity.AggregateRoot;
-import com.shoes.ordering.system.domain.common.valueobject.MemberId;
-import com.shoes.ordering.system.domain.common.valueobject.MemberStatus;
+import com.shoes.ordering.system.domain.member.domain.core.valueobject.MemberId;
+import com.shoes.ordering.system.domain.member.domain.core.valueobject.MemberStatus;
 import com.shoes.ordering.system.domain.member.domain.core.exception.MemberDomainException;
 import com.shoes.ordering.system.domain.member.domain.core.valueobject.MemberKind;
-import com.shoes.ordering.system.domain.member.domain.core.valueobject.StreetAddress;
+import com.shoes.ordering.system.domain.common.valueobject.StreetAddress;
 
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -40,7 +40,13 @@ public class Member extends AggregateRoot<MemberId> {
             throw new MemberDomainException("Email is not valid!");
         }
     }
+    public void approve() {
+        if (memberStatus != MemberStatus.PENDING) {
+            throw new MemberDomainException("Member is not in correct state for signUp!");
+        }
 
+        memberStatus = MemberStatus.APPROVED;
+    }
     private boolean isValidEmail(String email) {
         boolean err = false;
         String regex = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";

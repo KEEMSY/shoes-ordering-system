@@ -1,4 +1,4 @@
-package com.shoes.ordering.system.domain.member.domain.core.valueobject;
+package com.shoes.ordering.system.domain.common.valueobject;
 
 import java.util.Objects;
 import java.util.UUID;
