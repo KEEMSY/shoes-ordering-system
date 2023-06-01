@@ -3,8 +3,14 @@ package com.shoes.ordering.system.domain.member.domain.core.entity;
 import com.shoes.ordering.system.domain.common.entity.AggregateRoot;
 import com.shoes.ordering.system.domain.common.valueobject.MemberId;
 import com.shoes.ordering.system.domain.common.valueobject.MemberStatus;
+import com.shoes.ordering.system.domain.member.domain.core.exception.MemberDomainException;
 import com.shoes.ordering.system.domain.member.domain.core.valueobject.MemberKind;
 import com.shoes.ordering.system.domain.member.domain.core.valueobject.StreetAddress;
+
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Member extends AggregateRoot<MemberId> {
     private final String name;
     private final String password;
@@ -13,6 +19,45 @@ public class Member extends AggregateRoot<MemberId> {
     private final String phoneNumber;
     private final StreetAddress address;
     private MemberStatus memberStatus;
+
+    public void initializeMember() {
+        setId(new MemberId(UUID.randomUUID()));
+        memberStatus = MemberStatus.PENDING;
+    }
+    private void validateInitialMember() {
+        if (memberStatus != MemberStatus.PENDING || getId() == null) {
+            throw new MemberDomainException("Member is not in correct state for initialization");
+        }
+    }
+    public void validateMember() {
+        validateInitialMember();
+        validateEmail();
+        validatePassword();
+    }
+
+    private void validateEmail() {
+        if (email == null || !isValidEmail(email)) {
+            throw new MemberDomainException("Email is not valid!");
+        }
+    }
+
+    private boolean isValidEmail(String email) {
+        boolean err = false;
+        String regex = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(email);
+        if(m.matches()) {
+            err = true;
+        }
+        return err;
+    }
+
+    private void validatePassword() {
+        String regex = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&+=])(?=\\S+$).{8,}$";
+        if (!password.matches(regex)) {
+            throw new MemberDomainException("The password must be at least 8 characters long and contain at least one digit, one letter, and one special character");
+        }
+    }
 
     private Member(Builder builder) {
         super.setId(builder.memberId);
@@ -63,9 +108,6 @@ public class Member extends AggregateRoot<MemberId> {
         private String phoneNumber;
         private StreetAddress address;
         private MemberStatus memberStatus;
-
-        private Builder() {
-        }
 
         public static Builder builder() {
             return new Builder();
