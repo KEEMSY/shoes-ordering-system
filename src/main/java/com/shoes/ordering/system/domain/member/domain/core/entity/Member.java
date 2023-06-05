@@ -17,7 +17,7 @@ public class Member extends AggregateRoot<MemberId> {
     private final String email;
     private final MemberKind memberKind;
     private final String phoneNumber;
-    private final StreetAddress address;
+    private StreetAddress address;
     private MemberStatus memberStatus;
 
     public static Builder builder() {
@@ -57,7 +57,15 @@ public class Member extends AggregateRoot<MemberId> {
         }
         memberStatus = MemberStatus.ACTIVATE;
     }
-
+    public void changeStreetAddress(StreetAddress newStreetAddress){
+        if (memberStatus != MemberStatus.ACTIVATE) {
+            throw new MemberDomainException("Member is not in the correct state for changing address!");
+        }
+        if (address.equals(newStreetAddress)) {
+            throw new MemberDomainException("The new address is the same as the current address!");
+        }
+        address = newStreetAddress;
+    }
     private boolean isValidEmail(String email) {
         boolean err = false;
         String regex = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
