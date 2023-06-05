@@ -147,4 +147,66 @@ class MemberTest {
         }).isInstanceOf(MemberDomainException.class)
                 .hasMessageContaining("Member is not in correct state for active!");
     }
+
+    @Test
+    @DisplayName("정상 주소변경 확인")
+    public void testChangeStreetAddress1() {
+        // given
+        Member member = Member.builder()
+                .memberId(new MemberId(UUID.randomUUID()))
+                .memberStatus(MemberStatus.PENDING)
+                .name("KEEMSY")
+                .password("password")
+                .email("KEEMSY@example.com")
+                .memberKind(MemberKind.CUSTOMER)
+                .phoneNumber("1234567890")
+                .address(new StreetAddress(UUID.randomUUID(), "123 Street", "99999", "City"))
+                .build();
+
+        member.approve();
+        member.signUp();
+
+        // when
+        StreetAddress newAddress = new StreetAddress(
+                UUID.randomUUID(),
+                "newStreet",
+                "newPostalCode",
+                "newCity"
+        );
+        member.changeStreetAddress(newAddress);
+
+        // then
+        assertThat(member.getAddress()).isEqualTo(newAddress);
+    }
+
+    @Test
+    @DisplayName("동일한 주소로 변경 불가능처리")
+    public void testChangeStreetAddress2() {
+        assertThatThrownBy(() -> {
+            // given
+            Member member = Member.builder()
+                    .memberId(new MemberId(UUID.randomUUID()))
+                    .memberStatus(MemberStatus.PENDING)
+                    .name("KEEMSY")
+                    .password("password")
+                    .email("KEEMSY@example.com")
+                    .memberKind(MemberKind.CUSTOMER)
+                    .phoneNumber("1234567890")
+                    .address(new StreetAddress(UUID.randomUUID(), "123 Street", "99999", "City"))
+                    .build();
+
+            member.approve();
+            member.signUp();
+
+            // when
+            StreetAddress sameAddress = new StreetAddress(
+                    UUID.randomUUID(), "123 Street", "99999", "City");
+
+            member.changeStreetAddress(sameAddress);
+
+            // then
+        }).isInstanceOf(MemberDomainException.class)
+                .hasMessageContaining("The new address is the same as the current address!");
+    }
+
 }
