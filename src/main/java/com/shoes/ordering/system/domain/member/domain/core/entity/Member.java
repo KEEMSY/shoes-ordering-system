@@ -20,6 +20,10 @@ public class Member extends AggregateRoot<MemberId> {
     private final StreetAddress address;
     private MemberStatus memberStatus;
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public void initializeMember() {
         setId(new MemberId(UUID.randomUUID()));
         memberStatus = MemberStatus.PENDING;
@@ -121,10 +125,6 @@ public class Member extends AggregateRoot<MemberId> {
         private String phoneNumber;
         private StreetAddress address;
         private MemberStatus memberStatus;
-
-        public static Builder builder() {
-            return new Builder();
-        }
 
         public Builder memberId(MemberId val) {
             memberId = val;

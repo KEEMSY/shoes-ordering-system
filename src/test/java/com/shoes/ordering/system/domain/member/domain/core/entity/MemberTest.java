@@ -18,7 +18,7 @@ class MemberTest {
     @Test
     @DisplayName("정상 Memeber 생성 확인")
     public void testInitializeMember() {
-        Member member = Member.Builder.builder()
+        Member member = Member.builder()
                 .memberId(new MemberId(UUID.randomUUID()))
                 .memberStatus(MemberStatus.PENDING)
                 .name("KEEMSY")
@@ -39,7 +39,7 @@ class MemberTest {
     @Test
     @DisplayName("Email 유효성 검사 확인")
     public void testValidateMember_InvalidEmail() {
-        Member member = Member.Builder.builder()
+        Member member = Member.builder()
                 .memberId(new MemberId(UUID.randomUUID()))
                 .memberStatus(MemberStatus.PENDING)
                 .name("KEEMSY")
@@ -56,7 +56,7 @@ class MemberTest {
     @Test
     @DisplayName("Password 유효성 검증 확인")
     public void testValidateMember_InvalidPassword() {
-        Member member = Member.Builder.builder()
+        Member member = Member.builder()
                 .memberId(new MemberId(UUID.randomUUID()))
                 .memberStatus(MemberStatus.PENDING)
                 .name("KEEMSY")
@@ -73,7 +73,7 @@ class MemberTest {
     @Test
     @DisplayName("정상 approve 확인")
     public void testApprove1() {
-        Member member = Member.Builder.builder()
+        Member member = Member.builder()
                 .memberId(new MemberId(UUID.randomUUID()))
                 .memberStatus(MemberStatus.PENDING)
                 .name("KEEMSY")
@@ -93,7 +93,7 @@ class MemberTest {
     public void testApprove2() {
 
         assertThatThrownBy(() -> {
-            Member member = Member.Builder.builder()
+            Member member = Member.builder()
                     .memberId(new MemberId(UUID.randomUUID()))
                     .memberStatus(MemberStatus.ACTIVATE)
                     .name("KEEMSY")
@@ -112,7 +112,7 @@ class MemberTest {
     @Test
     @DisplayName("정상 signUp 확인")
     public void testSignUp1() {
-        Member member = Member.Builder.builder()
+        Member member = Member.builder()
                 .memberId(new MemberId(UUID.randomUUID()))
                 .memberStatus(MemberStatus.PENDING)
                 .name("KEEMSY")
@@ -132,7 +132,7 @@ class MemberTest {
     public void testSignUp2() {
 
         assertThatThrownBy(() -> {
-            Member member = Member.Builder.builder()
+            Member member = Member.builder()
                     .memberId(new MemberId(UUID.randomUUID()))
                     .memberStatus(MemberStatus.PENDING)
                     .name("KEEMSY")
