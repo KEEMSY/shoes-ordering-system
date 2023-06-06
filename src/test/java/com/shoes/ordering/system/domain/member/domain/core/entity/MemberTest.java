@@ -209,4 +209,123 @@ class MemberTest {
                 .hasMessageContaining("The new address is the same as the current address!");
     }
 
+    @Test
+    @DisplayName("정상 멤버 상태 변경 확인1")
+    public void testChangeMemberStatus1() {
+        // given
+        Member member = Member.builder()
+                .memberId(new MemberId(UUID.randomUUID()))
+                .memberStatus(MemberStatus.PENDING)
+                .name("KEEMSY")
+                .password("password")
+                .email("KEEMSY@example.com")
+                .memberKind(MemberKind.CUSTOMER)
+                .phoneNumber("1234567890")
+                .address(new StreetAddress(UUID.randomUUID(), "123 Street", "99999", "City"))
+                .build();
+
+        member.approve();
+        member.signUp();
+
+        // when
+        member.changeMemberStatus();
+
+        // then
+        assertThat(member.getMemberStatus()).isEqualTo(MemberStatus.DEACTIVATE);
+    }
+
+    @Test
+    @DisplayName("정상 멤버 상태 변경 확인2")
+    public void testChangeMemberStatus2() {
+        // given
+        Member member = Member.builder()
+                .memberId(new MemberId(UUID.randomUUID()))
+                .memberStatus(MemberStatus.PENDING)
+                .name("KEEMSY")
+                .password("password")
+                .email("KEEMSY@example.com")
+                .memberKind(MemberKind.CUSTOMER)
+                .phoneNumber("1234567890")
+                .address(new StreetAddress(UUID.randomUUID(), "123 Street", "99999", "City"))
+                .build();
+
+        member.approve();
+        member.signUp();
+
+        // when
+        member.changeMemberStatus();
+        member.changeMemberStatus();
+
+        // then
+        assertThat(member.getMemberStatus()).isEqualTo(MemberStatus.ACTIVATE);
+    }
+
+    @Test
+    @DisplayName("정상 회원 탈퇴 확인1: 회원가입 대기")
+    public void testWithdraw1() {
+        // given
+        Member member = Member.builder()
+                .memberId(new MemberId(UUID.randomUUID()))
+                .memberStatus(MemberStatus.PENDING)
+                .name("KEEMSY")
+                .password("password")
+                .email("KEEMSY@example.com")
+                .memberKind(MemberKind.CUSTOMER)
+                .phoneNumber("1234567890")
+                .address(new StreetAddress(UUID.randomUUID(), "123 Street", "99999", "City"))
+                .build();
+
+        // when
+        member.withdraw();
+
+        // then
+        assertThat(member.getMemberStatus()).isEqualTo(MemberStatus.WITHDRAWAL);
+    }
+
+    @Test
+    @DisplayName("정상 회원 탈퇴 확인2: 회원가입 승인")
+    public void testWithdraw2() {
+        // given
+        Member member = Member.builder()
+                .memberId(new MemberId(UUID.randomUUID()))
+                .memberStatus(MemberStatus.PENDING)
+                .name("KEEMSY")
+                .password("password")
+                .email("KEEMSY@example.com")
+                .memberKind(MemberKind.CUSTOMER)
+                .phoneNumber("1234567890")
+                .address(new StreetAddress(UUID.randomUUID(), "123 Street", "99999", "City"))
+                .build();
+
+        // when
+        member.approve();
+        member.withdraw();
+
+        // then
+        assertThat(member.getMemberStatus()).isEqualTo(MemberStatus.WITHDRAWAL);
+    }
+
+    @Test
+    @DisplayName("정상 회원 탈퇴 확인3: 회원가입 가입완료")
+    public void testWithdraw3() {
+        // given
+        Member member = Member.builder()
+                .memberId(new MemberId(UUID.randomUUID()))
+                .memberStatus(MemberStatus.PENDING)
+                .name("KEEMSY")
+                .password("password")
+                .email("KEEMSY@example.com")
+                .memberKind(MemberKind.CUSTOMER)
+                .phoneNumber("1234567890")
+                .address(new StreetAddress(UUID.randomUUID(), "123 Street", "99999", "City"))
+                .build();
+
+        // when
+        member.approve();
+        member.signUp();
+        member.withdraw();
+
+        // then
+        assertThat(member.getMemberStatus()).isEqualTo(MemberStatus.WITHDRAWAL);
+    }
 }
