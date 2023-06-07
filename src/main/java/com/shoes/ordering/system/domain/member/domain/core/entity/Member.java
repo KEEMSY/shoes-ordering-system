@@ -39,6 +39,18 @@ public class Member extends AggregateRoot<MemberId> {
         validatePassword();
     }
 
+    public void validateUpdateMember() {
+        validateInitialUpdateMember();
+        validateEmail();
+        validatePassword();
+    }
+
+    private void validateInitialUpdateMember() {
+        if (memberStatus != MemberStatus.ACTIVATE || getId() == null) {
+            throw new MemberDomainException("Member is not in correct state for updating initialization ");
+        }
+    }
+
     private void validateEmail() {
         if (email == null || !isValidEmail(email)) {
             throw new MemberDomainException("Email is not valid!");
