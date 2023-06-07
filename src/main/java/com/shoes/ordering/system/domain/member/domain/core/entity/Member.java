@@ -13,11 +13,11 @@ import java.util.regex.Pattern;
 
 public class Member extends AggregateRoot<MemberId> {
     private final String name;
-    private String password;
+    private final String password;
     private final String email;
     private final MemberKind memberKind;
-    private String phoneNumber;
-    private StreetAddress address;
+    private final String phoneNumber;
+    private final StreetAddress address;
     private MemberStatus memberStatus;
 
     public static Builder builder() {
@@ -44,59 +44,7 @@ public class Member extends AggregateRoot<MemberId> {
             throw new MemberDomainException("Email is not valid!");
         }
     }
-    public void approve() {
-        if (memberStatus != MemberStatus.PENDING) {
-            throw new MemberDomainException("Member is not in correct state for signUp!");
-        }
 
-        memberStatus = MemberStatus.APPROVED;
-    }
-    public void signUp() {
-        if (memberStatus != MemberStatus.APPROVED) {
-            throw new MemberDomainException("Member is not in correct state for active!");
-        }
-        memberStatus = MemberStatus.ACTIVATE;
-    }
-    public void changeStreetAddress(StreetAddress newStreetAddress){
-        if (memberStatus != MemberStatus.ACTIVATE) {
-            throw new MemberDomainException("Member is not in the correct state for changing address!");
-        }
-        if (address.equals(newStreetAddress)) {
-            throw new MemberDomainException("The new address is the same as the current address!");
-        }
-        address = newStreetAddress;
-    }
-    public void withdraw() {
-        memberStatus = MemberStatus.WITHDRAWAL;
-    }
-
-    public void changeMemberStatus() {
-        if (memberStatus == MemberStatus.PENDING || memberStatus == MemberStatus.APPROVED) {
-            throw new MemberDomainException("Member is not in the correct state for changing member status!");
-        }
-        memberStatus = (memberStatus == MemberStatus.ACTIVATE) ? MemberStatus.DEACTIVATE : MemberStatus.ACTIVATE;
-    }
-
-    public void changePassword(String newPassword){
-        if (memberStatus != MemberStatus.ACTIVATE) {
-            throw new MemberDomainException("Member is not in the correct state for changing password!");
-        }
-
-        if (password.equals(newPassword)) {
-            throw new MemberDomainException("The new password is the same as the current password!");
-        }
-        password = newPassword;
-    }
-    public void changePhoneNumber(String newPhoneNumber) {
-        if (memberStatus != MemberStatus.ACTIVATE) {
-            throw new MemberDomainException("Member is not in the correct state for changing phone number!");
-        }
-
-        if (phoneNumber.equals(newPhoneNumber)) {
-            throw new MemberDomainException("The new phoneNumber is the same as the current phoneNumber!");
-        }
-        phoneNumber = newPhoneNumber;
-    }
     private boolean isValidEmail(String email) {
         boolean err = false;
         String regex = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
