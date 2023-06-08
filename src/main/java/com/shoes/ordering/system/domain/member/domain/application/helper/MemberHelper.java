@@ -9,6 +9,7 @@ import com.shoes.ordering.system.domain.member.domain.core.entity.Member;
 import com.shoes.ordering.system.domain.member.domain.core.event.MemberUpdatedEvent;
 import com.shoes.ordering.system.domain.member.domain.core.event.MemberCreatedEvent;
 import com.shoes.ordering.system.domain.member.domain.core.exception.MemberDomainException;
+import com.shoes.ordering.system.domain.member.domain.core.exception.MemberNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,7 +60,7 @@ public class MemberHelper {
         Optional<Member> member = memberRepository.findByMemberId(memberId);
         if (member.isEmpty()) {
             log.warn("Could not find member with memberId: {}", memberId);
-            throw new MemberDomainException("Could not find member with memberId: " + memberId);
+            throw new MemberNotFoundException("Could not find member with memberId: " + memberId);
         }
     }
 
