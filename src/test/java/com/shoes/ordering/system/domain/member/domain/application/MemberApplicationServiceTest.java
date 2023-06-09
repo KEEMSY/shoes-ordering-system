@@ -9,6 +9,7 @@ import com.shoes.ordering.system.domain.member.domain.application.mapper.MemberD
 import com.shoes.ordering.system.domain.member.domain.application.ports.input.service.MemberApplicationService;
 import com.shoes.ordering.system.domain.member.domain.application.ports.output.repository.MemberRepository;
 import com.shoes.ordering.system.domain.member.domain.core.entity.Member;
+import com.shoes.ordering.system.domain.member.domain.core.exception.MemberNotFoundException;
 import com.shoes.ordering.system.domain.member.domain.core.valueobject.MemberKind;
 import com.shoes.ordering.system.domain.member.domain.core.valueobject.MemberStatus;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +23,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -96,5 +98,28 @@ public class MemberApplicationServiceTest {
 
         // then
         assertThat(updateMemberResponse.getMemberStatus()).isEqualTo(MemberStatus.ACTIVATE);
+    }
+
+    @Test
+    @DisplayName("비정상 Member Update: Member 가 존재하지 않는 경우")
+    public void updateMemberTest2() {
+        // given
+        UUID newMemberId = UUID.randomUUID();
+
+        // when
+        updateMemberCommand = UpdateMemberCommand.builder()
+                .memberId(newMemberId)
+                .name(member.getName())
+                .password(member.getPassword())
+                .email(member.getEmail())
+                .memberStatus(MemberStatus.ACTIVATE)
+                .phoneNumber(member.getPhoneNumber())
+                .address(member.getAddress())
+                .build();
+
+        // then
+        assertThatThrownBy(() ->{
+            UpdateMemberResponse updateMemberResponse = memberApplicationService.updateMember(updateMemberCommand);
+        }).isInstanceOf(MemberNotFoundException.class);
     }
 }
