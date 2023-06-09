@@ -5,7 +5,6 @@ import com.shoes.ordering.system.domain.member.domain.core.valueobject.MemberSta
 import com.shoes.ordering.system.domain.member.domain.core.exception.MemberDomainException;
 import com.shoes.ordering.system.domain.member.domain.core.valueobject.MemberKind;
 import com.shoes.ordering.system.domain.common.valueobject.StreetAddress;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

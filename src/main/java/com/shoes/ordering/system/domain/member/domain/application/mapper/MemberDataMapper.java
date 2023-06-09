@@ -34,9 +34,10 @@ public class MemberDataMapper {
                 .name(updateMemberCommand.getName())
                 .password(updateMemberCommand.getPassword())
                 .email(updateMemberCommand.getEmail())
+                .memberStatus(updateMemberCommand.getMemberStatus())
                 .memberKind(updateMemberCommand.getMemberKind())
                 .phoneNumber(updateMemberCommand.getPhoneNumber())
-                .address(memberAddressToStreetAddress(updateMemberCommand.getAddress()))
+                .address(updateMemberCommand.getAddress())
                 .build();
     }
     private StreetAddress memberAddressToStreetAddress(MemberAddress address) {

@@ -1,6 +1,6 @@
 package com.shoes.ordering.system.domain.member.domain.application.dto.update;
 
-import com.shoes.ordering.system.domain.member.domain.application.dto.MemberAddress;
+import com.shoes.ordering.system.domain.common.valueobject.StreetAddress;
 import com.shoes.ordering.system.domain.member.domain.core.valueobject.MemberKind;
 import com.shoes.ordering.system.domain.member.domain.core.valueobject.MemberStatus;
 import lombok.AllArgsConstructor;
@@ -36,5 +36,5 @@ public class UpdateMemberCommand {
     private final String phoneNumber;
 
     @NotNull
-    private MemberAddress address;
+    private StreetAddress address;
 }

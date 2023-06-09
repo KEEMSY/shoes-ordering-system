@@ -22,7 +22,6 @@ public class MemberDomainServiceImpl implements MemberDomainService{
 
     @Override
     public MemberUpdatedEvent updateMember(Member member) {
-        member.validateMember();
         member.validateUpdateMember();
 
         log.info("Member With id: {} is changed", member.getId().getValue());

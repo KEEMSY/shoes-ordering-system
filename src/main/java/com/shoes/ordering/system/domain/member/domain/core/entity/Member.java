@@ -7,6 +7,8 @@ import com.shoes.ordering.system.domain.member.domain.core.exception.MemberDomai
 import com.shoes.ordering.system.domain.member.domain.core.valueobject.MemberKind;
 import com.shoes.ordering.system.domain.common.valueobject.StreetAddress;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -46,8 +48,10 @@ public class Member extends AggregateRoot<MemberId> {
     }
 
     private void validateInitialUpdateMember() {
-        if (memberStatus != MemberStatus.ACTIVATE || getId() == null) {
-            throw new MemberDomainException("Member is not in correct state for updating initialization ");
+        List<MemberStatus> validMemberStatusList = Arrays.asList(MemberStatus.PENDING, MemberStatus.ACTIVATE);
+        System.out.println("memberStatus in Member Obj:"+ memberStatus);
+        if (!validMemberStatusList.contains(memberStatus) || getId() == null) {
+            throw new MemberDomainException("Member is not in the correct state for updating initialization");
         }
     }
 

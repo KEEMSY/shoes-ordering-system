@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -53,7 +52,7 @@ public class MemberHelper {
 
         saveMember(member);
         log.info("Member is updated with id: {}", memberUpdatedEvent.getMember().getId().getValue());
-        return new MemberUpdatedEvent(new Member.Builder().build(), ZonedDateTime.now());
+        return memberUpdatedEvent;
     }
 
     private void checkMember(UUID memberId) {
