@@ -75,3 +75,10 @@ gradle-app.setting
 ### Gradle Patch ###
 # Java heap dump
 *.hprof
+
+
+src/main/java/com/shoes/ordering/system/common/infra/docker-compose/volumes/kafka/broker-1/*
+src/main/java/com/shoes/ordering/system/common/infra/docker-compose/volumes/kafka/broker-2/*
+src/main/java/com/shoes/ordering/system/common/infra/docker-compose/volumes/kafka/broker-3/*
+
+src/main/java/com/shoes/ordering/system/common/infra/docker-compose/volumes/zookeeper/*
