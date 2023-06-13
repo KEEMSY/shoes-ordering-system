@@ -1,0 +1,43 @@
+{
+  "type": "record",
+  "name": "UpdateMemberRequestAvroModel",
+  "namespace": "com.shoes.ordering.system",
+  "fields": [
+    { "name": "memberId", "type": "string", "logicalType": "uuid"},
+    { "name": "name", "type": "string" },
+    { "name": "password", "type": "string" },
+    { "name": "email", "type": "string" },
+    { "name": "memberKind", "type": {
+      "type": "enum",
+      "name": "MemberKind",
+      "symbols": ["CUSTOMER" , "SELLER", "ADMIN"]
+    } },
+    {
+      "name": "memberStatus",
+      "type": {
+        "type": "enum",
+        "name": "MemberStatus",
+        "symbols": ["PENDING", "ACTIVATE", "DEACTIVATE", "WITHDRAWAL"]
+      }
+    },
+    { "name": "phoneNumber", "type": "string" },
+    { "name": "address", "type": {
+      "type": "record",
+      "name": "StreetAddress",
+      "fields": [
+        { "name": "street", "type": "string" },
+        { "name": "city", "type": "string" },
+        { "name": "state", "type": "string" },
+        { "name": "postalCode", "type": "string" }
+      ]
+    }
+
+    },
+    { "name": "createdAt", "type":  {
+      "type": "long",
+      "logicalType": "timestamp-millis"
+    }
+    }
+
+  ]
+}
