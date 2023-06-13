@@ -49,7 +49,6 @@ public class Member extends AggregateRoot<MemberId> {
 
     private void validateInitialUpdateMember() {
         List<MemberStatus> validMemberStatusList = Arrays.asList(MemberStatus.PENDING, MemberStatus.ACTIVATE);
-        System.out.println("memberStatus in Member Obj:"+ memberStatus);
         if (!validMemberStatusList.contains(memberStatus) || getId() == null) {
             throw new MemberDomainException("Member is not in the correct state for updating initialization");
         }

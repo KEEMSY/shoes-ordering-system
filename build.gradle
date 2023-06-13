@@ -10,6 +10,9 @@ sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
+    maven {
+        url "https://packages.confluent.io/maven/"
+    }
 }
 
 dependencies {
@@ -17,6 +20,17 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-logging'
     implementation 'javax.validation:validation-api:2.0.1.Final'
+
+    def springKafkaVersion = '2.8.2'
+    implementation "org.springframework.kafka:spring-kafka:$springKafkaVersion"
+
+    def kafkaAvroSerializerVersion = '7.0.1'
+    implementation("io.confluent:kafka-avro-serializer:$kafkaAvroSerializerVersion") {
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'log4j', module: 'log4j'
+        exclude group: 'io.swagger', module: 'swagger-annotations'
+        exclude group: 'io.swagger', module: 'swagger-core'
+    }
 
     runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
