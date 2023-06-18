@@ -12,6 +12,11 @@
             "name": "MemberKind",
             "symbols": ["CUSTOMER" , "SELLER", "ADMIN"]
         } },
+        { "name": "memberStatus", "type": {
+            "type": "enum",
+            "name": "MemberStatus",
+            "symbols": ["PENDING" , "ACTIVATE", "DEACTIVATE", "WITHDRAWAL"]
+        } },
         { "name": "phoneNumber", "type": "string" },
         { "name": "address", "type": {
             "type": "record",
