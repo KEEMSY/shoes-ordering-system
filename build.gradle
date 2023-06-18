@@ -60,7 +60,7 @@ apply plugin: "com.github.davidmc24.gradle.plugin.avro-base"
 
 def generateAvro = tasks.register("generateAvro", GenerateAvroJavaTask) {
     source("src/main/resources/avro")
-    outputDir = file("src/main/java")
+    outputDir = file("src/main/java/avro")
 }
 
 tasks.named("compileJava").configure {
