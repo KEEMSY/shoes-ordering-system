@@ -16,10 +16,10 @@ import java.util.Map;
 
 
 @Configuration
-public class KafkaProducerConfig <K extends Serializable, V extends SpecificRecordBase> {
-    private final KafkaConfigData kafkaConfigData;
-    private  final KafkaProducerConfigData kafkaProducerConfigData;
+public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecordBase> {
 
+    private final KafkaConfigData kafkaConfigData;
+    private final KafkaProducerConfigData kafkaProducerConfigData;
 
     public KafkaProducerConfig(KafkaConfigData kafkaConfigData,
                                KafkaProducerConfigData kafkaProducerConfigData) {

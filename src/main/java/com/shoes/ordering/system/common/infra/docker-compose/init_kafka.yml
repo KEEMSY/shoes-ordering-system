@@ -9,10 +9,11 @@ services:
       kafka-topics --bootstrap-server kafka-broker-1:9092 --list
 
       echo -e 'Deleting kafka topics'
-      kafka-topics --bootstrap-server kafka-broker-1:9092 --topic member-request --delete --if-exists
-      kafka-topics --bootstrap-server kafka-broker-1:9092 --topic member-response --delete --if-exists
-
-
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --topic create-member-request --delete --if-exists
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --topic create-member-response --delete --if-exists
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --topic update-member-request --delete --if-exists
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --topic update-member-response --delete --if-exists
+  
       echo -e 'Creating kafka topics'
       kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic member-request --replication-factor 3 --partitions 3
       kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic member-response --replication-factor 3 --partitions 3
