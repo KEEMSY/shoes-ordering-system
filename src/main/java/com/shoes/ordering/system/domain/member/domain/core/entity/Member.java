@@ -21,6 +21,9 @@ public class Member extends AggregateRoot<MemberId> {
     private final String phoneNumber;
     private final StreetAddress address;
     private MemberStatus memberStatus;
+    private List<String> messages;
+
+    public static final String MESSAGE_DELIMITER = ",";
 
     public static Builder builder() {
         return new Builder();
@@ -87,6 +90,7 @@ public class Member extends AggregateRoot<MemberId> {
         phoneNumber = builder.phoneNumber;
         address = builder.address;
         memberStatus = builder.memberStatus;
+        messages = builder.messages;
     }
 
 
@@ -118,6 +122,10 @@ public class Member extends AggregateRoot<MemberId> {
         return memberStatus;
     }
 
+    public List<String> getMessages() {
+        return messages;
+    }
+
     public static final class Builder {
         private MemberId memberId;
         private String name;
@@ -127,6 +135,7 @@ public class Member extends AggregateRoot<MemberId> {
         private String phoneNumber;
         private StreetAddress address;
         private MemberStatus memberStatus;
+        private List<String> messages;
 
         public Builder memberId(MemberId val) {
             memberId = val;
@@ -165,6 +174,11 @@ public class Member extends AggregateRoot<MemberId> {
 
         public Builder memberStatus(MemberStatus val) {
             memberStatus = val;
+            return this;
+        }
+
+        public Builder messages(List<String> val) {
+            messages = val;
             return this;
         }
 
