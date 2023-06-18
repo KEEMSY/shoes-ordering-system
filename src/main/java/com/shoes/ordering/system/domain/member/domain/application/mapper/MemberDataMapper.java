@@ -4,6 +4,7 @@ import com.shoes.ordering.system.domain.common.valueobject.StreetAddress;
 import com.shoes.ordering.system.domain.member.domain.application.dto.create.CreateMemberCommand;
 import com.shoes.ordering.system.domain.member.domain.application.dto.create.CreateMemberResponse;
 import com.shoes.ordering.system.domain.member.domain.application.dto.MemberAddress;
+import com.shoes.ordering.system.domain.member.domain.application.dto.track.TrackMemberResponse;
 import com.shoes.ordering.system.domain.member.domain.application.dto.update.UpdateMemberCommand;
 import com.shoes.ordering.system.domain.member.domain.application.dto.update.UpdateMemberResponse;
 import com.shoes.ordering.system.domain.member.domain.core.entity.Member;
@@ -61,6 +62,14 @@ public class MemberDataMapper {
         return UpdateMemberResponse.builder()
                 .memberId(member.getId().getValue())
                 .memberStatus(member.getMemberStatus())
+                .build();
+    }
+
+    public TrackMemberResponse MemberToTrackMemberResponse(Member member) {
+        return TrackMemberResponse.builder()
+                .memberId(member.getId().getValue())
+                .memberStatus(member.getMemberStatus())
+                .messages(member.getMessages())
                 .build();
     }
 }

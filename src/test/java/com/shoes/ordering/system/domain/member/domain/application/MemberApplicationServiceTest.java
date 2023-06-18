@@ -3,6 +3,8 @@ package com.shoes.ordering.system.domain.member.domain.application;
 import com.shoes.ordering.system.domain.member.domain.application.dto.MemberAddress;
 import com.shoes.ordering.system.domain.member.domain.application.dto.create.CreateMemberCommand;
 import com.shoes.ordering.system.domain.member.domain.application.dto.create.CreateMemberResponse;
+import com.shoes.ordering.system.domain.member.domain.application.dto.track.TrackMemberQuery;
+import com.shoes.ordering.system.domain.member.domain.application.dto.track.TrackMemberResponse;
 import com.shoes.ordering.system.domain.member.domain.application.dto.update.UpdateMemberCommand;
 import com.shoes.ordering.system.domain.member.domain.application.dto.update.UpdateMemberResponse;
 import com.shoes.ordering.system.domain.member.domain.application.mapper.MemberDataMapper;
@@ -43,6 +45,8 @@ public class MemberApplicationServiceTest {
     private CreateMemberCommand createMemberCommand;
 
     private UpdateMemberCommand updateMemberCommand;
+
+    private TrackMemberQuery trackMemberQuery;
 
     private Member member;
 
@@ -120,6 +124,36 @@ public class MemberApplicationServiceTest {
         // then
         assertThatThrownBy(() ->{
             UpdateMemberResponse updateMemberResponse = memberApplicationService.updateMember(updateMemberCommand);
+        }).isInstanceOf(MemberNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("정상 Member 추적")
+    public void trackMemberTest1() {
+        // given
+        trackMemberQuery = TrackMemberQuery.builder().memberId(member.getId().getValue()).build();
+
+        // when
+        TrackMemberResponse trackMemberResponse = memberApplicationService.trackMember(trackMemberQuery);
+
+        // then
+        assertThat(trackMemberResponse.getMemberId()).isEqualTo(member.getId().getValue());
+        assertThat(trackMemberResponse.getMemberStatus()).isEqualTo(member.getMemberStatus());
+
+    }
+
+    @Test
+    @DisplayName("비정상 Member 추적: 존재하지 않는 Member")
+    public void trackMemberTest2() {
+        // given
+        UUID newMemberId = UUID.randomUUID();
+
+        // when
+        trackMemberQuery = TrackMemberQuery.builder().memberId(newMemberId).build();
+
+        // then
+        assertThatThrownBy(() ->{
+            TrackMemberResponse trackMemberResponse = memberApplicationService.trackMember(trackMemberQuery);
         }).isInstanceOf(MemberNotFoundException.class);
     }
 }
