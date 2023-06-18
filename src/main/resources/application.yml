@@ -32,7 +32,6 @@ spring:
 
 member-service:
   create-member-request-topic-name: create-member-request
-  create-member-response-topic-name: create-member-response
   update-member-request-topic-name: update-member-request
 
 kafka-config:
