@@ -18,3 +18,10 @@
 
 
 *현 디렉토리에 관리를 하고자 여렇 시도를 해보았지만, 아직 해결하지 못했다.. 추후 개발을 더 진행하면서, 해결 할 수 있다면.. 해결해보도록 해야겠다..*
+
+<br><hr>
+
+> **사용중인 토픽**
+
+- create-member-request(createMemberRequestTopicName)
+- update-member-request(updateMemberRequestTopicName)
