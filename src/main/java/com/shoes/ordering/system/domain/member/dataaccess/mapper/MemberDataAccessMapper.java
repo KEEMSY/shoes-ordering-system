@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.UUID;
 
 import static com.shoes.ordering.system.domain.member.domain.core.entity.Member.MESSAGE_DELIMITER;
 
@@ -59,7 +60,7 @@ public class MemberDataAccessMapper {
 
     private MemberAddressEntity streetAddressToMemberAddressEntity(StreetAddress address) {
         return MemberAddressEntity.builder()
-                .id(address.getId())
+                .id(UUID.randomUUID())
                 .street(address.getStreet())
                 .city(address.getCity())
                 .postalCode(address.getPostalCode())
