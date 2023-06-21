@@ -8,14 +8,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.UUID;
 
 @Getter
 @Builder
 @AllArgsConstructor
 public class CreateMemberCommand {
-    @NotNull
-    private final UUID memberId;
 
     @NotNull
     private final String name;

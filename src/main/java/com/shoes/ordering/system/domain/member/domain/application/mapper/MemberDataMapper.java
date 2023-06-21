@@ -18,7 +18,6 @@ public class MemberDataMapper {
 
     public Member createMemberCommandToMember(CreateMemberCommand createMemberCommand) {
         return Member.builder()
-                .memberId(new MemberId(createMemberCommand.getMemberId()))
                 .name(createMemberCommand.getName())
                 .password(createMemberCommand.getPassword())
                 .email(createMemberCommand.getEmail())

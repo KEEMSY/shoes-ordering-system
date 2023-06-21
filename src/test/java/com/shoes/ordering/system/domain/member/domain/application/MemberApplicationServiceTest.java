@@ -53,7 +53,6 @@ public class MemberApplicationServiceTest {
     @BeforeEach
     public void init() {
         createMemberCommand = CreateMemberCommand.builder()
-                .memberId(UUID.randomUUID())
                 .memberKind(MemberKind.CUSTOMER)
                 .phoneNumber("0101231234")
                 .name("TestName")
