@@ -2,8 +2,8 @@ package com.shoes.ordering.system.domain.member.messaging.publisher;
 
 import com.shoes.ordering.system.common.kafka.model.UpdateMemberRequestAvroModel;
 import com.shoes.ordering.system.common.kafka.producer.service.KafkaProducer;
-import com.shoes.ordering.system.domain.common.event.publisher.DomainEventPublisher;
 import com.shoes.ordering.system.domain.member.domain.application.config.MemberServiceConfigData;
+import com.shoes.ordering.system.domain.member.domain.application.ports.output.message.publisher.MemberUpdateRequestMessagePublisher;
 import com.shoes.ordering.system.domain.member.domain.core.event.MemberUpdatedEvent;
 import com.shoes.ordering.system.domain.member.messaging.mapper.MemberMessagingDataMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class UpdateMemberKafkaMessagePublisher implements DomainEventPublisher<MemberUpdatedEvent> {
+public class UpdateMemberKafkaMessagePublisher implements MemberUpdateRequestMessagePublisher {
 
     private final MemberMessagingDataMapper memberMessagingDataMapper;
     private final MemberServiceConfigData memberServiceConfigData;
