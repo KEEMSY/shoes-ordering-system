@@ -1,4 +1,4 @@
-package com.shoes.ordering.system.domain.common;
+package com.shoes.ordering.system.domains.common.entity;
 
 import java.util.Objects;
 

@@ -1,0 +1,34 @@
+{
+  "type": "record",
+  "name": "UpdateMemberResponseAvroModel",
+  "namespace": "com.shoes.ordering.system",
+  "fields": [
+    {
+      "name": "memberId",
+      "type": "string",
+      "logicalType": "uuid"
+    },
+    {
+      "name": "memberStatus",
+      "type": {
+        "type": "enum",
+        "name": "MemberStatus",
+        "symbols": ["PENDING", "ACTIVATE", "DEACTIVATE", "WITHDRAWAL"]
+      }
+    },
+    {
+      "name": "message",
+      "type": {
+        "type": "array",
+        "items": "string"
+      }
+    },
+    {
+      "name": "createdAt",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    }
+  ]
+}
