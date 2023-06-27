@@ -2,10 +2,13 @@ package com.shoes.ordering.system.domains.product.domain.core.entity;
 
 import com.shoes.ordering.system.domains.common.entity.AggregateRoot;
 import com.shoes.ordering.system.domains.common.valueobject.Money;
+import com.shoes.ordering.system.domains.product.domain.core.exception.ProductDomainException;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductId;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class Product extends AggregateRoot<ProductId> {
 
@@ -14,6 +17,10 @@ public class Product extends AggregateRoot<ProductId> {
     private final String description;
     private final Money price;
     private final List<ProductImage> productImages;
+
+    public static Builder builder() {
+        return new Builder();
+    }
 
     public Product(String name,
                    ProductCategory productCategory,
@@ -25,6 +32,27 @@ public class Product extends AggregateRoot<ProductId> {
         this.description = description;
         this.price = price;
         this.productImages = productImages;
+    }
+
+    public void initializeProduct() {
+        setId(new ProductId(UUID.randomUUID()));
+    }
+
+    public void validateProduct() {
+        validateProductCategory();
+        validatePrice();
+    }
+
+    private void validatePrice() {
+        if (price == null || !price.isGreaterThanZero()) {
+            throw new ProductDomainException("Price must be greater than zero!");
+        }
+    }
+
+    private void validateProductCategory() {
+        if (productCategory.equals(ProductCategory.DISABLING) || getId() ==null) {
+            throw new ProductDomainException("Product is not a valid category for creating the product");
+        }
     }
 
     private Product(Builder builder) {
@@ -46,10 +74,6 @@ public class Product extends AggregateRoot<ProductId> {
         private List<ProductImage> productImages;
 
         private Builder() {
-        }
-
-        public static Builder builder() {
-            return new Builder();
         }
 
         public Builder productId(ProductId val) {
