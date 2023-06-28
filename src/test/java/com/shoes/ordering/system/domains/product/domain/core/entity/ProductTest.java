@@ -59,7 +59,7 @@ public class ProductTest {
     }
 
     @Test
-    @DisplayName("비정상 Product 생성확인: Invalid price")
+    @DisplayName("비정상 Product 생성확인: Invalid Category")
     public void validateProductCategoryTest() {
         // given
         ProductCategory invalidProductCategory = ProductCategory.DISABLING;
