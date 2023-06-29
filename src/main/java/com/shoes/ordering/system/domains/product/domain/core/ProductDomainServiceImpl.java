@@ -21,6 +21,8 @@ public class ProductDomainServiceImpl implements ProductDomainService{
 
     @Override
     public ProductUpdatedEvent validateAndUpdateProduct(Product product) {
-        return null;
+        product.validateUpdateProduct();
+        log.info("Product with Id: {} is changed", product.getId().getValue());
+        return new ProductUpdatedEvent(product, ZonedDateTime.now(ZoneId.of(UTC)));
     }
 }

@@ -4,6 +4,7 @@ import com.shoes.ordering.system.domains.common.valueobject.Money;
 import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
 import com.shoes.ordering.system.domains.product.domain.core.entity.ProductImage;
 import com.shoes.ordering.system.domains.product.domain.core.event.ProductCreatedEvent;
+import com.shoes.ordering.system.domains.product.domain.core.event.ProductUpdatedEvent;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductId;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductImageId;
@@ -40,5 +41,26 @@ public class ProductDomainServiceImplTest {
         // then
         assertThat(productCreatedEvent.getProduct()).isEqualTo(product);
         assertThat(productCreatedEvent.getCreatedAt()).isNotNull();
+    }
+
+    @Test
+    @DisplayName("정상 ProductUpdatedEvent 생성 확인")
+    public void validateAndUpdateProductTest() {
+        // given
+        ProductId existingProductId = new ProductId(UUID.randomUUID());
+        Product updatedProduct = Product.builder()
+                .productId(existingProductId)
+                .productCategory(ProductCategory.SHOES)
+                .description("Test Product Description")
+                .price(new Money(new BigDecimal("200.00")))
+                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
+                .build();
+
+        // when
+        ProductUpdatedEvent productUpdatedEvent = productDomainService.validateAndUpdateProduct(updatedProduct);
+
+        // then
+        assertThat(productUpdatedEvent.getProduct()).isEqualTo(updatedProduct);
+        assertThat(productUpdatedEvent.getCreatedAt()).isNotNull();
     }
 }

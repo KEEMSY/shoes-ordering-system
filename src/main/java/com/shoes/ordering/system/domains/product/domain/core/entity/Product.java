@@ -38,6 +38,11 @@ public class Product extends AggregateRoot<ProductId> {
         setId(new ProductId(UUID.randomUUID()));
     }
 
+    public void validateUpdateProduct() {
+        // 업데이트 시, 도메인로직(비즈니스규칙) 추가
+        validateProduct();
+    }
+
     public void validateProduct() {
         validateProductCategory();
         validatePrice();
