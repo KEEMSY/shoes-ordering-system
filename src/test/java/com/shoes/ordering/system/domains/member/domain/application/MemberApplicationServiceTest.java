@@ -91,6 +91,7 @@ public class MemberApplicationServiceTest {
                 .name(member.getName())
                 .password(member.getPassword())
                 .email(member.getEmail())
+                .memberKind(MemberKind.CUSTOMER)
                 .memberStatus(MemberStatus.ACTIVATE)
                 .phoneNumber(member.getPhoneNumber())
                 .address(member.getAddress())
@@ -116,6 +117,7 @@ public class MemberApplicationServiceTest {
                 .password(member.getPassword())
                 .email(member.getEmail())
                 .memberStatus(MemberStatus.ACTIVATE)
+                .memberKind(MemberKind.CUSTOMER)
                 .phoneNumber(member.getPhoneNumber())
                 .address(member.getAddress())
                 .build();
