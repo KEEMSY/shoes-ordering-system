@@ -6,7 +6,6 @@ import com.shoes.ordering.system.domains.product.domain.core.exception.ProductDo
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductId;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
