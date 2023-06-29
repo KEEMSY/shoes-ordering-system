@@ -28,7 +28,6 @@ public class ProductDomainServiceImplTest {
 
         // given
         Product product = Product.builder()
-                .productId(new ProductId(UUID.randomUUID()))
                 .productCategory(ProductCategory.SHOES)
                 .description("Test Product Description")
                 .price(new Money(new BigDecimal("200.00")))
