@@ -1,4 +1,4 @@
-package com.shoes.ordering.system.domains.product.domain.application.create;
+package com.shoes.ordering.system.domains.product.domain.application.create.dto;
 
 import com.shoes.ordering.system.domains.common.valueobject.Money;
 import com.shoes.ordering.system.domains.product.domain.application.dto.create.CreateProductCommand;
@@ -45,7 +45,6 @@ public class CreateProductCommandTest {
     public void createProductCommandTest2() {
 
         //given
-        String testProductName = "Test ProductName";
         ProductCategory testProductCategory = ProductCategory.SHOES;
         String testProductDescription = "Test Product Description";
         Money testProductPrice = new Money(new BigDecimal("200.00"));
