@@ -8,6 +8,7 @@ import com.shoes.ordering.system.domains.product.domain.core.valueobject.Product
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class Product extends AggregateRoot<ProductId> {
 
@@ -113,5 +114,27 @@ public class Product extends AggregateRoot<ProductId> {
         public Product build() {
             return new Product(this);
         }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ProductCategory getProductCategory() {
+        return productCategory;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Money getPrice() {
+        return price;
+    }
+
+    public List<String> getProductImages() {
+        return productImages.stream()
+                .map(ProductImage::getImageUrl)
+                .collect(Collectors.toList());
     }
 }
