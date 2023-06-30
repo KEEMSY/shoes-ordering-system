@@ -2,13 +2,15 @@ package com.shoes.ordering.system.domains.product.domain.application.dto.create;
 
 import com.shoes.ordering.system.domains.common.validation.SelfValidating;
 import com.shoes.ordering.system.domains.common.valueobject.Money;
+import com.shoes.ordering.system.domains.product.domain.core.entity.ProductImage;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
-import lombok.Getter;
+import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductImageId;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
-@Getter
 public class CreateProductCommand extends SelfValidating<CreateProductCommand> {
 
     @NotNull private final String name;
@@ -25,6 +27,28 @@ public class CreateProductCommand extends SelfValidating<CreateProductCommand> {
         productImages = builder.productImages;
 
         this.validateSelf(this);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ProductCategory getProductCategory() {
+        return productCategory;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Money getPrice() {
+        return price;
+    }
+
+    public List<ProductImage> getProductImages() {
+        return productImages.stream()
+                .map(url -> new ProductImage(new ProductImageId(UUID.randomUUID()), url))
+                .collect(Collectors.toList());
     }
 
     public static Builder builder() {
