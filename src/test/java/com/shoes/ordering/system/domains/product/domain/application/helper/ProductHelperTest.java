@@ -29,8 +29,6 @@ public class ProductHelperTest {
     @Autowired
     private ProductRepository productRepository;
     @Autowired
-    private ProductDomainService productDomainService;
-    @Autowired
     private ProductDataMapper productDataMapper;
     @Autowired
     private ProductHelper productHelper;
