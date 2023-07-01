@@ -1,7 +1,6 @@
-package com.shoes.ordering.system.domains.product.domain.application.create.dto;
+package com.shoes.ordering.system.domains.product.domain.application.dto.create;
 
 import com.shoes.ordering.system.domains.common.valueobject.Money;
-import com.shoes.ordering.system.domains.product.domain.application.dto.create.CreateProductResponse;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
