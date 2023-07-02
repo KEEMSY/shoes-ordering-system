@@ -55,7 +55,7 @@ public class Product extends AggregateRoot<ProductId> {
     }
 
     private void validateProductCategory() {
-        if (productCategory.equals(ProductCategory.DISABLING) || getId() ==null) {
+        if (productCategory.equals(ProductCategory.DISABLING) || getId() == null) {
             throw new ProductDomainException("Product is not a valid category for creating the product");
         }
     }
