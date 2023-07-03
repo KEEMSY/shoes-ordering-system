@@ -2,6 +2,7 @@ package com.shoes.ordering.system.domains.product.domain.application.mapper;
 
 import com.shoes.ordering.system.domains.product.domain.application.dto.create.CreateProductCommand;
 import com.shoes.ordering.system.domains.product.domain.application.dto.create.CreateProductResponse;
+import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductResponse;
 import com.shoes.ordering.system.domains.product.domain.application.dto.update.UpdateProductCommand;
 import com.shoes.ordering.system.domains.product.domain.application.dto.update.UpdateProductResponse;
 import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
