@@ -40,4 +40,15 @@ public class ProductDataMapper {
                 .productImages(updateProductCommand.getProductImages())
                 .build();
     }
+
+    public UpdateProductResponse productToUpdateProductResponse(Product product) {
+        return UpdateProductResponse.builder()
+                .productId(product.getId().getValue())
+                .name(product.getName())
+                .productCategory(product.getProductCategory())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .productImages(product.getProductImages())
+                .build();
+    }
 }

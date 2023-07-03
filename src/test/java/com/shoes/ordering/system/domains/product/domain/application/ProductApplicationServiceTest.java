@@ -4,6 +4,8 @@ import com.shoes.ordering.system.TestConfiguration;
 import com.shoes.ordering.system.domains.common.valueobject.Money;
 import com.shoes.ordering.system.domains.product.domain.application.dto.create.CreateProductCommand;
 import com.shoes.ordering.system.domains.product.domain.application.dto.create.CreateProductResponse;
+import com.shoes.ordering.system.domains.product.domain.application.dto.update.UpdateProductCommand;
+import com.shoes.ordering.system.domains.product.domain.application.dto.update.UpdateProductResponse;
 import com.shoes.ordering.system.domains.product.domain.application.mapper.ProductDataMapper;
 import com.shoes.ordering.system.domains.product.domain.application.ports.input.service.ProductApplicationService;
 import com.shoes.ordering.system.domains.product.domain.application.ports.output.repository.ProductRepository;
@@ -18,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -35,6 +38,7 @@ public class ProductApplicationServiceTest {
     private ProductRepository productRepository;
 
     private CreateProductCommand createProductCommand;
+    private UpdateProductCommand updateProductCommand;
 
     @BeforeEach
     public void init() {
@@ -50,7 +54,17 @@ public class ProductApplicationServiceTest {
         product.initializeProduct();
         product.validateProduct();
 
+        updateProductCommand = UpdateProductCommand.builder()
+                .productId(product.getId().getValue())
+                .name("UpdateTestName")
+                .productCategory(ProductCategory.SHOES)
+                .description("Update Test Description")
+                .price(new Money(new BigDecimal("100.00")))
+                .productImages(List.of("testURL1", "testURL2"))
+                .build();
+
         when(productRepository.save(any(Product.class))).thenReturn(product);
+        when(productRepository.findByProductId(product.getId().getValue())).thenReturn(Optional.ofNullable(product));
     }
 
     @Test
@@ -64,5 +78,19 @@ public class ProductApplicationServiceTest {
         // then
         assertThat(createProductResponse.getName()).isEqualTo(createProductCommand.getName());
         assertThat(createProductResponse.getDescription()).isEqualTo(createProductCommand.getDescription());
+    }
+
+    @Test
+    @DisplayName("정상 Product 업데이트 확인")
+    public void updateProductTest() {
+        // given: BeforeEach 에 포함됨
+
+        // when
+        UpdateProductResponse updateProductResponse = productApplicationService.updateProduct(updateProductCommand);
+
+        // then
+        assertThat(updateProductResponse).isNotNull();
+        assertThat(updateProductResponse.getName()).isEqualTo(updateProductCommand.getName());
+        assertThat(updateProductResponse.getDescription()).isEqualTo(updateProductCommand.getDescription());
     }
 }

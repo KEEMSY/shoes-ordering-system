@@ -38,7 +38,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
 
     @Override
     public UpdateProductResponse updateProduct(UpdateProductCommand updateProductCommand) {
-        return null;
+        return updateProductCommandHandler.updateProduct(updateProductCommand);
     }
 
     @Override
