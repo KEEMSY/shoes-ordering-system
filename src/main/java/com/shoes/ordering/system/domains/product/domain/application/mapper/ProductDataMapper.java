@@ -51,4 +51,15 @@ public class ProductDataMapper {
                 .productImages(product.getProductImages())
                 .build();
     }
+
+    public TrackProductResponse productToTrackProductResponse(Product product) {
+        return TrackProductResponse.builder()
+                .productId(product.getId().getValue())
+                .name(product.getName())
+                .productCategory(product.getProductCategory())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .productImages(product.getProductImages())
+                .build();
+    }
 }
