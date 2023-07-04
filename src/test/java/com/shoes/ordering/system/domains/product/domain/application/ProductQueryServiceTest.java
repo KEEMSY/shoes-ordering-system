@@ -2,6 +2,8 @@ package com.shoes.ordering.system.domains.product.domain.application;
 
 import com.shoes.ordering.system.TestConfiguration;
 import com.shoes.ordering.system.domains.common.valueobject.Money;
+import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductListQuery;
+import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductListResponse;
 import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductQuery;
 import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductResponse;
 import com.shoes.ordering.system.domains.product.domain.application.ports.input.service.ProductQueryService;
@@ -37,10 +39,16 @@ public class ProductQueryServiceTest {
     private ProductQueryService productQueryService;
 
     private TrackProductQuery trackProductQuery;
-    private Product product;
+    private TrackProductListQuery trackProductListQuery;
+    private Product product1;
+    private Product product2;
+    private List<Product> productList;
+    private final List<ProductCategory> validProductCategoryList
+            = List.of(ProductCategory.SHOES, ProductCategory.CLOTHING);
+
     @BeforeEach
     public void init() {
-        product = Product.builder()
+        product1 = Product.builder()
                 .productId(new ProductId(UUID.randomUUID()))
                 .name("Test name")
                 .productCategory(ProductCategory.SHOES)
@@ -48,9 +56,20 @@ public class ProductQueryServiceTest {
                 .price(new Money(new BigDecimal("200.00")))
                 .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
                 .build();
+        product2 = Product.builder()
+                .productId(new ProductId(UUID.randomUUID()))
+                .productCategory(ProductCategory.SHOES)
+                .name("TestProductName2")
+                .description("Test Product2 Description")
+                .price(new Money(new BigDecimal("200.00")))
+                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
+                .build();
 
-        when(productRepository.save(any(Product.class))).thenReturn(product);
-        when(productRepository.findByProductId(product.getId().getValue())).thenReturn(Optional.of(product));
+        productList = List.of(product1, product2);
+
+        when(productRepository.save(any(Product.class))).thenReturn(product1);
+        when(productRepository.findByProductId(product1.getId().getValue())).thenReturn(Optional.of(product1));
+        when(productRepository.findByProductCategory(validProductCategoryList)).thenReturn(Optional.of(productList));
     }
 
     @Test
@@ -58,7 +77,7 @@ public class ProductQueryServiceTest {
     public void trackProductTest() {
         // given
         trackProductQuery = TrackProductQuery.builder()
-                .productId(product.getId().getValue())
+                .productId(product1.getId().getValue())
                 .build();
 
         // when
@@ -66,8 +85,23 @@ public class ProductQueryServiceTest {
 
         // then
         assertThat(ResultTrackProductResponse).isNotNull();
-        assertThat(ResultTrackProductResponse.getProductId()).isEqualTo(product.getId().getValue());
+        assertThat(ResultTrackProductResponse.getProductId()).isEqualTo(product1.getId().getValue());
     }
 
+    @Test
+    @DisplayName("정상 TrackProductListResponse 생성 확인")
+    public void trackProductListResponseTest() {
+        // given
+        trackProductListQuery = TrackProductListQuery.builder()
+                .productCategoryList(validProductCategoryList)
+                .build();
 
+        // when
+        TrackProductListResponse resultTrackProductListResponse
+                = productQueryService.trackProductWithCategory(trackProductListQuery);
+
+        // then
+        assertThat(resultTrackProductListResponse).isNotNull();
+        assertThat(resultTrackProductListResponse.getProductList().size()).isEqualTo(productList.size());
+    }
 }

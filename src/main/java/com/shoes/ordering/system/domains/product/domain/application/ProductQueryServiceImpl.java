@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.List;
 
 @Slf4j
 @Validated
@@ -32,8 +31,8 @@ public class ProductQueryServiceImpl implements ProductQueryService {
         return trackProductQueryHandler.trackProduct(trackProductQuery);
     }
     @Override
-    public List<TrackProductListResponse> trackProductWithCategory(TrackProductListQuery trackProductListQuery) {
-        return null;
+    public TrackProductListResponse trackProductWithCategory(TrackProductListQuery trackProductListQuery) {
+        return trackProductListQueryHandler.trackProductWithCategory(trackProductListQuery);
     }
 
 }

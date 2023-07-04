@@ -6,9 +6,8 @@ import com.shoes.ordering.system.domains.product.domain.application.dto.track.Tr
 import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductResponse;
 
 import javax.validation.Valid;
-import java.util.List;
 
 public interface ProductQueryService {
     TrackProductResponse trackProduct(@Valid TrackProductQuery trackProductQuery);
-    List<TrackProductListResponse> trackProductWithCategory(@Valid TrackProductListQuery trackProductListQuery);
+    TrackProductListResponse trackProductWithCategory(@Valid TrackProductListQuery trackProductListQuery);
 }
