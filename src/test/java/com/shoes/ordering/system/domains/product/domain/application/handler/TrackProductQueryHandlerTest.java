@@ -4,7 +4,6 @@ import com.shoes.ordering.system.TestConfiguration;
 import com.shoes.ordering.system.domains.common.valueobject.Money;
 import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductQuery;
 import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductResponse;
-import com.shoes.ordering.system.domains.product.domain.application.mapper.ProductDataMapper;
 import com.shoes.ordering.system.domains.product.domain.application.ports.output.repository.ProductRepository;
 import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
 import com.shoes.ordering.system.domains.product.domain.core.entity.ProductImage;
@@ -26,7 +25,6 @@ import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -52,7 +50,6 @@ public class TrackProductQueryHandlerTest {
                 .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
                 .build();
 
-        when(productRepository.save(any(Product.class))).thenReturn(product);
         when(productRepository.findByProductId(product.getId().getValue())).thenReturn(Optional.of(product));
     }
 
