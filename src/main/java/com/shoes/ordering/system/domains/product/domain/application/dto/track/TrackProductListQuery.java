@@ -3,12 +3,14 @@ package com.shoes.ordering.system.domains.product.domain.application.dto.track;
 import com.shoes.ordering.system.domains.common.validation.SelfValidating;
 import com.shoes.ordering.system.domains.product.domain.application.dto.ProductDTOException;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
+import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
+@Getter
 public class TrackProductListQuery extends SelfValidating<TrackProductListQuery> {
 
     @NotNull private final List<ProductCategory> productCategoryList;
