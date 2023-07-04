@@ -63,4 +63,10 @@ public class ProductDataMapper {
                 .productImages(product.getProductImages())
                 .build();
     }
+
+    public TrackProductListResponse productListToTrackProductListResponse(List<Product> products) {
+        return TrackProductListResponse.builder()
+                .productList(products)
+                .build();
+    }
 }
