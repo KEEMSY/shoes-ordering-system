@@ -7,10 +7,10 @@ import lombok.Getter;
 public class ProductImage {
 
     private final ProductImageId productImageId;
-    private final String imageUrl;
+    private final String productImageUrl;
 
-    public ProductImage(ProductImageId productImageId, String imageUrl) {
+    public ProductImage(ProductImageId productImageId, String productImageUrl) {
         this.productImageId = productImageId;
-        this.imageUrl = imageUrl;
+        this.productImageUrl = productImageUrl;
     }
 }

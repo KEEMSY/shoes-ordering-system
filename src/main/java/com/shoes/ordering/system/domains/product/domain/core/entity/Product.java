@@ -134,7 +134,7 @@ public class Product extends AggregateRoot<ProductId> {
 
     public List<String> getProductImages() {
         return productImages.stream()
-                .map(ProductImage::getImageUrl)
+                .map(ProductImage::getProductImageUrl)
                 .collect(Collectors.toList());
     }
 }
