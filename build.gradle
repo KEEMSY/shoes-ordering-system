@@ -1,11 +1,18 @@
 import com.github.davidmc24.gradle.plugin.avro.GenerateAvroJavaTask
 
+buildscript {
+    ext {
+        queryDslVersion = "5.0.0"
+    }
+}
 
 plugins {
     id 'org.springframework.boot' version '2.6.8'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id "com.github.davidmc24.gradle.plugin.avro" version "1.7.1"
+
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group 'com.shoes.ordering.system'
@@ -25,6 +32,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-logging'
     implementation 'org.hibernate.validator:hibernate-validator'
     implementation 'javax.validation:validation-api:2.0.1.Final'
+
+    // querydsl
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 
     implementation "org.apache.avro:avro:1.11.0"
 
@@ -66,4 +77,33 @@ def generateAvro = tasks.register("generateAvro", GenerateAvroJavaTask) {
 
 tasks.named("compileJava").configure {
     source(generateAvro)
+}
+
+// Querydsl 설정
+
+// querydsl 사용할 경로 지정 현재 지정한 부분은 .gitignore에 포함되므로 git 에 올라가지 않음
+def querydslDir = "$buildDir/generated/'querydsl'"
+
+// JPA 사용여부 및 사용 경로 설정
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+
+// build 시 사용할 sourceSet 추가 설정
+sourceSets {
+    main.java.srcDir querydslDir
+}
+
+// querydsl 컴파일 시 사용할 옵션 설정
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+// querydsl 이 compileClassPath 를 상속하도록 설정
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    querydsl.extendsFrom compileClasspath
 }
