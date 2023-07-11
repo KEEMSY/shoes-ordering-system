@@ -48,7 +48,7 @@ public class ProductHelperTest {
                 .productCategory(ProductCategory.SHOES)
                 .description("Test Description")
                 .price(new Money(new BigDecimal("200.00")))
-                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
+//                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
                 .build();
         product.initializeProduct();
         product.validateProduct();
@@ -66,7 +66,7 @@ public class ProductHelperTest {
                 .productCategory(ProductCategory.SHOES)
                 .description("Test Description")
                 .price(new Money(new BigDecimal("200.00")))
-                .productImages(List.of("TestUrl"))
+//                .productImages(List.of("TestUrl"))
                 .build();
 
         // when
@@ -88,7 +88,7 @@ public class ProductHelperTest {
                 .productCategory(ProductCategory.SHOES)
                 .description("Update Test Description")
                 .price(new Money(new BigDecimal("100.00")))
-                .productImages(List.of("testURL1", "testURL2"))
+//                .productImages(List.of("testURL1", "testURL2"))
                 .build();
 
         // when

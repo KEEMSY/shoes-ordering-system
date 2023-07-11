@@ -42,7 +42,7 @@ public class CreateProductCommandHandlerTest {
                 .productCategory(ProductCategory.SHOES)
                 .description("Test Description")
                 .price(new Money(new BigDecimal("200.00")))
-                .productImages(List.of("testURL1", "testURL2"))
+//                .productImages(List.of("testURL1", "testURL2"))
                 .build();
 
         Product product = productDataMapper.creatProductCommandToProduct(createProductCommand);

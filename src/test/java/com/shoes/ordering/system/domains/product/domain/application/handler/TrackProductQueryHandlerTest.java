@@ -47,7 +47,7 @@ public class TrackProductQueryHandlerTest {
                 .productCategory(ProductCategory.SHOES)
                 .description("Test Product Description")
                 .price(new Money(new BigDecimal("200.00")))
-                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
+//                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
                 .build();
 
         when(productRepository.findByProductId(product.getId().getValue())).thenReturn(Optional.of(product));

@@ -54,7 +54,7 @@ public class ProductQueryServiceTest {
                 .productCategory(ProductCategory.SHOES)
                 .description("Test Product Description")
                 .price(new Money(new BigDecimal("200.00")))
-                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
+//                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
                 .build();
         product2 = Product.builder()
                 .productId(new ProductId(UUID.randomUUID()))
@@ -62,7 +62,7 @@ public class ProductQueryServiceTest {
                 .name("TestProductName2")
                 .description("Test Product2 Description")
                 .price(new Money(new BigDecimal("200.00")))
-                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
+//                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
                 .build();
 
         productList = List.of(product1, product2);
