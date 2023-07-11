@@ -11,7 +11,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "product_imags")
+@Table(name = "product_images")
 @Entity
 public class ProductImageEntity {
     @Id
