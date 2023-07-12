@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,19 +33,20 @@ class ProductPersistenceAdapterTest {
     public void clean() {
         productJpaRepository.deleteAll();
     }
-
+    private ProductEntity createProductEntity(UUID productId, String name) {
+        return ProductEntity.builder()
+                .productId(productId)
+                .productCategory(ProductCategory.SHOES)
+                .name(name)
+                .description("Test Product Description")
+                .price(new BigDecimal("200.00"))
+                .build();
+    }
     @Test
     @DisplayName("정상 save 테스트")
     void saveTest() {
         // given
-        ProductEntity productEntity = ProductEntity.builder()
-                .productId(UUID.randomUUID())
-                .productCategory(ProductCategory.SHOES)
-                .name("TestName")
-                .description("Test Product Description")
-                .price(new BigDecimal("200.00"))
-//                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
-                .build();
+        ProductEntity productEntity = createProductEntity(UUID.randomUUID(), "TestName");
 
         // when
         productJpaRepository.save(productEntity);
@@ -57,12 +59,22 @@ class ProductPersistenceAdapterTest {
     }
 
     @Test
+    @DisplayName("정상 Product 조회 확인")
     void findByProductIdTest() {
         // given
+        UUID productId = UUID.randomUUID();
+
+        ProductEntity productEntity1 = createProductEntity(productId, "TestName1");
+        ProductEntity productEntity2 = createProductEntity(UUID.randomUUID(), "TestName2");
+
+        productJpaRepository.saveAll(List.of(productEntity1, productEntity2));
 
         // when
+        Optional<ProductEntity> result = productJpaRepository.findByProductId(productEntity1.getProductId());
 
         // then
+        assertThat(result).isPresent();
+        assertThat(result.get().getName()).isEqualTo("TestName1");
     }
 
     @Test

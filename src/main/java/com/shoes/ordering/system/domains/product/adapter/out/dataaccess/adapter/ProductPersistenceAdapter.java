@@ -35,7 +35,8 @@ public class ProductPersistenceAdapter implements ProductRepository {
 
     @Override
     public Optional<Product> findByProductId(UUID productId) {
-        return Optional.empty();
+        return productJpaRepository.findByProductId(productId)
+                .map(productDataAccessMapper::productEntityToProduct);
     }
 
     @Override
