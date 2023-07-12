@@ -25,8 +25,8 @@ public class ProductEntity {
     private BigDecimal price;
     @Enumerated(EnumType.STRING)
     private ProductCategory productCategory;
-    @OneToMany(mappedBy = "products", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<ProductImageEntity> productImages;
+    //    @OneToMany(mappedBy = "products", cascade = CascadeType.ALL, orphanRemoval = true)
+    //    private List<ProductImageEntity> productImages;
 
 
     @Override
