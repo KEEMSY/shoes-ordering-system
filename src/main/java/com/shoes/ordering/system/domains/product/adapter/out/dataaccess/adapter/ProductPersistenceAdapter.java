@@ -6,11 +6,13 @@ import com.shoes.ordering.system.domains.product.adapter.out.dataaccess.resposit
 import com.shoes.ordering.system.domains.product.domain.application.ports.output.repository.ProductRepository;
 import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Component
 public class ProductPersistenceAdapter implements ProductRepository {
 
     private final ProductJpaRepository productJpaRepository;
@@ -27,7 +29,8 @@ public class ProductPersistenceAdapter implements ProductRepository {
 
     @Override
     public Product save(Product product) {
-        return null;
+        return productDataAccessMapper.productEntityToProduct(productJpaRepository
+                .save(productDataAccessMapper.productToProductEntity(product)));
     }
 
     @Override
