@@ -93,6 +93,31 @@ class ProductPersistenceAdapterTest {
     }
 
     @Test
+    @DisplayName("정상 Product 카테고리 조회")
     void findByProductCategoryTest() {
+        // given
+        ProductEntity shoesProductEntity1
+                = createProductEntity(UUID.randomUUID(), "TestName1", ProductCategory.SHOES);
+        ProductEntity shoesProductEntity2
+                = createProductEntity(UUID.randomUUID(), "TestName2", ProductCategory.SHOES);
+
+        ProductEntity clothingProductEntity1
+                = createProductEntity(UUID.randomUUID(), "TestName3", ProductCategory.CLOTHING);
+
+        productJpaRepository.saveAll(List.of(shoesProductEntity1, shoesProductEntity2, clothingProductEntity1));
+
+        List<ProductCategory> productCategoryWithShoes = List.of(ProductCategory.SHOES);
+        List<ProductCategory> productCategoryList = List.of(ProductCategory.SHOES, ProductCategory.CLOTHING);
+
+        // when
+        Optional<List<Product>> resultsWithShoesCategory
+                = productPersistenceAdapter.findByProductCategory(productCategoryWithShoes);
+
+        Optional<List<Product>> resultsWithAllCategories
+                = productPersistenceAdapter.findByProductCategory(productCategoryList);
+
+        // then
+        resultsWithShoesCategory.ifPresent(products -> assertThat(products.size()).isEqualTo(2));
+        resultsWithAllCategories.ifPresent(products -> assertThat(products.size()).isEqualTo(3));
     }
 }

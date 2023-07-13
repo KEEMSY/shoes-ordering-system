@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
+import static com.shoes.ordering.system.domains.product.adapter.out.dataaccess.entity.QProductEntity.productEntity;
+
 @Component
 public class ProductQuerydslRepositoryImpl implements ProductQuerydslRepository {
     private final JPAQueryFactory jpaQueryFactory;
@@ -19,6 +21,12 @@ public class ProductQuerydslRepositoryImpl implements ProductQuerydslRepository 
 
     @Override
     public Optional<List<ProductEntity>> findByProductCategory(List<ProductCategory> productCategory) {
-        return Optional.empty();
+        List<ProductEntity> result = jpaQueryFactory
+                .select(productEntity)
+                .from(productEntity)
+                .where(productEntity.productCategory.in(productCategory))
+                .fetch();
+        return Optional.ofNullable(result);
     }
+
 }
