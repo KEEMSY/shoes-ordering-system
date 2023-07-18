@@ -4,6 +4,7 @@ import com.shoes.ordering.system.domains.common.validation.SelfValidating;
 import com.shoes.ordering.system.domains.common.valueobject.Money;
 import com.shoes.ordering.system.domains.product.domain.core.entity.ProductImage;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
+import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductId;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductImageId;
 import lombok.Getter;
 
@@ -20,7 +21,6 @@ public class UpdateProductCommand extends SelfValidating<UpdateProductCommand> {
     @NotNull private final ProductCategory productCategory;
     @NotNull private final String description;
     @NotNull private final Money price;
-    @NotNull private final  List<String> productImages;
 
     private UpdateProductCommand(Builder builder) {
         productId = builder.productId;
@@ -28,16 +28,8 @@ public class UpdateProductCommand extends SelfValidating<UpdateProductCommand> {
         productCategory = builder.productCategory;
         description = builder.description;
         price = builder.price;
-        productImages = builder.productImages;
 
         this.validateSelf(this);
-    }
-
-
-    public List<ProductImage> getProductImages() {
-        return productImages.stream()
-                .map(url -> new ProductImage(new ProductImageId(UUID.randomUUID()), url))
-                .collect(Collectors.toList());
     }
 
     public static Builder builder() {
@@ -50,7 +42,6 @@ public class UpdateProductCommand extends SelfValidating<UpdateProductCommand> {
         private @NotNull ProductCategory productCategory;
         private @NotNull String description;
         private @NotNull Money price;
-        private @NotNull List<String> productImages;
 
         private Builder() {
         }
@@ -77,11 +68,6 @@ public class UpdateProductCommand extends SelfValidating<UpdateProductCommand> {
 
         public Builder price(@NotNull Money val) {
             price = val;
-            return this;
-        }
-
-        public Builder productImages(@NotNull List<String> val) {
-            productImages = val;
             return this;
         }
 

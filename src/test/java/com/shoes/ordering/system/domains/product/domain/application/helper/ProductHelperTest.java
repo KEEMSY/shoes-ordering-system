@@ -6,12 +6,10 @@ import com.shoes.ordering.system.domains.product.domain.application.dto.create.C
 import com.shoes.ordering.system.domains.product.domain.application.dto.update.UpdateProductCommand;
 import com.shoes.ordering.system.domains.product.domain.application.ports.output.repository.ProductRepository;
 import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
-import com.shoes.ordering.system.domains.product.domain.core.entity.ProductImage;
 import com.shoes.ordering.system.domains.product.domain.core.event.ProductCreatedEvent;
 import com.shoes.ordering.system.domains.product.domain.core.event.ProductUpdatedEvent;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductId;
-import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductImageId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -48,7 +46,6 @@ public class ProductHelperTest {
                 .productCategory(ProductCategory.SHOES)
                 .description("Test Description")
                 .price(new Money(new BigDecimal("200.00")))
-                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
                 .build();
         product.initializeProduct();
         product.validateProduct();
@@ -66,7 +63,6 @@ public class ProductHelperTest {
                 .productCategory(ProductCategory.SHOES)
                 .description("Test Description")
                 .price(new Money(new BigDecimal("200.00")))
-                .productImages(List.of("TestUrl"))
                 .build();
 
         // when
@@ -88,7 +84,6 @@ public class ProductHelperTest {
                 .productCategory(ProductCategory.SHOES)
                 .description("Update Test Description")
                 .price(new Money(new BigDecimal("100.00")))
-                .productImages(List.of("testURL1", "testURL2"))
                 .build();
 
         // when

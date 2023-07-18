@@ -20,7 +20,6 @@ public class ProductDataMapper {
                 .productCategory(createProductCommand.getProductCategory())
                 .description(createProductCommand.getDescription())
                 .price(createProductCommand.getPrice())
-                .productImages(createProductCommand.getProductImages())
                 .build();
     }
 
@@ -30,7 +29,6 @@ public class ProductDataMapper {
                 .productCategory(product.getProductCategory())
                 .description(product.getDescription())
                 .price(product.getPrice())
-                .productImages(product.getProductImages())
                 .build();
     }
 
@@ -41,7 +39,6 @@ public class ProductDataMapper {
                 .description(updateProductCommand.getDescription())
                 .productCategory(updateProductCommand.getProductCategory())
                 .price(updateProductCommand.getPrice())
-                .productImages(updateProductCommand.getProductImages())
                 .build();
     }
 
@@ -52,7 +49,6 @@ public class ProductDataMapper {
                 .productCategory(product.getProductCategory())
                 .description(product.getDescription())
                 .price(product.getPrice())
-                .productImages(product.getProductImages())
                 .build();
     }
 
@@ -63,7 +59,6 @@ public class ProductDataMapper {
                 .productCategory(product.getProductCategory())
                 .description(product.getDescription())
                 .price(product.getPrice())
-                .productImages(product.getProductImages())
                 .build();
     }
 
