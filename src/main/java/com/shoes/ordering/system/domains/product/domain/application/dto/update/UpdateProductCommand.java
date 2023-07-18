@@ -21,7 +21,6 @@ public class UpdateProductCommand extends SelfValidating<UpdateProductCommand> {
     @NotNull private final ProductCategory productCategory;
     @NotNull private final String description;
     @NotNull private final Money price;
-//    @NotNull private final  List<String> productImages;
 
     private UpdateProductCommand(Builder builder) {
         productId = builder.productId;
@@ -29,22 +28,9 @@ public class UpdateProductCommand extends SelfValidating<UpdateProductCommand> {
         productCategory = builder.productCategory;
         description = builder.description;
         price = builder.price;
-//        productImages = builder.productImages;
 
         this.validateSelf(this);
     }
-
-
-//    public List<ProductImage> getProductImages() {
-//        return productImages.stream()
-//                .map(inputUrl -> ProductImage.builder()
-//                        .productImageId(get)
-//                        .productImageId(new ProductImageId(UUID.randomUUID()))
-//                        .productId(new ProductId(productId))
-//                        .productImageUrl(inputUrl)
-//                        .build())
-//                .collect(Collectors.toList());
-//    }
 
     public static Builder builder() {
         return new Builder();
@@ -56,7 +42,6 @@ public class UpdateProductCommand extends SelfValidating<UpdateProductCommand> {
         private @NotNull ProductCategory productCategory;
         private @NotNull String description;
         private @NotNull Money price;
-//        private @NotNull List<String> productImages;
 
         private Builder() {
         }
@@ -85,11 +70,6 @@ public class UpdateProductCommand extends SelfValidating<UpdateProductCommand> {
             price = val;
             return this;
         }
-
-//        public Builder productImages(@NotNull List<String> val) {
-//            productImages = val;
-//            return this;
-//        }
 
         public UpdateProductCommand build() {
             return new UpdateProductCommand(this);

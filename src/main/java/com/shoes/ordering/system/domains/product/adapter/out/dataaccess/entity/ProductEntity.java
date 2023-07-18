@@ -5,7 +5,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -25,8 +24,6 @@ public class ProductEntity {
     private BigDecimal price;
     @Enumerated(EnumType.STRING)
     private ProductCategory productCategory;
-    //    @OneToMany(mappedBy = "products", cascade = CascadeType.ALL, orphanRemoval = true)
-    //    private List<ProductImageEntity> productImages;
 
 
     @Override

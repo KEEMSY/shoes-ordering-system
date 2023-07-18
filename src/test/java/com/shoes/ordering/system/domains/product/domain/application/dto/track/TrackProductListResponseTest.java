@@ -31,7 +31,6 @@ public class TrackProductListResponseTest {
                 .name("TestProductName1")
                 .description("Test Product1 Description")
                 .price(new Money(new BigDecimal("200.00")))
-//                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
                 .build();
 
         product2 = Product.builder()
@@ -40,7 +39,6 @@ public class TrackProductListResponseTest {
                 .name("TestProductName2")
                 .description("Test Product2 Description")
                 .price(new Money(new BigDecimal("200.00")))
-//                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
                 .build();
     }
 

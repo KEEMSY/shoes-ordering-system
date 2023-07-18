@@ -33,7 +33,6 @@ public class TrackProductResponseTest {
                 .productCategory(testProductCategory)
                 .description(testProductDescription)
                 .price(testProductPrice)
-//                .productImages(testProductImages)
                 .build();
 
         // then
@@ -61,7 +60,6 @@ public class TrackProductResponseTest {
                 .productCategory(testProductCategory)
                 .description(testProductDescription)
                 .price(testProductPrice)
-//                .productImages(testProductImages)
                 .build()).isInstanceOf(ConstraintViolationException.class);
     }
 }

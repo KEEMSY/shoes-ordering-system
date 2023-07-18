@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import javax.validation.ConstraintViolationException;
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,7 +23,6 @@ public class UpdateProductCommandTest {
         ProductCategory testProductCategory = ProductCategory.SHOES;
         String testProductDescription = "Test Product Description";
         Money testProductPrice = new Money(new BigDecimal("200.00"));
-//        List<String> testProductImages = List.of("testURL1", "testURL2");
 
         // when
         UpdateProductCommand updateProductCommand = UpdateProductCommand.builder()
@@ -33,7 +31,6 @@ public class UpdateProductCommandTest {
                 .productCategory(testProductCategory)
                 .description(testProductDescription)
                 .price(testProductPrice)
-//                .productImages(testProductImages)
                 .build();
 
         // then
@@ -50,7 +47,6 @@ public class UpdateProductCommandTest {
         ProductCategory testProductCategory = ProductCategory.SHOES;
         String testProductDescription = "Test Product Description";
         Money testProductPrice = new Money(new BigDecimal("200.00"));
-//        List<String> testProductImages = List.of("testURL1", "testURL2");
 
         //when, then
         assertThatThrownBy(() -> UpdateProductCommand.builder()
@@ -59,7 +55,6 @@ public class UpdateProductCommandTest {
                 .productCategory(testProductCategory)
                 .description(testProductDescription)
                 .price(testProductPrice)
-//                .productImages(testProductImages)
                 .build()
         ).isInstanceOf(ConstraintViolationException.class);
     }

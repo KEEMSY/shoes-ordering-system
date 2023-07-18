@@ -50,7 +50,6 @@ public class ProductApplicationServiceTest {
                 .productCategory(ProductCategory.SHOES)
                 .description("Test Description")
                 .price(new Money(new BigDecimal("200.00")))
-//                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
                 .build();
 
         product.initializeProduct();
@@ -69,7 +68,6 @@ public class ProductApplicationServiceTest {
                 .productCategory(ProductCategory.SHOES)
                 .description("Test Description")
                 .price(new Money(new BigDecimal("200.00")))
-//                .productImages(List.of("TestUrl"))
                 .build();
 
         // when
@@ -78,7 +76,6 @@ public class ProductApplicationServiceTest {
         // then
         assertThat(createProductResponse.getName()).isEqualTo(createProductCommand.getName());
         assertThat(createProductResponse.getDescription()).isEqualTo(createProductCommand.getDescription());
-//        assertThat(createProductResponse.getProductImages().size()).isEqualTo(createProductCommand.getProductImages().size());
     }
 
     @Test
@@ -91,7 +88,6 @@ public class ProductApplicationServiceTest {
                 .productCategory(ProductCategory.SHOES)
                 .description("Update Test Description")
                 .price(new Money(new BigDecimal("100.00")))
-//                .productImages(List.of("testURL1", "testURL2"))
                 .build();
 
         // when

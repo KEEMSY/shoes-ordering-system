@@ -6,9 +6,7 @@ import com.shoes.ordering.system.domains.product.domain.core.exception.ProductDo
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductId;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class Product extends AggregateRoot<ProductId> {
 
@@ -16,7 +14,6 @@ public class Product extends AggregateRoot<ProductId> {
     private final ProductCategory productCategory;
     private final String description;
     private final Money price;
-//    private List<ProductImage> productImages;
 
     public static Builder builder() {
         return new Builder();
@@ -30,20 +27,12 @@ public class Product extends AggregateRoot<ProductId> {
         this.productCategory = productCategory;
         this.description = description;
         this.price = price;
-//        this.productImages = productImages;
     }
 
     public void initializeProduct() {
         ProductId productId = new ProductId(UUID.randomUUID());
         setId(productId);
-//        setProductIdToProductImages(productId);
     }
-
-//    private void setProductIdToProductImages(ProductId productId) {
-//        for (ProductImage productImage : productImages) {
-//            productImage.setProductId(productId);
-//        }
-//    }
 
     public void validateUpdateProduct() {
         // 업데이트 시, 도메인로직(비즈니스규칙) 추가
@@ -73,7 +62,6 @@ public class Product extends AggregateRoot<ProductId> {
         productCategory = builder.productCategory;
         description = builder.description;
         price = builder.price;
-//        productImages = builder.productImages;
     }
 
 
@@ -83,7 +71,6 @@ public class Product extends AggregateRoot<ProductId> {
         private ProductCategory productCategory;
         private String description;
         private Money price;
-//        private List<ProductImage> productImages;
 
         private Builder() {
         }
@@ -112,12 +99,6 @@ public class Product extends AggregateRoot<ProductId> {
             price = val;
             return this;
         }
-
-//        public Builder productImages(List<ProductImage> val) {
-//            productImages = val;
-//            return this;
-//        }
-
         public Product build() {
             return new Product(this);
         }
@@ -138,7 +119,4 @@ public class Product extends AggregateRoot<ProductId> {
     public Money getPrice() {
         return price;
     }
-//    public List<ProductImage> getProductImages() {
-//        return productImages;
-//    }
 }

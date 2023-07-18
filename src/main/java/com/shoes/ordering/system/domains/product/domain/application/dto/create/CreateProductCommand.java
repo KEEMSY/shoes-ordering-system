@@ -2,14 +2,10 @@ package com.shoes.ordering.system.domains.product.domain.application.dto.create;
 
 import com.shoes.ordering.system.domains.common.validation.SelfValidating;
 import com.shoes.ordering.system.domains.common.valueobject.Money;
-import com.shoes.ordering.system.domains.product.domain.core.entity.ProductImage;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
-import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductImageId;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+
 
 public class CreateProductCommand extends SelfValidating<CreateProductCommand> {
 
@@ -17,14 +13,12 @@ public class CreateProductCommand extends SelfValidating<CreateProductCommand> {
     @NotNull private final ProductCategory productCategory;
     @NotNull private final String description;
     @NotNull private final Money price;
-//    private final @NotNull List<String> productImages;
 
     private CreateProductCommand(Builder builder) {
         name = builder.name;
         productCategory = builder.productCategory;
         description = builder.description;
         price = builder.price;
-//        productImages = builder.productImages;
 
         this.validateSelf(this);
     }
@@ -45,10 +39,6 @@ public class CreateProductCommand extends SelfValidating<CreateProductCommand> {
         return price;
     }
 
-//    public List<String> getProductImages() {
-//        return productImages;
-//    }
-
     public static Builder builder() {
         return new Builder();
     }
@@ -58,7 +48,6 @@ public class CreateProductCommand extends SelfValidating<CreateProductCommand> {
         private @NotNull ProductCategory productCategory;
         private @NotNull String description;
         private @NotNull Money price;
-//        private @NotNull List<String> productImages;
 
         private Builder() {
         }
@@ -82,11 +71,6 @@ public class CreateProductCommand extends SelfValidating<CreateProductCommand> {
             price = val;
             return this;
         }
-
-//        public Builder productImages(@NotNull List<String> val) {
-//            productImages = val;
-//            return this;
-//        }
 
         public CreateProductCommand build() {
             return new CreateProductCommand(this);

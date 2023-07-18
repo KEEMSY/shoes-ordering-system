@@ -54,7 +54,6 @@ public class TrackProductListQueryHandlerTest {
                 .name("TestProductName1")
                 .description("Test Product1 Description")
                 .price(new Money(new BigDecimal("200.00")))
-//                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
                 .build();
 
         product2 = Product.builder()
@@ -63,7 +62,6 @@ public class TrackProductListQueryHandlerTest {
                 .name("TestProductName2")
                 .description("Test Product2 Description")
                 .price(new Money(new BigDecimal("200.00")))
-//                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
                 .build();
 
         productList = List.of(product1, product2);

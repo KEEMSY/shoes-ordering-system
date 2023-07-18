@@ -26,7 +26,6 @@ public class UpdateProductResponseTest {
         ProductCategory testProductCategory = ProductCategory.SHOES;
         String testProductDescription = "Test Product Description";
         Money testProductPrice = new Money(new BigDecimal("200.00"));
-//        List<String> testProductImages = List.of("testURL1", "testURL2");
 
         // when
         UpdateProductResponse updateProductResponse = UpdateProductResponse.builder()
@@ -35,7 +34,6 @@ public class UpdateProductResponseTest {
                 .productCategory(testProductCategory)
                 .description(testProductDescription)
                 .price(testProductPrice)
-//                .productImages(testProductImages)
                 .build();
 
         // then
@@ -52,7 +50,6 @@ public class UpdateProductResponseTest {
         ProductCategory testProductCategory = ProductCategory.SHOES;
         String testProductDescription = "Test Product Description";
         Money testProductPrice = new Money(new BigDecimal("200.00"));
-//        List<String> testProductImages = List.of("testURL1", "testURL2");
 
         //when, then
         assertThatThrownBy(() -> UpdateProductResponse.builder()
@@ -61,7 +58,6 @@ public class UpdateProductResponseTest {
                 .productCategory(testProductCategory)
                 .description(testProductDescription)
                 .price(testProductPrice)
-//                .productImages(testProductImages)
                 .build()
         ).isInstanceOf(ConstraintViolationException.class);
     }

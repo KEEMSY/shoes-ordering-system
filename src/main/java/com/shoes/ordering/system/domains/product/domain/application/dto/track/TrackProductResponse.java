@@ -17,7 +17,6 @@ public class TrackProductResponse extends SelfValidating<TrackProductResponse> {
     @NotNull private final ProductCategory productCategory;
     @NotNull private final String description;
     @NotNull private final Money price;
-//    @NotNull private final List<String> productImages;
 
     public static Builder builder() {
         return new Builder();
@@ -29,7 +28,6 @@ public class TrackProductResponse extends SelfValidating<TrackProductResponse> {
         productCategory = builder.productCategory;
         description = builder.description;
         price = builder.price;
-//        productImages = builder.productImages;
 
         this.validateSelf(this);
     }
@@ -40,7 +38,6 @@ public class TrackProductResponse extends SelfValidating<TrackProductResponse> {
         private @NotNull ProductCategory productCategory;
         private @NotNull String description;
         private @NotNull Money price;
-//        private @NotNull List<String> productImages;
 
         private Builder() {
         }
@@ -69,11 +66,6 @@ public class TrackProductResponse extends SelfValidating<TrackProductResponse> {
             price = val;
             return this;
         }
-
-//        public Builder productImages(@NotNull List<String> val) {
-//            productImages = val;
-//            return this;
-//        }
 
         public TrackProductResponse build() {
             return new TrackProductResponse(this);
