@@ -1,8 +1,8 @@
 package com.shoes.ordering.system.domains.product.adapter.out.messaging.mapper;
 
-import com.shoes.ordering.system.CreateProductRequestAvroModel;
-import com.shoes.ordering.system.ProductCategory;
-import com.shoes.ordering.system.UpdateProductRequestAvroModel;
+import com.shoes.ordering.system.common.kafka.model.CreateProductRequestAvroModel;
+import com.shoes.ordering.system.common.kafka.model.UpdateProductRequestAvroModel;
+import com.shoes.ordering.system.common.kafka.model.ProductCategory;
 import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
 import com.shoes.ordering.system.domains.product.domain.core.event.ProductCreatedEvent;
 import com.shoes.ordering.system.domains.product.domain.core.event.ProductUpdatedEvent;
@@ -36,7 +36,10 @@ public class ProductMessagingDataMapper {
                 .build();
     }
 
-    private ProductCategory domainProductCategoryToAvroProductKind(com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory productCategory) {
+    private ProductCategory domainProductCategoryToAvroProductKind(com.shoes.ordering.system
+                                                                           .domains.product.domain
+                                                                           .core.valueobject
+                                                                           .ProductCategory productCategory) {
 
         ProductCategory avroProductCategory;
 

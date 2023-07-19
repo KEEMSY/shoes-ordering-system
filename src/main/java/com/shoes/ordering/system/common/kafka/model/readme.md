@@ -25,3 +25,5 @@
 
 - create-member-request(createMemberRequestTopicName)
 - update-member-request(updateMemberRequestTopicName)
+- create-product-request(createProductRequestTopicName)
+- update-product-request(updateProductRequestTopicName)
