@@ -9,10 +9,8 @@ import com.shoes.ordering.system.domains.product.domain.application.dto.update.U
 import com.shoes.ordering.system.domains.product.domain.application.ports.input.service.ProductApplicationService;
 import com.shoes.ordering.system.domains.product.domain.application.ports.output.repository.ProductRepository;
 import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
-import com.shoes.ordering.system.domains.product.domain.core.entity.ProductImage;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductId;
-import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductImageId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

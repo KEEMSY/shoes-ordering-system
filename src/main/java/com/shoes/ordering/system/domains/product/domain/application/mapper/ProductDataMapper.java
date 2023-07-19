@@ -25,6 +25,7 @@ public class ProductDataMapper {
 
     public CreateProductResponse productToCreateProductResponse(Product product) {
         return CreateProductResponse.builder()
+                .productId(product.getId().getValue())
                 .name(product.getName())
                 .productCategory(product.getProductCategory())
                 .description(product.getDescription())
