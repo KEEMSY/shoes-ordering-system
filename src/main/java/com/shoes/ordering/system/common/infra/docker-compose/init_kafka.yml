@@ -7,15 +7,27 @@ services:
       "
       # block until kafka is reachable
       kafka-topics --bootstrap-server kafka-broker-1:9092 --list
-
+      
+      # member
       echo -e 'Deleting kafka topics'
       kafka-topics --bootstrap-server kafka-broker-1:9092 --topic create-member-request --delete --if-exists
       kafka-topics --bootstrap-server kafka-broker-1:9092 --topic update-member-request --delete --if-exists
+      
+      # product
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --topic create-product-request --delete --if-exists
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --topic update-product-request --delete --if-exists
   
       echo -e 'Creating kafka topics'
+      # member
+      echo -e 'Creating kafka topics for member'
       kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic create-member-request --replication-factor 3 --partitions 3
       kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic update-member-request --replication-factor 3 --partitions 3
-
+      
+      # product
+      echo -e 'Creating kafka topics for product'
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic create-product-request --replication-factor 3 --partitions 3
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic update-product-request --replication-factor 3 --partitions 3
+      
       echo -e 'Successfully created the following topics:'
       kafka-topics --bootstrap-server kafka-broker-1:9092 --list
       "

@@ -20,6 +20,10 @@ member-service:
   create-member-request-topic-name: create-member-request
   update-member-request-topic-name: update-member-request
 
+product-service:
+  create-product-request-topic-name: create-product-request
+  update-product-request-topic-name: update-product-request
+
 kafka-config:
   bootstrap-servers: localhost:19092, localhost:29092, localhost:39092
   schema-registry-url-key: schema.registry.url
