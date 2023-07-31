@@ -1,5 +1,6 @@
 package com.shoes.ordering.system.domains.product.domain.application.mapper;
 
+import com.shoes.ordering.system.domains.common.valueobject.Money;
 import com.shoes.ordering.system.domains.product.domain.application.dto.create.CreateProductCommand;
 import com.shoes.ordering.system.domains.product.domain.application.dto.create.CreateProductResponse;
 import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductListResponse;
@@ -19,7 +20,7 @@ public class ProductDataMapper {
                 .name(createProductCommand.getName())
                 .productCategory(createProductCommand.getProductCategory())
                 .description(createProductCommand.getDescription())
-                .price(createProductCommand.getPrice())
+                .price(new Money(createProductCommand.getPrice()))
                 .build();
     }
 

@@ -62,7 +62,7 @@ public class ProductHelperTest {
                 .name("TestName")
                 .productCategory(ProductCategory.SHOES)
                 .description("Test Description")
-                .price(new Money(new BigDecimal("200.00")))
+                .price(new BigDecimal("200.00"))
                 .build();
 
         // when

@@ -1,18 +1,19 @@
 package com.shoes.ordering.system.domains.product.domain.application.dto.create;
 
 import com.shoes.ordering.system.domains.common.validation.SelfValidating;
-import com.shoes.ordering.system.domains.common.valueobject.Money;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
+import lombok.AllArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
-
+@AllArgsConstructor
 public class CreateProductCommand extends SelfValidating<CreateProductCommand> {
 
     @NotNull private final String name;
     @NotNull private final ProductCategory productCategory;
     @NotNull private final String description;
-    @NotNull private final Money price;
+    @NotNull private final BigDecimal price;
 
     private CreateProductCommand(Builder builder) {
         name = builder.name;
@@ -35,7 +36,7 @@ public class CreateProductCommand extends SelfValidating<CreateProductCommand> {
         return description;
     }
 
-    public Money getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
@@ -47,7 +48,7 @@ public class CreateProductCommand extends SelfValidating<CreateProductCommand> {
         private @NotNull String name;
         private @NotNull ProductCategory productCategory;
         private @NotNull String description;
-        private @NotNull Money price;
+        private @NotNull BigDecimal price;
 
         private Builder() {
         }
@@ -67,7 +68,7 @@ public class CreateProductCommand extends SelfValidating<CreateProductCommand> {
             return this;
         }
 
-        public Builder price(@NotNull Money val) {
+        public Builder price(@NotNull BigDecimal val) {
             price = val;
             return this;
         }
