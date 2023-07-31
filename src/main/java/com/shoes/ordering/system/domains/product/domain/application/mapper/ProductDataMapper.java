@@ -40,7 +40,7 @@ public class ProductDataMapper {
                 .name(updateProductCommand.getName())
                 .description(updateProductCommand.getDescription())
                 .productCategory(updateProductCommand.getProductCategory())
-                .price(updateProductCommand.getPrice())
+                .price(new Money(updateProductCommand.getPrice()))
                 .build();
     }
 

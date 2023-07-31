@@ -22,7 +22,7 @@ public class UpdateProductCommandTest {
         String testProductName = "Test ProductName";
         ProductCategory testProductCategory = ProductCategory.SHOES;
         String testProductDescription = "Test Product Description";
-        Money testProductPrice = new Money(new BigDecimal("200.00"));
+        BigDecimal testProductPrice = new BigDecimal("200.00");
 
         // when
         UpdateProductCommand updateProductCommand = UpdateProductCommand.builder()
@@ -46,7 +46,7 @@ public class UpdateProductCommandTest {
         String testProductName = "Test ProductName";
         ProductCategory testProductCategory = ProductCategory.SHOES;
         String testProductDescription = "Test Product Description";
-        Money testProductPrice = new Money(new BigDecimal("200.00"));
+        BigDecimal testProductPrice = new BigDecimal("200.00");
 
         //when, then
         assertThatThrownBy(() -> UpdateProductCommand.builder()

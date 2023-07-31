@@ -84,7 +84,7 @@ public class ProductApplicationServiceTest {
                 .name("UpdateTestName")
                 .productCategory(ProductCategory.SHOES)
                 .description("Update Test Description")
-                .price(new Money(new BigDecimal("100.00")))
+                .price(new BigDecimal("100.00"))
                 .build();
 
         // when
