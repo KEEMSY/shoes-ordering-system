@@ -18,25 +18,26 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ProductGlobalExceptionHandler extends GlobalExceptionHandler {
+
     @ResponseBody
-    @ExceptionHandler(value = {ProductDomainException.class, ProductDTOException.class})
+    @ExceptionHandler({ProductDomainException.class, ProductDTOException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorDTO handlerException(ProductDomainException productDomainException) {
-        log.error(productDomainException.getMessage(), productDomainException);
+    public ErrorDTO handleProductException(Exception ex) {
+        log.error(ex.getMessage(), ex);
         return ErrorDTO.builder()
                 .code(HttpStatus.BAD_REQUEST.getReasonPhrase())
-                .message(productDomainException.getMessage())
+                .message(ex.getMessage())
                 .build();
     }
 
     @ResponseBody
-    @ExceptionHandler(value = {ProductNotFoundException.class})
+    @ExceptionHandler(ProductNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorDTO handlerException(ProductNotFoundException productNotFoundException) {
-        log.error(productNotFoundException.getMessage(), productNotFoundException);
+    public ErrorDTO handleProductNotFoundException(ProductNotFoundException ex) {
+        log.error(ex.getMessage(), ex);
         return ErrorDTO.builder()
                 .code(HttpStatus.NOT_FOUND.getReasonPhrase())
-                .message(productNotFoundException.getMessage())
+                .message(ex.getMessage())
                 .build();
     }
 }
