@@ -4,9 +4,11 @@
   "namespace": "com.shoes.ordering.system",
   "fields": [
     {
-      "name": "memberId",
-      "type": "string",
-      "logicalType": "uuid"
+      "name": "productId",
+      "type": {
+        "type": "string",
+        "logicalType": "uuid"
+      }
     },
     {
       "name": "memberStatus",

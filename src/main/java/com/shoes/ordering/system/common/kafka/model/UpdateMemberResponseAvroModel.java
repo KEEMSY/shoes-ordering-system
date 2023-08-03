@@ -12,14 +12,15 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class UpdateMemberResponseAvroModel extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -4047476490288118580L;
+  private static final long serialVersionUID = -94028693850493557L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UpdateMemberResponseAvroModel\",\"namespace\":\"com.shoes.ordering.system\",\"fields\":[{\"name\":\"memberId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"logicalType\":\"uuid\"},{\"name\":\"memberStatus\",\"type\":{\"type\":\"enum\",\"name\":\"MemberStatus\",\"symbols\":[\"PENDING\",\"ACTIVATE\",\"DEACTIVATE\",\"WITHDRAWAL\"]}},{\"name\":\"message\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}},{\"name\":\"createdAt\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UpdateMemberResponseAvroModel\",\"namespace\":\"com.shoes.ordering.system\",\"fields\":[{\"name\":\"productId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"memberStatus\",\"type\":{\"type\":\"enum\",\"name\":\"MemberStatus\",\"symbols\":[\"PENDING\",\"ACTIVATE\",\"DEACTIVATE\",\"WITHDRAWAL\"]}},{\"name\":\"message\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}},{\"name\":\"createdAt\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
   static {
+    MODEL$.addLogicalTypeConversion(new org.apache.avro.Conversions.UUIDConversion());
     MODEL$.addLogicalTypeConversion(new org.apache.avro.data.TimeConversions.TimestampMillisConversion());
   }
 
@@ -74,7 +75,7 @@ public class UpdateMemberResponseAvroModel extends org.apache.avro.specific.Spec
     return DECODER.decode(b);
   }
 
-  private java.lang.String memberId;
+  private java.util.UUID productId;
   private MemberStatus memberStatus;
   private java.util.List<java.lang.String> message;
   private java.time.Instant createdAt;
@@ -88,13 +89,13 @@ public class UpdateMemberResponseAvroModel extends org.apache.avro.specific.Spec
 
   /**
    * All-args constructor.
-   * @param memberId The new value for memberId
+   * @param productId The new value for productId
    * @param memberStatus The new value for memberStatus
    * @param message The new value for message
    * @param createdAt The new value for createdAt
    */
-  public UpdateMemberResponseAvroModel(java.lang.String memberId, MemberStatus memberStatus, java.util.List<java.lang.String> message, java.time.Instant createdAt) {
-    this.memberId = memberId;
+  public UpdateMemberResponseAvroModel(java.util.UUID productId, MemberStatus memberStatus, java.util.List<java.lang.String> message, java.time.Instant createdAt) {
+    this.productId = productId;
     this.memberStatus = memberStatus;
     this.message = message;
     this.createdAt = createdAt.truncatedTo(java.time.temporal.ChronoUnit.MILLIS);
@@ -110,7 +111,7 @@ public class UpdateMemberResponseAvroModel extends org.apache.avro.specific.Spec
   @Override
   public java.lang.Object get(int field$) {
     switch (field$) {
-    case 0: return memberId;
+    case 0: return productId;
     case 1: return memberStatus;
     case 2: return message;
     case 3: return createdAt;
@@ -120,7 +121,7 @@ public class UpdateMemberResponseAvroModel extends org.apache.avro.specific.Spec
 
   private static final org.apache.avro.Conversion<?>[] conversions =
       new org.apache.avro.Conversion<?>[] {
-      null,
+      new org.apache.avro.Conversions.UUIDConversion(),
       null,
       null,
       new org.apache.avro.data.TimeConversions.TimestampMillisConversion(),
@@ -137,7 +138,7 @@ public class UpdateMemberResponseAvroModel extends org.apache.avro.specific.Spec
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: memberId = value$ != null ? value$.toString() : null; break;
+    case 0: productId = (java.util.UUID)value$; break;
     case 1: memberStatus = (MemberStatus)value$; break;
     case 2: message = (java.util.List<java.lang.String>)value$; break;
     case 3: createdAt = (java.time.Instant)value$; break;
@@ -146,20 +147,20 @@ public class UpdateMemberResponseAvroModel extends org.apache.avro.specific.Spec
   }
 
   /**
-   * Gets the value of the 'memberId' field.
-   * @return The value of the 'memberId' field.
+   * Gets the value of the 'productId' field.
+   * @return The value of the 'productId' field.
    */
-  public java.lang.String getMemberId() {
-    return memberId;
+  public java.util.UUID getProductId() {
+    return productId;
   }
 
 
   /**
-   * Sets the value of the 'memberId' field.
+   * Sets the value of the 'productId' field.
    * @param value the value to set.
    */
-  public void setMemberId(java.lang.String value) {
-    this.memberId = value;
+  public void setProductId(java.util.UUID value) {
+    this.productId = value;
   }
 
   /**
@@ -254,7 +255,7 @@ public class UpdateMemberResponseAvroModel extends org.apache.avro.specific.Spec
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<UpdateMemberResponseAvroModel>
     implements org.apache.avro.data.RecordBuilder<UpdateMemberResponseAvroModel> {
 
-    private java.lang.String memberId;
+    private java.util.UUID productId;
     private MemberStatus memberStatus;
     private java.util.List<java.lang.String> message;
     private java.time.Instant createdAt;
@@ -270,8 +271,8 @@ public class UpdateMemberResponseAvroModel extends org.apache.avro.specific.Spec
      */
     private Builder(UpdateMemberResponseAvroModel.Builder other) {
       super(other);
-      if (isValidValue(fields()[0], other.memberId)) {
-        this.memberId = data().deepCopy(fields()[0].schema(), other.memberId);
+      if (isValidValue(fields()[0], other.productId)) {
+        this.productId = data().deepCopy(fields()[0].schema(), other.productId);
         fieldSetFlags()[0] = other.fieldSetFlags()[0];
       }
       if (isValidValue(fields()[1], other.memberStatus)) {
@@ -294,8 +295,8 @@ public class UpdateMemberResponseAvroModel extends org.apache.avro.specific.Spec
      */
     private Builder(UpdateMemberResponseAvroModel other) {
       super(SCHEMA$, MODEL$);
-      if (isValidValue(fields()[0], other.memberId)) {
-        this.memberId = data().deepCopy(fields()[0].schema(), other.memberId);
+      if (isValidValue(fields()[0], other.productId)) {
+        this.productId = data().deepCopy(fields()[0].schema(), other.productId);
         fieldSetFlags()[0] = true;
       }
       if (isValidValue(fields()[1], other.memberStatus)) {
@@ -313,41 +314,41 @@ public class UpdateMemberResponseAvroModel extends org.apache.avro.specific.Spec
     }
 
     /**
-      * Gets the value of the 'memberId' field.
+      * Gets the value of the 'productId' field.
       * @return The value.
       */
-    public java.lang.String getMemberId() {
-      return memberId;
+    public java.util.UUID getProductId() {
+      return productId;
     }
 
 
     /**
-      * Sets the value of the 'memberId' field.
-      * @param value The value of 'memberId'.
+      * Sets the value of the 'productId' field.
+      * @param value The value of 'productId'.
       * @return This builder.
       */
-    public UpdateMemberResponseAvroModel.Builder setMemberId(java.lang.String value) {
+    public UpdateMemberResponseAvroModel.Builder setProductId(java.util.UUID value) {
       validate(fields()[0], value);
-      this.memberId = value;
+      this.productId = value;
       fieldSetFlags()[0] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'memberId' field has been set.
-      * @return True if the 'memberId' field has been set, false otherwise.
+      * Checks whether the 'productId' field has been set.
+      * @return True if the 'productId' field has been set, false otherwise.
       */
-    public boolean hasMemberId() {
+    public boolean hasProductId() {
       return fieldSetFlags()[0];
     }
 
 
     /**
-      * Clears the value of the 'memberId' field.
+      * Clears the value of the 'productId' field.
       * @return This builder.
       */
-    public UpdateMemberResponseAvroModel.Builder clearMemberId() {
-      memberId = null;
+    public UpdateMemberResponseAvroModel.Builder clearProductId() {
+      productId = null;
       fieldSetFlags()[0] = false;
       return this;
     }
@@ -476,7 +477,7 @@ public class UpdateMemberResponseAvroModel extends org.apache.avro.specific.Spec
     public UpdateMemberResponseAvroModel build() {
       try {
         UpdateMemberResponseAvroModel record = new UpdateMemberResponseAvroModel();
-        record.memberId = fieldSetFlags()[0] ? this.memberId : (java.lang.String) defaultValue(fields()[0]);
+        record.productId = fieldSetFlags()[0] ? this.productId : (java.util.UUID) defaultValue(fields()[0]);
         record.memberStatus = fieldSetFlags()[1] ? this.memberStatus : (MemberStatus) defaultValue(fields()[1]);
         record.message = fieldSetFlags()[2] ? this.message : (java.util.List<java.lang.String>) defaultValue(fields()[2]);
         record.createdAt = fieldSetFlags()[3] ? this.createdAt : (java.time.Instant) defaultValue(fields()[3]);

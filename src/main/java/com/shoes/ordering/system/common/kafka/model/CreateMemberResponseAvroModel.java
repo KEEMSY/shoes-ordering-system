@@ -15,11 +15,12 @@ public class CreateMemberResponseAvroModel extends org.apache.avro.specific.Spec
   private static final long serialVersionUID = -8609884273975738908L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"CreateMemberResponseAvroModel\",\"namespace\":\"com.shoes.ordering.system\",\"fields\":[{\"name\":\"memberId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"logicalType\":\"uuid\"},{\"name\":\"memberStatus\",\"type\":{\"type\":\"enum\",\"name\":\"MemberStatus\",\"symbols\":[\"PENDING\",\"ACTIVATE\",\"DEACTIVATE\",\"WITHDRAWAL\"]}},{\"name\":\"message\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}},{\"name\":\"createdAt\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"CreateMemberResponseAvroModel\",\"namespace\":\"com.shoes.ordering.system\",\"fields\":[{\"name\":\"memberId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"memberStatus\",\"type\":{\"type\":\"enum\",\"name\":\"MemberStatus\",\"symbols\":[\"PENDING\",\"ACTIVATE\",\"DEACTIVATE\",\"WITHDRAWAL\"]}},{\"name\":\"message\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}},{\"name\":\"createdAt\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
   static {
+    MODEL$.addLogicalTypeConversion(new org.apache.avro.Conversions.UUIDConversion());
     MODEL$.addLogicalTypeConversion(new org.apache.avro.data.TimeConversions.TimestampMillisConversion());
   }
 
@@ -74,7 +75,7 @@ public class CreateMemberResponseAvroModel extends org.apache.avro.specific.Spec
     return DECODER.decode(b);
   }
 
-  private java.lang.String memberId;
+  private java.util.UUID memberId;
   private MemberStatus memberStatus;
   private java.util.List<java.lang.String> message;
   private java.time.Instant createdAt;
@@ -93,7 +94,7 @@ public class CreateMemberResponseAvroModel extends org.apache.avro.specific.Spec
    * @param message The new value for message
    * @param createdAt The new value for createdAt
    */
-  public CreateMemberResponseAvroModel(java.lang.String memberId, MemberStatus memberStatus, java.util.List<java.lang.String> message, java.time.Instant createdAt) {
+  public CreateMemberResponseAvroModel(java.util.UUID memberId, MemberStatus memberStatus, java.util.List<java.lang.String> message, java.time.Instant createdAt) {
     this.memberId = memberId;
     this.memberStatus = memberStatus;
     this.message = message;
@@ -120,7 +121,7 @@ public class CreateMemberResponseAvroModel extends org.apache.avro.specific.Spec
 
   private static final org.apache.avro.Conversion<?>[] conversions =
       new org.apache.avro.Conversion<?>[] {
-      null,
+      new org.apache.avro.Conversions.UUIDConversion(),
       null,
       null,
       new org.apache.avro.data.TimeConversions.TimestampMillisConversion(),
@@ -137,7 +138,7 @@ public class CreateMemberResponseAvroModel extends org.apache.avro.specific.Spec
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: memberId = value$ != null ? value$.toString() : null; break;
+    case 0: memberId = (java.util.UUID)value$; break;
     case 1: memberStatus = (MemberStatus)value$; break;
     case 2: message = (java.util.List<java.lang.String>)value$; break;
     case 3: createdAt = (java.time.Instant)value$; break;
@@ -149,7 +150,7 @@ public class CreateMemberResponseAvroModel extends org.apache.avro.specific.Spec
    * Gets the value of the 'memberId' field.
    * @return The value of the 'memberId' field.
    */
-  public java.lang.String getMemberId() {
+  public java.util.UUID getMemberId() {
     return memberId;
   }
 
@@ -158,7 +159,7 @@ public class CreateMemberResponseAvroModel extends org.apache.avro.specific.Spec
    * Sets the value of the 'memberId' field.
    * @param value the value to set.
    */
-  public void setMemberId(java.lang.String value) {
+  public void setMemberId(java.util.UUID value) {
     this.memberId = value;
   }
 
@@ -254,7 +255,7 @@ public class CreateMemberResponseAvroModel extends org.apache.avro.specific.Spec
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<CreateMemberResponseAvroModel>
     implements org.apache.avro.data.RecordBuilder<CreateMemberResponseAvroModel> {
 
-    private java.lang.String memberId;
+    private java.util.UUID memberId;
     private MemberStatus memberStatus;
     private java.util.List<java.lang.String> message;
     private java.time.Instant createdAt;
@@ -316,7 +317,7 @@ public class CreateMemberResponseAvroModel extends org.apache.avro.specific.Spec
       * Gets the value of the 'memberId' field.
       * @return The value.
       */
-    public java.lang.String getMemberId() {
+    public java.util.UUID getMemberId() {
       return memberId;
     }
 
@@ -326,7 +327,7 @@ public class CreateMemberResponseAvroModel extends org.apache.avro.specific.Spec
       * @param value The value of 'memberId'.
       * @return This builder.
       */
-    public CreateMemberResponseAvroModel.Builder setMemberId(java.lang.String value) {
+    public CreateMemberResponseAvroModel.Builder setMemberId(java.util.UUID value) {
       validate(fields()[0], value);
       this.memberId = value;
       fieldSetFlags()[0] = true;
@@ -476,7 +477,7 @@ public class CreateMemberResponseAvroModel extends org.apache.avro.specific.Spec
     public CreateMemberResponseAvroModel build() {
       try {
         CreateMemberResponseAvroModel record = new CreateMemberResponseAvroModel();
-        record.memberId = fieldSetFlags()[0] ? this.memberId : (java.lang.String) defaultValue(fields()[0]);
+        record.memberId = fieldSetFlags()[0] ? this.memberId : (java.util.UUID) defaultValue(fields()[0]);
         record.memberStatus = fieldSetFlags()[1] ? this.memberStatus : (MemberStatus) defaultValue(fields()[1]);
         record.message = fieldSetFlags()[2] ? this.message : (java.util.List<java.lang.String>) defaultValue(fields()[2]);
         record.createdAt = fieldSetFlags()[3] ? this.createdAt : (java.time.Instant) defaultValue(fields()[3]);
