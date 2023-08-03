@@ -168,7 +168,7 @@ public class ProductQueryControllerTest {
                         .param("trackProperties", "INVALID_CATEGORY"))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message")
-                        .value("Invalid product categories: INVALID_CATEGORY"));
+                        .value("Invalid product categories: " + invalidCategory));
 
     }
 }

@@ -36,27 +36,8 @@ public class ProductQueryController {
 
     @GetMapping("/search")
     public ResponseEntity<TrackProductListResponse> searchProductsByCategories(@RequestParam List<String> trackProperties) {
-        List<ProductCategory> productCategoryList = new ArrayList<>();
-        List<String> invalidCategories = new ArrayList<>();
-        log.info("InputProperties: {}", trackProperties);
-
-        for (String property : trackProperties) {
-            try {
-                ProductCategory category = ProductCategory.valueOf(property);
-                productCategoryList.add(category);
-            } catch (IllegalArgumentException ex) {
-                invalidCategories.add(property);
-            }
-        }
-
-        if (!invalidCategories.isEmpty()) {
-            String errorMessage = "Invalid product categories: " + String.join(", ", invalidCategories);
-            log.warn(errorMessage);
-            throw new ProductDomainException(errorMessage);
-        }
-
         TrackProductListQuery trackProductListQuery = TrackProductListQuery.builder()
-                .productCategoryList(productCategoryList)
+                .productCategoryList(trackProperties)
                 .build();
 
         TrackProductListResponse trackProductListResponse

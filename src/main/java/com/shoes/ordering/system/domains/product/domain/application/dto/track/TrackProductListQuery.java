@@ -6,6 +6,7 @@ import com.shoes.ordering.system.domains.product.domain.core.valueobject.Product
 import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
@@ -22,11 +23,11 @@ public class TrackProductListQuery extends SelfValidating<TrackProductListQuery>
     }
 
     private void validateProductCategoryList() {
-        Set<ProductCategory> validProductCategories = EnumSet.allOf(ProductCategory.class);
+        Set<ProductCategory> unableProductCategories = EnumSet.of(ProductCategory.DISABLING);
 
         for (ProductCategory category : productCategoryList) {
-            if (!validProductCategories.contains(category) || category == ProductCategory.DISABLING) {
-                throw new ProductDTOException("Invalid product category: " + category);
+            if (unableProductCategories.contains(category)) {
+                throw new ProductDTOException("Unable ProductCategories: " + category);
             }
         }
     }
@@ -41,8 +42,28 @@ public class TrackProductListQuery extends SelfValidating<TrackProductListQuery>
         private Builder() {
         }
 
-        public Builder productCategoryList(@NotNull List<ProductCategory> val) {
-            productCategoryList = val;
+        public Builder productCategoryList(@NotNull List<String> val) {
+
+            if (val == null) throw new ProductDTOException("Invalid product categories: null");
+
+            List<ProductCategory> validProductCategoryList = new ArrayList<>();
+            List<String> invalidCategories = new ArrayList<>();
+
+            for (String productCategory : val) {
+                try {
+                    ProductCategory category = ProductCategory.valueOf(productCategory);
+                    validProductCategoryList.add(category);
+                } catch (IllegalArgumentException ex) {
+                    invalidCategories.add(productCategory);
+                }
+            }
+
+            if (!invalidCategories.isEmpty()) {
+                String errorMessage = "Invalid product categories: " + String.join(", ", invalidCategories);
+                throw new ProductDTOException(errorMessage);
+            }
+
+            productCategoryList = validProductCategoryList;
             return this;
         }
 
