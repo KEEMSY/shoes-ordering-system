@@ -35,7 +35,7 @@ public class ProductQueryController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<TrackProductListResponse> trackProduct(@RequestParam List<String> trackProperties) {
+    public ResponseEntity<TrackProductListResponse> searchProductsByCategories(@RequestParam List<String> trackProperties) {
         List<ProductCategory> productCategoryList = new ArrayList<>();
         List<String> invalidCategories = new ArrayList<>();
         log.info("InputProperties: {}", trackProperties);
