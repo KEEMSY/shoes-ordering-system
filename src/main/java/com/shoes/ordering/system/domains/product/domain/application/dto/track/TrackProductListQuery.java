@@ -2,6 +2,7 @@ package com.shoes.ordering.system.domains.product.domain.application.dto.track;
 
 import com.shoes.ordering.system.domains.common.validation.SelfValidating;
 import com.shoes.ordering.system.domains.product.domain.application.dto.ProductDTOException;
+import com.shoes.ordering.system.domains.product.domain.core.exception.ProductDomainException;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
 import lombok.Getter;
 
@@ -27,7 +28,7 @@ public class TrackProductListQuery extends SelfValidating<TrackProductListQuery>
 
         for (ProductCategory category : productCategoryList) {
             if (unableProductCategories.contains(category)) {
-                throw new ProductDTOException("Unable ProductCategories: " + category);
+                throw new ProductDomainException("Unable ProductCategories: " + category);
             }
         }
     }

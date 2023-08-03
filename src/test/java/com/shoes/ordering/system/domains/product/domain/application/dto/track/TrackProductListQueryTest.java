@@ -1,6 +1,7 @@
 package com.shoes.ordering.system.domains.product.domain.application.dto.track;
 
 import com.shoes.ordering.system.domains.product.domain.application.dto.ProductDTOException;
+import com.shoes.ordering.system.domains.product.domain.core.exception.ProductDomainException;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,7 +50,7 @@ public class TrackProductListQueryTest {
         // when, then
         assertThatThrownBy(() ->TrackProductListQuery.builder()
                 .productCategoryList(inputInvalidProductCategoryList)
-                .build()).isInstanceOf(ProductDTOException.class);
+                .build()).isInstanceOf(ProductDomainException.class);
     }
 
     @Test
@@ -62,6 +63,6 @@ public class TrackProductListQueryTest {
         // when, then
         assertThatThrownBy(() ->TrackProductListQuery.builder()
                 .productCategoryList(inputInvalidProductCategoryList)
-                .build()).isInstanceOf(ProductDTOException.class);
+                .build()).isInstanceOf(ProductDomainException.class);
     }
 }
