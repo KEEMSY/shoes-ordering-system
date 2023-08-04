@@ -4,27 +4,28 @@ import com.shoes.ordering.system.TestConfiguration;
 import com.shoes.ordering.system.domains.common.valueobject.Money;
 import com.shoes.ordering.system.domains.product.domain.application.dto.update.UpdateProductCommand;
 import com.shoes.ordering.system.domains.product.domain.application.dto.update.UpdateProductResponse;
-import com.shoes.ordering.system.domains.product.domain.application.mapper.ProductDataMapper;
+import com.shoes.ordering.system.domains.product.domain.application.ports.output.message.publisher.ProductUpdatedRequestMessagePublisher;
 import com.shoes.ordering.system.domains.product.domain.application.ports.output.repository.ProductRepository;
 import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
-import com.shoes.ordering.system.domains.product.domain.core.entity.ProductImage;
+import com.shoes.ordering.system.domains.product.domain.core.event.ProductUpdatedEvent;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductId;
-import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductImageId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -35,8 +36,8 @@ public class UpdateProductCommandHandlerTest {
     private UpdateProductCommandHandler updateProductCommandHandler;
     @Autowired
     private ProductRepository productRepository;
-    @Autowired
-    ProductDataMapper productDataMapper;
+    @MockBean
+    private ProductUpdatedRequestMessagePublisher productUpdatedRequestMessagePublisher;
 
     private Product product;
 
@@ -74,6 +75,14 @@ public class UpdateProductCommandHandlerTest {
                 = updateProductCommandHandler.updateProduct(updateProductCommand);
 
         // then
+        ArgumentCaptor<ProductUpdatedEvent> updatedEventArgumentCaptor = ArgumentCaptor.forClass(ProductUpdatedEvent.class);
+        verify(productUpdatedRequestMessagePublisher).publish(updatedEventArgumentCaptor.capture());
+
+        ProductUpdatedEvent capturedProductUpdatedEvent = updatedEventArgumentCaptor.getValue();
+        assertThat(capturedProductUpdatedEvent.getProduct().getId().getValue()).isEqualTo(resultUpdateProductResponse.getProductId());
+        assertThat(capturedProductUpdatedEvent.getProduct().getName()).isEqualTo(updateProductCommand.getName());
+        assertThat(capturedProductUpdatedEvent.getProduct().getName()).isEqualTo(resultUpdateProductResponse.getName());
+
         assertThat(resultUpdateProductResponse.getName()).isNotEqualTo(product.getName());
 
         assertThat(resultUpdateProductResponse).isNotNull();
