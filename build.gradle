@@ -50,6 +50,8 @@ dependencies {
         exclude group: 'io.swagger', module: 'swagger-core'
     }
 
+    implementation("org.xerial.snappy:snappy-java:1.1.8.4")
+
     runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
@@ -106,4 +108,13 @@ configurations {
         extendsFrom annotationProcessor
     }
     querydsl.extendsFrom compileClasspath
+}
+
+configurations.all {
+    resolutionStrategy.eachDependency {
+        if (requested.group == "org.xerial.snappy" && requested.name == "snappy-java" && requested.version == "1.1.7.7") {
+            useVersion("1.1.8.4")
+            because("support M1")
+        }
+    }
 }
