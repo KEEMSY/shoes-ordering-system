@@ -5,8 +5,10 @@
     "fields": [
         {
             "name": "memberId",
-            "type": "string",
-            "logicalType": "uuid"
+            "type": {
+                "type": "string",
+                "logicalType": "uuid"
+            }
         },
         {
             "name": "memberStatus",

@@ -41,6 +41,8 @@ public class ProductQueryServiceTest {
     private Product product1;
     private Product product2;
     private List<Product> productList;
+    private final List<String> inputValidProductCategoryList
+            = List.of(ProductCategory.SHOES.toString(), ProductCategory.CLOTHING.toString());
     private final List<ProductCategory> validProductCategoryList
             = List.of(ProductCategory.SHOES, ProductCategory.CLOTHING);
 
@@ -89,7 +91,7 @@ public class ProductQueryServiceTest {
     public void trackProductListResponseTest() {
         // given
         trackProductListQuery = TrackProductListQuery.builder()
-                .productCategoryList(validProductCategoryList)
+                .productCategoryList(inputValidProductCategoryList)
                 .build();
 
         // when

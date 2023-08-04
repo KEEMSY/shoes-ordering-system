@@ -28,3 +28,21 @@ CREATE TABLE "member".member_address
     CONSTRAINT "FK_MEMBER_ID" FOREIGN KEY (member_id)
         REFERENCES "member".members (id) ON DELETE CASCADE
 );
+
+
+DROP SCHEMA IF EXISTS "product" CASCADE;
+
+CREATE SCHEMA "product";
+
+DROP TABLE IF EXISTS "product".products CASCADE;
+
+CREATE TABLE "product".products
+(
+    product_id      UUID         NOT NULL,
+    name            VARCHAR(255) NOT NULL,
+    description     VARCHAR(255),
+    price           numeric(10,2)      NOT NULL,
+    product_category VARCHAR(255) NOT NULL,
+    CONSTRAINT products_pkey PRIMARY KEY (product_id)
+);
+

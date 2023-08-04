@@ -6,11 +6,9 @@ import com.shoes.ordering.system.domains.product.domain.application.dto.track.Tr
 import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductListResponse;
 import com.shoes.ordering.system.domains.product.domain.application.ports.output.repository.ProductRepository;
 import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
-import com.shoes.ordering.system.domains.product.domain.core.entity.ProductImage;
 import com.shoes.ordering.system.domains.product.domain.core.exception.ProductNotFoundException;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductId;
-import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductImageId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,8 +41,12 @@ public class TrackProductListQueryHandlerTest {
 
     private final List<ProductCategory> validProductCategoryList
             = List.of(ProductCategory.SHOES, ProductCategory.CLOTHING);
-    private final List<ProductCategory> onlyOneProductCategoryList
-            = List.of(ProductCategory.CLOTHING);
+
+    private final List<String> inputValidProductCategoryList
+            = List.of(ProductCategory.SHOES.toString(), ProductCategory.CLOTHING.toString());
+
+    private final List<String> onlyOneInputProductCategoryList
+            = List.of(ProductCategory.CLOTHING.toString());
 
     @BeforeEach
     public void init() {
@@ -74,7 +76,7 @@ public class TrackProductListQueryHandlerTest {
     public void trackProductWithCategoryTest() {
         // given
         trackProductListQuery = TrackProductListQuery.builder()
-                .productCategoryList(validProductCategoryList)
+                .productCategoryList(inputValidProductCategoryList)
                 .build();
 
         // when
@@ -92,7 +94,7 @@ public class TrackProductListQueryHandlerTest {
     public void invalidTrackProductWithCategoryTest() {
         // given
         trackProductListQuery = TrackProductListQuery.builder()
-                .productCategoryList(onlyOneProductCategoryList)
+                .productCategoryList(onlyOneInputProductCategoryList)
                 .build();
 
         // when, then

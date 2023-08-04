@@ -1,26 +1,23 @@
 package com.shoes.ordering.system.domains.product.domain.application.dto.update;
 
 import com.shoes.ordering.system.domains.common.validation.SelfValidating;
-import com.shoes.ordering.system.domains.common.valueobject.Money;
-import com.shoes.ordering.system.domains.product.domain.core.entity.ProductImage;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
-import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductId;
-import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductImageId;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.math.BigDecimal;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Getter
+@AllArgsConstructor
 public class UpdateProductCommand extends SelfValidating<UpdateProductCommand> {
 
     @NotNull private final UUID productId;
     @NotNull private final String name;
     @NotNull private final ProductCategory productCategory;
     @NotNull private final String description;
-    @NotNull private final Money price;
+    @NotNull private final BigDecimal price;
 
     private UpdateProductCommand(Builder builder) {
         productId = builder.productId;
@@ -41,7 +38,7 @@ public class UpdateProductCommand extends SelfValidating<UpdateProductCommand> {
         private @NotNull String name;
         private @NotNull ProductCategory productCategory;
         private @NotNull String description;
-        private @NotNull Money price;
+        private @NotNull BigDecimal price;
 
         private Builder() {
         }
@@ -66,7 +63,7 @@ public class UpdateProductCommand extends SelfValidating<UpdateProductCommand> {
             return this;
         }
 
-        public Builder price(@NotNull Money val) {
+        public Builder price(@NotNull BigDecimal val) {
             price = val;
             return this;
         }

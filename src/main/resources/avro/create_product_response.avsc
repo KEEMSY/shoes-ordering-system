@@ -1,0 +1,50 @@
+{
+    "type": "record",
+    "name": "CreateProductResponseAvroModel",
+    "namespace": "com.shoes.ordering.system",
+    "fields": [
+        {
+            "name": "productId",
+            "type": {
+                "type": "string",
+                "logicalType": "uuid"
+            }
+        },
+        {
+            "name": "name",
+            "type": "string"
+        },
+        {
+            "name": "productCategory",
+            "type": {
+                "type": "enum",
+                "name": "ProductCategory",
+                "symbols": [
+                    "SHOES",
+                    "CLOTHING",
+                    "DISABLING"
+                ]
+            }
+        },
+        {
+            "name": "description",
+            "type": "string"
+        },
+        {
+            "name": "price",
+            "type": {
+                "type": "bytes",
+                "logicalType": "decimal",
+                "precision": 10,
+                "scale": 2
+            }
+        },
+        {
+            "name": "createdAt",
+            "type": {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+            }
+        }
+    ]
+}
