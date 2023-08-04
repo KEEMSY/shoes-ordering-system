@@ -16,7 +16,7 @@ public class MemberMessagingDataMapper {
     public CreateMemberRequestAvroModel memberCreatedEventToCreateMemberRequestAvroModel(MemberCreatedEvent memberCreatedEvent) {
         Member member = memberCreatedEvent.getMember();
         return CreateMemberRequestAvroModel.newBuilder()
-                .setMemberId(member.getId().getValue().toString())
+                .setMemberId(member.getId().getValue())
                 .setName(member.getName())
                 .setPassword(member.getPassword())
                 .setEmail(member.getEmail())
@@ -29,7 +29,7 @@ public class MemberMessagingDataMapper {
     public UpdateMemberRequestAvroModel memberUpdatedEventToUpdateMemberRequestAvroModel(MemberUpdatedEvent memberUpdatedEvent) {
         Member member = memberUpdatedEvent.getMember();
         return UpdateMemberRequestAvroModel.newBuilder()
-                .setMemberId(member.getId().getValue().toString())
+                .setMemberId(member.getId().getValue())
                 .setName(member.getName())
                 .setPassword(member.getPassword())
                 .setEmail(member.getEmail())

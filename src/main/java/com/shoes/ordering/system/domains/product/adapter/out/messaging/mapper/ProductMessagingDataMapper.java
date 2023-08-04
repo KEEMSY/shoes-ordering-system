@@ -15,7 +15,7 @@ public class ProductMessagingDataMapper {
     public CreateProductRequestAvroModel productCreatedEventToCreateProductRequestAvroModel(ProductCreatedEvent productCreatedEvent) {
         Product product = productCreatedEvent.getProduct();
         return CreateProductRequestAvroModel.newBuilder()
-                .setProductId(product.getId().getValue().toString())
+                .setProductId(product.getId().getValue())
                 .setName(product.getName())
                 .setDescription(product.getDescription())
                 .setProductCategory(domainProductCategoryToAvroProductKind(product.getProductCategory()))
@@ -27,7 +27,7 @@ public class ProductMessagingDataMapper {
     public UpdateProductRequestAvroModel productUpdatedProductRequestAvroModel(ProductUpdatedEvent productUpdatedEvent) {
         Product product = productUpdatedEvent.getProduct();
         return UpdateProductRequestAvroModel.newBuilder()
-                .setProductId(product.getId().getValue().toString())
+                .setProductId(product.getId().getValue())
                 .setName(product.getName())
                 .setDescription(product.getDescription())
                 .setProductCategory(domainProductCategoryToAvroProductKind(product.getProductCategory()))
