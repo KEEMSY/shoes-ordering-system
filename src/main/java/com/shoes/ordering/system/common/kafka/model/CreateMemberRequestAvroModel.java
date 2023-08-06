@@ -15,11 +15,12 @@ public class CreateMemberRequestAvroModel extends org.apache.avro.specific.Speci
   private static final long serialVersionUID = 8094690200880879810L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"CreateMemberRequestAvroModel\",\"namespace\":\"com.shoes.ordering.system\",\"fields\":[{\"name\":\"memberId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"logicalType\":\"uuid\"},{\"name\":\"name\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"password\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"email\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"memberKind\",\"type\":{\"type\":\"enum\",\"name\":\"MemberKind\",\"symbols\":[\"CUSTOMER\",\"SELLER\",\"ADMIN\"]}},{\"name\":\"memberStatus\",\"type\":{\"type\":\"enum\",\"name\":\"MemberStatus\",\"symbols\":[\"PENDING\",\"ACTIVATE\",\"DEACTIVATE\",\"WITHDRAWAL\"]}},{\"name\":\"phoneNumber\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"address\",\"type\":{\"type\":\"record\",\"name\":\"MemberAddress\",\"fields\":[{\"name\":\"street\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"city\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"state\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"postalCode\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}},{\"name\":\"createdAt\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"CreateMemberRequestAvroModel\",\"namespace\":\"com.shoes.ordering.system\",\"fields\":[{\"name\":\"memberId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"name\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"password\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"email\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"memberKind\",\"type\":{\"type\":\"enum\",\"name\":\"MemberKind\",\"symbols\":[\"CUSTOMER\",\"SELLER\",\"ADMIN\"]}},{\"name\":\"memberStatus\",\"type\":{\"type\":\"enum\",\"name\":\"MemberStatus\",\"symbols\":[\"PENDING\",\"ACTIVATE\",\"DEACTIVATE\",\"WITHDRAWAL\"]}},{\"name\":\"phoneNumber\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"address\",\"type\":{\"type\":\"record\",\"name\":\"MemberAddress\",\"fields\":[{\"name\":\"street\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"city\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"state\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"postalCode\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}},{\"name\":\"createdAt\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
   static {
+    MODEL$.addLogicalTypeConversion(new org.apache.avro.Conversions.UUIDConversion());
     MODEL$.addLogicalTypeConversion(new org.apache.avro.data.TimeConversions.TimestampMillisConversion());
   }
 
@@ -74,7 +75,7 @@ public class CreateMemberRequestAvroModel extends org.apache.avro.specific.Speci
     return DECODER.decode(b);
   }
 
-  private java.lang.String memberId;
+  private java.util.UUID memberId;
   private java.lang.String name;
   private java.lang.String password;
   private java.lang.String email;
@@ -103,7 +104,7 @@ public class CreateMemberRequestAvroModel extends org.apache.avro.specific.Speci
    * @param address The new value for address
    * @param createdAt The new value for createdAt
    */
-  public CreateMemberRequestAvroModel(java.lang.String memberId, java.lang.String name, java.lang.String password, java.lang.String email, MemberKind memberKind, MemberStatus memberStatus, java.lang.String phoneNumber, MemberAddress address, java.time.Instant createdAt) {
+  public CreateMemberRequestAvroModel(java.util.UUID memberId, java.lang.String name, java.lang.String password, java.lang.String email, MemberKind memberKind, MemberStatus memberStatus, java.lang.String phoneNumber, MemberAddress address, java.time.Instant createdAt) {
     this.memberId = memberId;
     this.name = name;
     this.password = password;
@@ -140,7 +141,7 @@ public class CreateMemberRequestAvroModel extends org.apache.avro.specific.Speci
 
   private static final org.apache.avro.Conversion<?>[] conversions =
       new org.apache.avro.Conversion<?>[] {
-      null,
+      new org.apache.avro.Conversions.UUIDConversion(),
       null,
       null,
       null,
@@ -162,7 +163,7 @@ public class CreateMemberRequestAvroModel extends org.apache.avro.specific.Speci
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: memberId = value$ != null ? value$.toString() : null; break;
+    case 0: memberId = (java.util.UUID)value$; break;
     case 1: name = value$ != null ? value$.toString() : null; break;
     case 2: password = value$ != null ? value$.toString() : null; break;
     case 3: email = value$ != null ? value$.toString() : null; break;
@@ -179,7 +180,7 @@ public class CreateMemberRequestAvroModel extends org.apache.avro.specific.Speci
    * Gets the value of the 'memberId' field.
    * @return The value of the 'memberId' field.
    */
-  public java.lang.String getMemberId() {
+  public java.util.UUID getMemberId() {
     return memberId;
   }
 
@@ -188,7 +189,7 @@ public class CreateMemberRequestAvroModel extends org.apache.avro.specific.Speci
    * Sets the value of the 'memberId' field.
    * @param value the value to set.
    */
-  public void setMemberId(java.lang.String value) {
+  public void setMemberId(java.util.UUID value) {
     this.memberId = value;
   }
 
@@ -369,7 +370,7 @@ public class CreateMemberRequestAvroModel extends org.apache.avro.specific.Speci
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<CreateMemberRequestAvroModel>
     implements org.apache.avro.data.RecordBuilder<CreateMemberRequestAvroModel> {
 
-    private java.lang.String memberId;
+    private java.util.UUID memberId;
     private java.lang.String name;
     private java.lang.String password;
     private java.lang.String email;
@@ -481,7 +482,7 @@ public class CreateMemberRequestAvroModel extends org.apache.avro.specific.Speci
       * Gets the value of the 'memberId' field.
       * @return The value.
       */
-    public java.lang.String getMemberId() {
+    public java.util.UUID getMemberId() {
       return memberId;
     }
 
@@ -491,7 +492,7 @@ public class CreateMemberRequestAvroModel extends org.apache.avro.specific.Speci
       * @param value The value of 'memberId'.
       * @return This builder.
       */
-    public CreateMemberRequestAvroModel.Builder setMemberId(java.lang.String value) {
+    public CreateMemberRequestAvroModel.Builder setMemberId(java.util.UUID value) {
       validate(fields()[0], value);
       this.memberId = value;
       fieldSetFlags()[0] = true;
@@ -877,7 +878,7 @@ public class CreateMemberRequestAvroModel extends org.apache.avro.specific.Speci
     public CreateMemberRequestAvroModel build() {
       try {
         CreateMemberRequestAvroModel record = new CreateMemberRequestAvroModel();
-        record.memberId = fieldSetFlags()[0] ? this.memberId : (java.lang.String) defaultValue(fields()[0]);
+        record.memberId = fieldSetFlags()[0] ? this.memberId : (java.util.UUID) defaultValue(fields()[0]);
         record.name = fieldSetFlags()[1] ? this.name : (java.lang.String) defaultValue(fields()[1]);
         record.password = fieldSetFlags()[2] ? this.password : (java.lang.String) defaultValue(fields()[2]);
         record.email = fieldSetFlags()[3] ? this.email : (java.lang.String) defaultValue(fields()[3]);

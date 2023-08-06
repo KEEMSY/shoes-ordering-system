@@ -1,5 +1,6 @@
 package com.shoes.ordering.system.domains.member.domain.application;
 
+import com.shoes.ordering.system.TestConfiguration;
 import com.shoes.ordering.system.domains.member.domain.application.dto.MemberAddress;
 import com.shoes.ordering.system.domains.member.domain.application.dto.create.CreateMemberCommand;
 import com.shoes.ordering.system.domains.member.domain.application.dto.create.CreateMemberResponse;
@@ -30,7 +31,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SpringBootTest(classes = MemberTestConfiguration.class)
+@SpringBootTest(classes = TestConfiguration.class)
 public class MemberApplicationServiceTest {
 
     @Autowired
@@ -91,6 +92,7 @@ public class MemberApplicationServiceTest {
                 .name(member.getName())
                 .password(member.getPassword())
                 .email(member.getEmail())
+                .memberKind(MemberKind.CUSTOMER)
                 .memberStatus(MemberStatus.ACTIVATE)
                 .phoneNumber(member.getPhoneNumber())
                 .address(member.getAddress())
@@ -116,6 +118,7 @@ public class MemberApplicationServiceTest {
                 .password(member.getPassword())
                 .email(member.getEmail())
                 .memberStatus(MemberStatus.ACTIVATE)
+                .memberKind(MemberKind.CUSTOMER)
                 .phoneNumber(member.getPhoneNumber())
                 .address(member.getAddress())
                 .build();
