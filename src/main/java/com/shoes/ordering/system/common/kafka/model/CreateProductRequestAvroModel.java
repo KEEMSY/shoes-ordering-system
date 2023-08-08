@@ -5,10 +5,10 @@
  */
 package com.shoes.ordering.system.common.kafka.model;
 
-import org.apache.avro.specific.SpecificData;
-import org.apache.avro.message.BinaryMessageEncoder;
 import org.apache.avro.message.BinaryMessageDecoder;
+import org.apache.avro.message.BinaryMessageEncoder;
 import org.apache.avro.message.SchemaStore;
+import org.apache.avro.specific.SpecificData;
 
 @org.apache.avro.specific.AvroGenerated
 public class CreateProductRequestAvroModel extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
@@ -77,9 +77,9 @@ public class CreateProductRequestAvroModel extends org.apache.avro.specific.Spec
   }
 
   private java.util.UUID productId;
-  private java.lang.String name;
+  private String name;
   private ProductCategory productCategory;
-  private java.lang.String description;
+  private String description;
   private java.math.BigDecimal price;
   private java.time.Instant createdAt;
 
@@ -99,7 +99,7 @@ public class CreateProductRequestAvroModel extends org.apache.avro.specific.Spec
    * @param price The new value for price
    * @param createdAt The new value for createdAt
    */
-  public CreateProductRequestAvroModel(java.util.UUID productId, java.lang.String name, ProductCategory productCategory, java.lang.String description, java.math.BigDecimal price, java.time.Instant createdAt) {
+  public CreateProductRequestAvroModel(java.util.UUID productId, String name, ProductCategory productCategory, String description, java.math.BigDecimal price, java.time.Instant createdAt) {
     this.productId = productId;
     this.name = name;
     this.productCategory = productCategory;
@@ -109,14 +109,14 @@ public class CreateProductRequestAvroModel extends org.apache.avro.specific.Spec
   }
 
   @Override
-  public org.apache.avro.specific.SpecificData getSpecificData() { return MODEL$; }
+  public SpecificData getSpecificData() { return MODEL$; }
 
   @Override
   public org.apache.avro.Schema getSchema() { return SCHEMA$; }
 
   // Used by DatumWriter.  Applications should not call.
   @Override
-  public java.lang.Object get(int field$) {
+  public Object get(int field$) {
     switch (field$) {
     case 0: return productId;
     case 1: return name;
@@ -147,7 +147,7 @@ public class CreateProductRequestAvroModel extends org.apache.avro.specific.Spec
   // Used by DatumReader.  Applications should not call.
   @Override
   @SuppressWarnings(value="unchecked")
-  public void put(int field$, java.lang.Object value$) {
+  public void put(int field$, Object value$) {
     switch (field$) {
     case 0: productId = (java.util.UUID)value$; break;
     case 1: name = value$ != null ? value$.toString() : null; break;
@@ -180,7 +180,7 @@ public class CreateProductRequestAvroModel extends org.apache.avro.specific.Spec
    * Gets the value of the 'name' field.
    * @return The value of the 'name' field.
    */
-  public java.lang.String getName() {
+  public String getName() {
     return name;
   }
 
@@ -189,7 +189,7 @@ public class CreateProductRequestAvroModel extends org.apache.avro.specific.Spec
    * Sets the value of the 'name' field.
    * @param value the value to set.
    */
-  public void setName(java.lang.String value) {
+  public void setName(String value) {
     this.name = value;
   }
 
@@ -214,7 +214,7 @@ public class CreateProductRequestAvroModel extends org.apache.avro.specific.Spec
    * Gets the value of the 'description' field.
    * @return The value of the 'description' field.
    */
-  public java.lang.String getDescription() {
+  public String getDescription() {
     return description;
   }
 
@@ -223,7 +223,7 @@ public class CreateProductRequestAvroModel extends org.apache.avro.specific.Spec
    * Sets the value of the 'description' field.
    * @param value the value to set.
    */
-  public void setDescription(java.lang.String value) {
+  public void setDescription(String value) {
     this.description = value;
   }
 
@@ -303,9 +303,9 @@ public class CreateProductRequestAvroModel extends org.apache.avro.specific.Spec
     implements org.apache.avro.data.RecordBuilder<CreateProductRequestAvroModel> {
 
     private java.util.UUID productId;
-    private java.lang.String name;
+    private String name;
     private ProductCategory productCategory;
-    private java.lang.String description;
+    private String description;
     private java.math.BigDecimal price;
     private java.time.Instant createdAt;
 
@@ -422,7 +422,7 @@ public class CreateProductRequestAvroModel extends org.apache.avro.specific.Spec
       * Gets the value of the 'name' field.
       * @return The value.
       */
-    public java.lang.String getName() {
+    public String getName() {
       return name;
     }
 
@@ -432,7 +432,7 @@ public class CreateProductRequestAvroModel extends org.apache.avro.specific.Spec
       * @param value The value of 'name'.
       * @return This builder.
       */
-    public CreateProductRequestAvroModel.Builder setName(java.lang.String value) {
+    public CreateProductRequestAvroModel.Builder setName(String value) {
       validate(fields()[1], value);
       this.name = value;
       fieldSetFlags()[1] = true;
@@ -502,7 +502,7 @@ public class CreateProductRequestAvroModel extends org.apache.avro.specific.Spec
       * Gets the value of the 'description' field.
       * @return The value.
       */
-    public java.lang.String getDescription() {
+    public String getDescription() {
       return description;
     }
 
@@ -512,7 +512,7 @@ public class CreateProductRequestAvroModel extends org.apache.avro.specific.Spec
       * @param value The value of 'description'.
       * @return This builder.
       */
-    public CreateProductRequestAvroModel.Builder setDescription(java.lang.String value) {
+    public CreateProductRequestAvroModel.Builder setDescription(String value) {
       validate(fields()[3], value);
       this.description = value;
       fieldSetFlags()[3] = true;
@@ -623,15 +623,15 @@ public class CreateProductRequestAvroModel extends org.apache.avro.specific.Spec
       try {
         CreateProductRequestAvroModel record = new CreateProductRequestAvroModel();
         record.productId = fieldSetFlags()[0] ? this.productId : (java.util.UUID) defaultValue(fields()[0]);
-        record.name = fieldSetFlags()[1] ? this.name : (java.lang.String) defaultValue(fields()[1]);
+        record.name = fieldSetFlags()[1] ? this.name : (String) defaultValue(fields()[1]);
         record.productCategory = fieldSetFlags()[2] ? this.productCategory : (ProductCategory) defaultValue(fields()[2]);
-        record.description = fieldSetFlags()[3] ? this.description : (java.lang.String) defaultValue(fields()[3]);
+        record.description = fieldSetFlags()[3] ? this.description : (String) defaultValue(fields()[3]);
         record.price = fieldSetFlags()[4] ? this.price : (java.math.BigDecimal) defaultValue(fields()[4]);
         record.createdAt = fieldSetFlags()[5] ? this.createdAt : (java.time.Instant) defaultValue(fields()[5]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
-      } catch (java.lang.Exception e) {
+      } catch (Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);
       }
     }
