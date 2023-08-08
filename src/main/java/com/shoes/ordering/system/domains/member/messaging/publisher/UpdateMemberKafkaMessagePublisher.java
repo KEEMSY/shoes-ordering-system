@@ -49,7 +49,7 @@ public class UpdateMemberKafkaMessagePublisher implements MemberUpdateRequestMes
             log.info("CreateMemberRequestAvroModel sent to Kafka for member id: {}"
                     , createMemberRequestAvroModel.getMemberId());
         } catch (Exception e) {
-            log.error("Error while sending CreateMemberRequestAvroModel message to Kafka with member id: {}, error: {}"
+            log.error("Error while sending UpdateMemberRequestAvroModel message to Kafka with member id: {}, error: {}"
                     ,memberId, e.getMessage() );
         }
     }
