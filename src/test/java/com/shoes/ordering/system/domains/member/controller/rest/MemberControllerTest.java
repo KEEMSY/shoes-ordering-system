@@ -4,6 +4,7 @@ import com.shoes.ordering.system.TestConfiguration;
 import com.shoes.ordering.system.domains.member.domain.application.dto.track.TrackMemberQuery;
 import com.shoes.ordering.system.domains.member.domain.application.dto.track.TrackMemberResponse;
 import com.shoes.ordering.system.domains.member.domain.application.ports.input.service.MemberApplicationService;
+import com.shoes.ordering.system.domains.member.domain.core.exception.MemberNotFoundException;
 import com.shoes.ordering.system.domains.member.domain.core.valueobject.MemberStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -51,6 +52,23 @@ public class MemberControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$.memberStatus").value("ACTIVATE"));
     }
 
+    @Test
+    @DisplayName("존재하지 않는 Member 를 조회 할 경우 에러 확인")
+    void getMemberByMemberId_MemberNotFoundException() throws Exception {
+        // given
+        UUID unknownMemberId = UUID.randomUUID();
+        String errorMessage = "Could not find product with memberId: " + unknownMemberId;
 
+        // Stub: productService.trackProduct()
+        when(memberApplicationService.trackMember(any(TrackMemberQuery.class)))
+                .thenThrow(new MemberNotFoundException(errorMessage));
+
+        // when, then
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/members/{memberId}", unknownMemberId)
+                .header("Content-Type", "application/json"))
+            .andExpect(MockMvcResultMatchers.status().isNotFound())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.message").value(errorMessage));
+    }
 
 }
