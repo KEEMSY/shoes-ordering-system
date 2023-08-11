@@ -5,17 +5,17 @@
  */
 package com.shoes.ordering.system.common.kafka.model;
 
-import org.apache.avro.specific.SpecificData;
-import org.apache.avro.message.BinaryMessageEncoder;
 import org.apache.avro.message.BinaryMessageDecoder;
+import org.apache.avro.message.BinaryMessageEncoder;
 import org.apache.avro.message.SchemaStore;
+import org.apache.avro.specific.SpecificData;
 
 @org.apache.avro.specific.AvroGenerated
 public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 5603485246620664542L;
+  private static final long serialVersionUID = -3070523704174912405L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"MemberAddress\",\"namespace\":\"com.shoes.ordering.system\",\"fields\":[{\"name\":\"street\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"city\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"state\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"postalCode\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"MemberAddress\",\"namespace\":\"com.shoes.ordering.system\",\"fields\":[{\"name\":\"street\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"city\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"postalCode\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -71,10 +71,9 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
     return DECODER.decode(b);
   }
 
-  private java.lang.String street;
-  private java.lang.String city;
-  private java.lang.String state;
-  private java.lang.String postalCode;
+  private String street;
+  private String city;
+  private String postalCode;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -87,30 +86,27 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
    * All-args constructor.
    * @param street The new value for street
    * @param city The new value for city
-   * @param state The new value for state
    * @param postalCode The new value for postalCode
    */
-  public MemberAddress(java.lang.String street, java.lang.String city, java.lang.String state, java.lang.String postalCode) {
+  public MemberAddress(String street, String city, String postalCode) {
     this.street = street;
     this.city = city;
-    this.state = state;
     this.postalCode = postalCode;
   }
 
   @Override
-  public org.apache.avro.specific.SpecificData getSpecificData() { return MODEL$; }
+  public SpecificData getSpecificData() { return MODEL$; }
 
   @Override
   public org.apache.avro.Schema getSchema() { return SCHEMA$; }
 
   // Used by DatumWriter.  Applications should not call.
   @Override
-  public java.lang.Object get(int field$) {
+  public Object get(int field$) {
     switch (field$) {
     case 0: return street;
     case 1: return city;
-    case 2: return state;
-    case 3: return postalCode;
+    case 2: return postalCode;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -118,12 +114,11 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
   // Used by DatumReader.  Applications should not call.
   @Override
   @SuppressWarnings(value="unchecked")
-  public void put(int field$, java.lang.Object value$) {
+  public void put(int field$, Object value$) {
     switch (field$) {
     case 0: street = value$ != null ? value$.toString() : null; break;
     case 1: city = value$ != null ? value$.toString() : null; break;
-    case 2: state = value$ != null ? value$.toString() : null; break;
-    case 3: postalCode = value$ != null ? value$.toString() : null; break;
+    case 2: postalCode = value$ != null ? value$.toString() : null; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -132,7 +127,7 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
    * Gets the value of the 'street' field.
    * @return The value of the 'street' field.
    */
-  public java.lang.String getStreet() {
+  public String getStreet() {
     return street;
   }
 
@@ -141,7 +136,7 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
    * Sets the value of the 'street' field.
    * @param value the value to set.
    */
-  public void setStreet(java.lang.String value) {
+  public void setStreet(String value) {
     this.street = value;
   }
 
@@ -149,7 +144,7 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
    * Gets the value of the 'city' field.
    * @return The value of the 'city' field.
    */
-  public java.lang.String getCity() {
+  public String getCity() {
     return city;
   }
 
@@ -158,32 +153,15 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
    * Sets the value of the 'city' field.
    * @param value the value to set.
    */
-  public void setCity(java.lang.String value) {
+  public void setCity(String value) {
     this.city = value;
-  }
-
-  /**
-   * Gets the value of the 'state' field.
-   * @return The value of the 'state' field.
-   */
-  public java.lang.String getState() {
-    return state;
-  }
-
-
-  /**
-   * Sets the value of the 'state' field.
-   * @param value the value to set.
-   */
-  public void setState(java.lang.String value) {
-    this.state = value;
   }
 
   /**
    * Gets the value of the 'postalCode' field.
    * @return The value of the 'postalCode' field.
    */
-  public java.lang.String getPostalCode() {
+  public String getPostalCode() {
     return postalCode;
   }
 
@@ -192,7 +170,7 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
    * Sets the value of the 'postalCode' field.
    * @param value the value to set.
    */
-  public void setPostalCode(java.lang.String value) {
+  public void setPostalCode(String value) {
     this.postalCode = value;
   }
 
@@ -237,10 +215,9 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<MemberAddress>
     implements org.apache.avro.data.RecordBuilder<MemberAddress> {
 
-    private java.lang.String street;
-    private java.lang.String city;
-    private java.lang.String state;
-    private java.lang.String postalCode;
+    private String street;
+    private String city;
+    private String postalCode;
 
     /** Creates a new Builder */
     private Builder() {
@@ -261,13 +238,9 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
         this.city = data().deepCopy(fields()[1].schema(), other.city);
         fieldSetFlags()[1] = other.fieldSetFlags()[1];
       }
-      if (isValidValue(fields()[2], other.state)) {
-        this.state = data().deepCopy(fields()[2].schema(), other.state);
+      if (isValidValue(fields()[2], other.postalCode)) {
+        this.postalCode = data().deepCopy(fields()[2].schema(), other.postalCode);
         fieldSetFlags()[2] = other.fieldSetFlags()[2];
-      }
-      if (isValidValue(fields()[3], other.postalCode)) {
-        this.postalCode = data().deepCopy(fields()[3].schema(), other.postalCode);
-        fieldSetFlags()[3] = other.fieldSetFlags()[3];
       }
     }
 
@@ -285,13 +258,9 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
         this.city = data().deepCopy(fields()[1].schema(), other.city);
         fieldSetFlags()[1] = true;
       }
-      if (isValidValue(fields()[2], other.state)) {
-        this.state = data().deepCopy(fields()[2].schema(), other.state);
+      if (isValidValue(fields()[2], other.postalCode)) {
+        this.postalCode = data().deepCopy(fields()[2].schema(), other.postalCode);
         fieldSetFlags()[2] = true;
-      }
-      if (isValidValue(fields()[3], other.postalCode)) {
-        this.postalCode = data().deepCopy(fields()[3].schema(), other.postalCode);
-        fieldSetFlags()[3] = true;
       }
     }
 
@@ -299,7 +268,7 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
       * Gets the value of the 'street' field.
       * @return The value.
       */
-    public java.lang.String getStreet() {
+    public String getStreet() {
       return street;
     }
 
@@ -309,7 +278,7 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
       * @param value The value of 'street'.
       * @return This builder.
       */
-    public MemberAddress.Builder setStreet(java.lang.String value) {
+    public MemberAddress.Builder setStreet(String value) {
       validate(fields()[0], value);
       this.street = value;
       fieldSetFlags()[0] = true;
@@ -339,7 +308,7 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
       * Gets the value of the 'city' field.
       * @return The value.
       */
-    public java.lang.String getCity() {
+    public String getCity() {
       return city;
     }
 
@@ -349,7 +318,7 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
       * @param value The value of 'city'.
       * @return This builder.
       */
-    public MemberAddress.Builder setCity(java.lang.String value) {
+    public MemberAddress.Builder setCity(String value) {
       validate(fields()[1], value);
       this.city = value;
       fieldSetFlags()[1] = true;
@@ -376,50 +345,10 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
     }
 
     /**
-      * Gets the value of the 'state' field.
-      * @return The value.
-      */
-    public java.lang.String getState() {
-      return state;
-    }
-
-
-    /**
-      * Sets the value of the 'state' field.
-      * @param value The value of 'state'.
-      * @return This builder.
-      */
-    public MemberAddress.Builder setState(java.lang.String value) {
-      validate(fields()[2], value);
-      this.state = value;
-      fieldSetFlags()[2] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'state' field has been set.
-      * @return True if the 'state' field has been set, false otherwise.
-      */
-    public boolean hasState() {
-      return fieldSetFlags()[2];
-    }
-
-
-    /**
-      * Clears the value of the 'state' field.
-      * @return This builder.
-      */
-    public MemberAddress.Builder clearState() {
-      state = null;
-      fieldSetFlags()[2] = false;
-      return this;
-    }
-
-    /**
       * Gets the value of the 'postalCode' field.
       * @return The value.
       */
-    public java.lang.String getPostalCode() {
+    public String getPostalCode() {
       return postalCode;
     }
 
@@ -429,10 +358,10 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
       * @param value The value of 'postalCode'.
       * @return This builder.
       */
-    public MemberAddress.Builder setPostalCode(java.lang.String value) {
-      validate(fields()[3], value);
+    public MemberAddress.Builder setPostalCode(String value) {
+      validate(fields()[2], value);
       this.postalCode = value;
-      fieldSetFlags()[3] = true;
+      fieldSetFlags()[2] = true;
       return this;
     }
 
@@ -441,7 +370,7 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
       * @return True if the 'postalCode' field has been set, false otherwise.
       */
     public boolean hasPostalCode() {
-      return fieldSetFlags()[3];
+      return fieldSetFlags()[2];
     }
 
 
@@ -451,7 +380,7 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
       */
     public MemberAddress.Builder clearPostalCode() {
       postalCode = null;
-      fieldSetFlags()[3] = false;
+      fieldSetFlags()[2] = false;
       return this;
     }
 
@@ -460,14 +389,13 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
     public MemberAddress build() {
       try {
         MemberAddress record = new MemberAddress();
-        record.street = fieldSetFlags()[0] ? this.street : (java.lang.String) defaultValue(fields()[0]);
-        record.city = fieldSetFlags()[1] ? this.city : (java.lang.String) defaultValue(fields()[1]);
-        record.state = fieldSetFlags()[2] ? this.state : (java.lang.String) defaultValue(fields()[2]);
-        record.postalCode = fieldSetFlags()[3] ? this.postalCode : (java.lang.String) defaultValue(fields()[3]);
+        record.street = fieldSetFlags()[0] ? this.street : (String) defaultValue(fields()[0]);
+        record.city = fieldSetFlags()[1] ? this.city : (String) defaultValue(fields()[1]);
+        record.postalCode = fieldSetFlags()[2] ? this.postalCode : (String) defaultValue(fields()[2]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
-      } catch (java.lang.Exception e) {
+      } catch (Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);
       }
     }
@@ -500,8 +428,6 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
 
     out.writeString(this.city);
 
-    out.writeString(this.state);
-
     out.writeString(this.postalCode);
 
   }
@@ -515,12 +441,10 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
 
       this.city = in.readString();
 
-      this.state = in.readString();
-
       this.postalCode = in.readString();
 
     } else {
-      for (int i = 0; i < 4; i++) {
+      for (int i = 0; i < 3; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
           this.street = in.readString();
@@ -531,10 +455,6 @@ public class MemberAddress extends org.apache.avro.specific.SpecificRecordBase i
           break;
 
         case 2:
-          this.state = in.readString();
-          break;
-
-        case 3:
           this.postalCode = in.readString();
           break;
 
