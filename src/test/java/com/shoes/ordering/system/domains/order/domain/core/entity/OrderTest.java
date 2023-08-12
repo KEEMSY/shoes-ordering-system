@@ -4,7 +4,6 @@ import com.shoes.ordering.system.domains.common.valueobject.Money;
 import com.shoes.ordering.system.domains.common.valueobject.StreetAddress;
 import com.shoes.ordering.system.domains.member.domain.core.valueobject.MemberId;
 import com.shoes.ordering.system.domains.order.domain.core.exception.OrderDomainException;
-import com.shoes.ordering.system.domains.order.domain.core.valueobject.OrderId;
 import com.shoes.ordering.system.domains.order.domain.core.valueobject.OrderStatus;
 import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
@@ -24,47 +23,40 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class OrderTest {
 
-    private OrderId orderId;
     private MemberId memberId;
     private StreetAddress deliveryAddress;
     private Money orderPrice;
-    private Money productPrice;
 
     private List<OrderItem> items;
     private TrackingId trackingId;
-    private OrderStatus orderStatus;
     private List<String> failureMessages;
 
     @BeforeEach
     void setUp() {
-        orderId = new OrderId(UUID.randomUUID());
         memberId = new MemberId(UUID.randomUUID());
         deliveryAddress = new StreetAddress(UUID.randomUUID(), "123 Street", "99999", "City");
-        orderPrice = new Money(new BigDecimal("0.00"));
         items = new ArrayList<OrderItem>();
         trackingId = new TrackingId(UUID.randomUUID());
-        orderStatus = OrderStatus.PENDING;
         failureMessages = new ArrayList<String>();
+
+        items.add(createOrderItem());
     }
 
     @Test
     @DisplayName("정상 Order 생성 확인")
     void testInitializeOrder() {
         // given
-        items.add(createOrderItem());
-
         Order order = Order.builder()
-                .id(orderId)
                 .memberId(memberId)
                 .deliveryAddress(deliveryAddress)
                 .price(orderPrice)
                 .items(items)
                 .trackingId(trackingId)
-                .orderStatus(orderStatus)
                 .failureMessages(failureMessages)
                 .build();
 
         // when
+        order.validateOrder();
         order.initializeOrder();
 
         // then
@@ -84,18 +76,17 @@ class OrderTest {
     @DisplayName("정상 pay 확인")
     void payTest() {
         // given
-        items.add(createOrderItem());
-
         Order order = Order.builder()
-                .id(orderId)
                 .memberId(memberId)
                 .deliveryAddress(deliveryAddress)
                 .price(orderPrice)
                 .items(items)
                 .trackingId(trackingId)
-                .orderStatus(OrderStatus.PENDING)
                 .failureMessages(failureMessages)
                 .build();
+
+        order.validateOrder();
+        order.initializeOrder();
 
         // when
         order.pay();
@@ -108,18 +99,17 @@ class OrderTest {
     @DisplayName("정상 pay 에러 확인1: pay 는 한번만 가능하다.")
     void payErrorTest1() {
         // given
-        items.add(createOrderItem());
-
         Order order = Order.builder()
-                .id(orderId)
                 .memberId(memberId)
                 .deliveryAddress(deliveryAddress)
                 .price(orderPrice)
                 .items(items)
                 .trackingId(trackingId)
-                .orderStatus(OrderStatus.PENDING)
                 .failureMessages(failureMessages)
                 .build();
+
+        order.validateOrder();
+        order.initializeOrder();
         order.pay();
 
         // when, then
@@ -131,16 +121,16 @@ class OrderTest {
     void approveTest() {
         // given
         Order order = Order.builder()
-                .id(orderId)
                 .memberId(memberId)
                 .deliveryAddress(deliveryAddress)
                 .price(orderPrice)
                 .items(items)
                 .trackingId(trackingId)
-                .orderStatus(OrderStatus.PENDING)
                 .failureMessages(failureMessages)
                 .build();
 
+        order.validateOrder();
+        order.initializeOrder();
         order.pay();
 
         // when
@@ -155,15 +145,16 @@ class OrderTest {
     void approveErrorTest1() {
         // given
         Order order = Order.builder()
-                .id(orderId)
                 .memberId(memberId)
                 .deliveryAddress(deliveryAddress)
                 .price(orderPrice)
                 .items(items)
                 .trackingId(trackingId)
-                .orderStatus(OrderStatus.PENDING)
                 .failureMessages(failureMessages)
                 .build();
+
+        order.validateOrder();
+        order.initializeOrder();
 
         // when, then
         assertThatThrownBy(order::approve).isInstanceOf(OrderDomainException.class);
@@ -174,15 +165,16 @@ class OrderTest {
     void approveErrorTest2() {
         // given
         Order order = Order.builder()
-                .id(orderId)
                 .memberId(memberId)
                 .deliveryAddress(deliveryAddress)
                 .price(orderPrice)
                 .items(items)
                 .trackingId(trackingId)
-                .orderStatus(OrderStatus.PENDING)
                 .failureMessages(failureMessages)
                 .build();
+
+        order.validateOrder();
+        order.initializeOrder();
         order.pay();
 
         List<String> testFailureMessage = List.of("Test Cancel");
@@ -197,15 +189,16 @@ class OrderTest {
     void approveErrorTest3() {
         // given
         Order order = Order.builder()
-                .id(orderId)
                 .memberId(memberId)
                 .deliveryAddress(deliveryAddress)
                 .price(orderPrice)
                 .items(items)
                 .trackingId(trackingId)
-                .orderStatus(OrderStatus.PENDING)
                 .failureMessages(failureMessages)
                 .build();
+
+        order.validateOrder();
+        order.initializeOrder();
 
         List<String> testFailureMessage = List.of("Test Cancel");
         order.cancel(testFailureMessage);
@@ -219,16 +212,16 @@ class OrderTest {
     void initCancelTest() {
         // given
         Order order = Order.builder()
-                .id(orderId)
                 .memberId(memberId)
                 .deliveryAddress(deliveryAddress)
                 .price(orderPrice)
                 .items(items)
                 .trackingId(trackingId)
-                .orderStatus(OrderStatus.PENDING)
                 .failureMessages(failureMessages)
                 .build();
 
+        order.validateOrder();
+        order.initializeOrder();
         order.pay();
 
         // when
@@ -244,15 +237,16 @@ class OrderTest {
     void initCancelErrorTest1() {
         // given
         Order order = Order.builder()
-                .id(orderId)
                 .memberId(memberId)
                 .deliveryAddress(deliveryAddress)
                 .price(orderPrice)
                 .items(items)
                 .trackingId(trackingId)
-                .orderStatus(OrderStatus.PENDING)
                 .failureMessages(failureMessages)
                 .build();
+
+        order.validateOrder();
+        order.initializeOrder();
 
         // when, then
         List<String> testFailureMessage = List.of("Test Cancel");
@@ -266,16 +260,16 @@ class OrderTest {
     void initCancelErrorTest2() {
         // given
         Order order = Order.builder()
-                .id(orderId)
                 .memberId(memberId)
                 .deliveryAddress(deliveryAddress)
                 .price(orderPrice)
                 .items(items)
                 .trackingId(trackingId)
-                .orderStatus(OrderStatus.PENDING)
                 .failureMessages(failureMessages)
                 .build();
 
+        order.validateOrder();
+        order.initializeOrder();
         order.pay();
         order.approve();
 
@@ -291,15 +285,16 @@ class OrderTest {
     void cancelTest1() {
         // given
         Order order = Order.builder()
-                .id(orderId)
                 .memberId(memberId)
                 .deliveryAddress(deliveryAddress)
                 .price(orderPrice)
                 .items(items)
                 .trackingId(trackingId)
-                .orderStatus(OrderStatus.PENDING)
                 .failureMessages(failureMessages)
                 .build();
+
+        order.validateOrder();
+        order.initializeOrder();
 
         // when
         List<String> testFailureMessage = List.of("Test Cancel");
@@ -315,16 +310,16 @@ class OrderTest {
     void cancelTest2() {
         // given
         Order order = Order.builder()
-                .id(orderId)
                 .memberId(memberId)
                 .deliveryAddress(deliveryAddress)
                 .price(orderPrice)
                 .items(items)
                 .trackingId(trackingId)
-                .orderStatus(OrderStatus.PENDING)
                 .failureMessages(failureMessages)
                 .build();
 
+        order.validateOrder();
+        order.initializeOrder();
         order.pay();
 
         List<String> testInitFailureMessage = List.of("Test InitCancel");
@@ -344,16 +339,16 @@ class OrderTest {
     void cancelErrorTest() {
         // given
         Order order = Order.builder()
-                .id(orderId)
                 .memberId(memberId)
                 .deliveryAddress(deliveryAddress)
                 .price(orderPrice)
                 .items(items)
                 .trackingId(trackingId)
-                .orderStatus(OrderStatus.PENDING)
                 .failureMessages(failureMessages)
                 .build();
 
+        order.validateOrder();
+        order.initializeOrder();
         order.pay();
         order.approve();
 
@@ -365,7 +360,7 @@ class OrderTest {
 
     private OrderItem createOrderItem() {
         int quantity = 2;
-        productPrice = new Money(new BigDecimal("100.00"));
+        Money productPrice = new Money(new BigDecimal("100.00"));
         Product product = Product.builder()
                 .productId(new ProductId(UUID.randomUUID()))
                 .name("Test name")
@@ -374,7 +369,8 @@ class OrderTest {
                 .price(productPrice)
                 .build();
 
-        orderPrice.add(productPrice.multiply(quantity));
+        orderPrice = new Money(new BigDecimal("00.00"));
+        orderPrice = orderPrice.add(productPrice.multiply(quantity));
 
         return OrderItem.builder()
                 .product(product)
