@@ -6,6 +6,8 @@ import com.shoes.ordering.system.domains.order.domain.core.entity.Order;
 import com.shoes.ordering.system.domains.order.domain.core.entity.OrderItem;
 import com.shoes.ordering.system.domains.order.domain.core.entity.TrackingId;
 import com.shoes.ordering.system.domains.order.domain.core.event.OrderCreatedEvent;
+import com.shoes.ordering.system.domains.order.domain.core.event.OrderPaidEvent;
+import com.shoes.ordering.system.domains.order.domain.core.valueobject.OrderStatus;
 import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductId;
@@ -85,7 +87,27 @@ class OrderDomainServiceImplTest {
     }
 
     @Test
+    @DisplayName("정상 OrderPaidEvent 생성 확인")
     void payOrder() {
+        // given
+        Order order = Order.builder()
+                .deliveryAddress(deliveryAddress)
+                .price(orderPrice)
+                .items(items)
+                .trackingId(trackingId)
+                .failureMessages(failureMessages)
+                .build();
+
+        Order createdOrder = orderDomainService.validateAndInitiateOrder(order).getOrder();
+
+        // when
+        OrderPaidEvent orderPaidEvent = orderDomainService.payOrder(createdOrder);
+
+        // then
+        assertThat(orderPaidEvent).isNotNull();
+        assertThat(orderPaidEvent.getOrder()).isEqualTo(order);
+        assertThat(orderPaidEvent.getOrder().getOrderStatus()).isEqualTo(OrderStatus.PAID);
+        assertThat(orderPaidEvent.getCreatedAt()).isNotNull();
     }
 
     @Test
