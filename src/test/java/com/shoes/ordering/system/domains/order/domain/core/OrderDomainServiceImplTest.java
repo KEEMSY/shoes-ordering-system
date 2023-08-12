@@ -5,6 +5,7 @@ import com.shoes.ordering.system.domains.common.valueobject.StreetAddress;
 import com.shoes.ordering.system.domains.order.domain.core.entity.Order;
 import com.shoes.ordering.system.domains.order.domain.core.entity.OrderItem;
 import com.shoes.ordering.system.domains.order.domain.core.entity.TrackingId;
+import com.shoes.ordering.system.domains.order.domain.core.event.OrderCancelledEvent;
 import com.shoes.ordering.system.domains.order.domain.core.event.OrderCreatedEvent;
 import com.shoes.ordering.system.domains.order.domain.core.event.OrderPaidEvent;
 import com.shoes.ordering.system.domains.order.domain.core.valueobject.OrderStatus;
@@ -133,7 +134,33 @@ class OrderDomainServiceImplTest {
     }
 
     @Test
+    @DisplayName("정상 cancelOrder 확인")
     void cancelOrderPayment() {
+        // given
+        Order order = Order.builder()
+                .deliveryAddress(deliveryAddress)
+                .price(orderPrice)
+                .items(items)
+                .trackingId(trackingId)
+                .failureMessages(failureMessages)
+                .build();
+
+        Order createdOrder = orderDomainService.validateAndInitiateOrder(order).getOrder();
+        Order paidOrder = orderDomainService.payOrder(createdOrder).getOrder();
+
+        List<String> cancelFailureMessages = new ArrayList<>();
+        cancelFailureMessages.add("Test Cancelling Order");
+
+        // when
+        OrderCancelledEvent orderCancelledEvent = orderDomainService.cancelOrderPayment(paidOrder, cancelFailureMessages);
+
+        // then
+        assertThat(orderCancelledEvent).isNotNull();
+        assertThat(orderCancelledEvent.getOrder()).isEqualTo(paidOrder);
+        assertThat(orderCancelledEvent.getCreatedAt()).isNotNull();
+        assertThat(paidOrder.getOrderStatus()).isEqualTo(OrderStatus.CANCELLING);
+        assertThat(paidOrder.getFailureMessages().size()).isEqualTo(1);
+        assertThat(paidOrder.getFailureMessages().get(0)).isEqualTo("Test Cancelling Order");
     }
 
     @Test
