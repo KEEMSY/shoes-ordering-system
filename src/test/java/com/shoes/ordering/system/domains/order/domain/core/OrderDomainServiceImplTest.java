@@ -111,7 +111,25 @@ class OrderDomainServiceImplTest {
     }
 
     @Test
+    @DisplayName("정상 Order approve 확인")
     void approveOrder() {
+        // given
+        Order order = Order.builder()
+                .deliveryAddress(deliveryAddress)
+                .price(orderPrice)
+                .items(items)
+                .trackingId(trackingId)
+                .failureMessages(failureMessages)
+                .build();
+
+        Order createdOrder = orderDomainService.validateAndInitiateOrder(order).getOrder();
+        Order paidOrder = orderDomainService.payOrder(createdOrder).getOrder();
+
+        // when
+        orderDomainService.approveOrder(paidOrder);
+
+        // then
+        assertThat(paidOrder.getOrderStatus()).isEqualTo(OrderStatus.APPROVED);
     }
 
     @Test
