@@ -68,7 +68,7 @@ class OrderDomainServiceImplTest {
 
     @Test
     @DisplayName("정상 OrderCreatedEvent 생성 확인")
-    void validateAndInitiateOrder() {
+    void validateAndInitiateOrderTest() {
         // given
         Order order = Order.builder()
                 .deliveryAddress(deliveryAddress)
@@ -89,7 +89,7 @@ class OrderDomainServiceImplTest {
 
     @Test
     @DisplayName("정상 OrderPaidEvent 생성 확인")
-    void payOrder() {
+    void payOrderTest() {
         // given
         Order order = Order.builder()
                 .deliveryAddress(deliveryAddress)
@@ -113,7 +113,7 @@ class OrderDomainServiceImplTest {
 
     @Test
     @DisplayName("정상 Order approve 확인")
-    void approveOrder() {
+    void approveOrderTest() {
         // given
         Order order = Order.builder()
                 .deliveryAddress(deliveryAddress)
@@ -135,7 +135,7 @@ class OrderDomainServiceImplTest {
 
     @Test
     @DisplayName("정상 cancelOrder 확인")
-    void cancelOrderPayment() {
+    void cancelOrderPaymentTest() {
         // given
         Order order = Order.builder()
                 .deliveryAddress(deliveryAddress)
@@ -164,6 +164,55 @@ class OrderDomainServiceImplTest {
     }
 
     @Test
-    void cancelOrder() {
+    @DisplayName("정상 cancelOrder 확인1: PENDING 상태")
+    void cancelOrderTest1() {
+        // given
+        Order order = Order.builder()
+                .deliveryAddress(deliveryAddress)
+                .price(orderPrice)
+                .items(items)
+                .trackingId(trackingId)
+                .failureMessages(failureMessages)
+                .build();
+
+        Order createdOrder = orderDomainService.validateAndInitiateOrder(order).getOrder();
+
+        List<String> cancelFailureMessages = new ArrayList<>();
+        cancelFailureMessages.add("Test Cancelled Order");
+
+        // when
+        orderDomainService.cancelOrder(createdOrder, cancelFailureMessages);
+
+        // then
+        assertThat(createdOrder.getOrderStatus()).isEqualTo(OrderStatus.CANCELLED);
+        assertThat(createdOrder.getFailureMessages().get(0)).isEqualTo("Test Cancelled Order");
+    }
+
+    @Test
+    @DisplayName("정상 cancelOrder 확인1: CANCELLING 상태")
+    void cancelOrderTest2() {
+        // given
+        Order order = Order.builder()
+                .deliveryAddress(deliveryAddress)
+                .price(orderPrice)
+                .items(items)
+                .trackingId(trackingId)
+                .failureMessages(failureMessages)
+                .build();
+
+        Order createdOrder = orderDomainService.validateAndInitiateOrder(order).getOrder();
+        Order paidOrder = orderDomainService.payOrder(createdOrder).getOrder();
+
+        List<String> cancelFailureMessages = new ArrayList<>();
+        cancelFailureMessages.add("Test Cancelled Order");
+        orderDomainService.cancelOrderPayment(paidOrder, cancelFailureMessages);
+
+
+        // when
+        orderDomainService.cancelOrder(createdOrder, cancelFailureMessages);
+
+        // then
+        assertThat(createdOrder.getOrderStatus()).isEqualTo(OrderStatus.CANCELLED);
+        assertThat(createdOrder.getFailureMessages().get(0)).isEqualTo("Test Cancelled Order");
     }
 }
