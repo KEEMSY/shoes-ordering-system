@@ -6,15 +6,21 @@ import com.shoes.ordering.system.domains.order.domain.core.event.OrderCreatedEve
 import com.shoes.ordering.system.domains.order.domain.core.event.OrderPaidEvent;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
+
+import static com.shoes.ordering.system.domains.common.config.DomainConstants.UTC;
 
 @Slf4j
 public class OrderDomainServiceImpl implements OrderDomainService{
 
 
-    @Override
     public OrderCreatedEvent validateAndInitiateOrder(Order order) {
-        return null;
+        order.validateOrder();
+        order.initializeOrder();
+        log.info("Order with id: {} is initiated", order.getId().getValue());
+        return new OrderCreatedEvent(order, ZonedDateTime.now(ZoneId.of(UTC)));
     }
 
     @Override
