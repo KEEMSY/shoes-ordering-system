@@ -47,14 +47,7 @@ class OrderTest {
     @DisplayName("정상 Order 생성 확인")
     void testInitializeOrder() {
         // given
-        Order order = Order.builder()
-                .memberId(memberId)
-                .deliveryAddress(deliveryAddress)
-                .price(orderPrice)
-                .items(items)
-                .trackingId(trackingId)
-                .failureMessages(failureMessages)
-                .build();
+        Order order = createOrder();
 
         // when
         order.validateOrder();
@@ -77,14 +70,7 @@ class OrderTest {
     @DisplayName("정상 pay 확인")
     void payTest() {
         // given
-        Order order = Order.builder()
-                .memberId(memberId)
-                .deliveryAddress(deliveryAddress)
-                .price(orderPrice)
-                .items(items)
-                .trackingId(trackingId)
-                .failureMessages(failureMessages)
-                .build();
+        Order order = createOrder();
 
         order.validateOrder();
         order.initializeOrder();
@@ -100,14 +86,7 @@ class OrderTest {
     @DisplayName("정상 pay 에러 확인1: pay 는 한번만 가능하다.")
     void payErrorTest1() {
         // given
-        Order order = Order.builder()
-                .memberId(memberId)
-                .deliveryAddress(deliveryAddress)
-                .price(orderPrice)
-                .items(items)
-                .trackingId(trackingId)
-                .failureMessages(failureMessages)
-                .build();
+        Order order = createOrder();
 
         order.validateOrder();
         order.initializeOrder();
@@ -121,14 +100,7 @@ class OrderTest {
     @DisplayName("정상 approve 확인")
     void approveTest() {
         // given
-        Order order = Order.builder()
-                .memberId(memberId)
-                .deliveryAddress(deliveryAddress)
-                .price(orderPrice)
-                .items(items)
-                .trackingId(trackingId)
-                .failureMessages(failureMessages)
-                .build();
+        Order order = createOrder();
 
         order.validateOrder();
         order.initializeOrder();
@@ -145,14 +117,7 @@ class OrderTest {
     @DisplayName("정상 approve 에러 확인1: PENDING 상태에서는 approve 가 불가능하다.")
     void approveErrorTest1() {
         // given
-        Order order = Order.builder()
-                .memberId(memberId)
-                .deliveryAddress(deliveryAddress)
-                .price(orderPrice)
-                .items(items)
-                .trackingId(trackingId)
-                .failureMessages(failureMessages)
-                .build();
+        Order order = createOrder();
 
         order.validateOrder();
         order.initializeOrder();
@@ -165,14 +130,7 @@ class OrderTest {
     @DisplayName("정상 approve 에러 확인2: CANCELLING 상태에서는 approve 가 불가능하다.")
     void approveErrorTest2() {
         // given
-        Order order = Order.builder()
-                .memberId(memberId)
-                .deliveryAddress(deliveryAddress)
-                .price(orderPrice)
-                .items(items)
-                .trackingId(trackingId)
-                .failureMessages(failureMessages)
-                .build();
+        Order order = createOrder();
 
         order.validateOrder();
         order.initializeOrder();
@@ -189,14 +147,7 @@ class OrderTest {
     @DisplayName("정상 approve 에러 확인3: CANCELLED 상태에서는 approve 가 불가능하다.")
     void approveErrorTest3() {
         // given
-        Order order = Order.builder()
-                .memberId(memberId)
-                .deliveryAddress(deliveryAddress)
-                .price(orderPrice)
-                .items(items)
-                .trackingId(trackingId)
-                .failureMessages(failureMessages)
-                .build();
+        Order order = createOrder();
 
         order.validateOrder();
         order.initializeOrder();
@@ -212,14 +163,7 @@ class OrderTest {
     @DisplayName("정상 CANCELLING 확인: PAID 상테만 취소 대기 상태를 만들 수 있다.")
     void initCancelTest() {
         // given
-        Order order = Order.builder()
-                .memberId(memberId)
-                .deliveryAddress(deliveryAddress)
-                .price(orderPrice)
-                .items(items)
-                .trackingId(trackingId)
-                .failureMessages(failureMessages)
-                .build();
+        Order order = createOrder();
 
         order.validateOrder();
         order.initializeOrder();
@@ -237,14 +181,7 @@ class OrderTest {
     @DisplayName("정상 CANCELLING 에러 확인1: PENDING 상태는 CANCELLING 상태가 될 수 없다.")
     void initCancelErrorTest1() {
         // given
-        Order order = Order.builder()
-                .memberId(memberId)
-                .deliveryAddress(deliveryAddress)
-                .price(orderPrice)
-                .items(items)
-                .trackingId(trackingId)
-                .failureMessages(failureMessages)
-                .build();
+        Order order = createOrder();
 
         order.validateOrder();
         order.initializeOrder();
@@ -260,14 +197,7 @@ class OrderTest {
     @DisplayName("정상 CANCELLING 에러 확인2: APPROVED 상태는 CANCELLING 상태가 될 수 없다.")
     void initCancelErrorTest2() {
         // given
-        Order order = Order.builder()
-                .memberId(memberId)
-                .deliveryAddress(deliveryAddress)
-                .price(orderPrice)
-                .items(items)
-                .trackingId(trackingId)
-                .failureMessages(failureMessages)
-                .build();
+        Order order = createOrder();
 
         order.validateOrder();
         order.initializeOrder();
@@ -285,14 +215,7 @@ class OrderTest {
     @DisplayName("정상 cancel 확인1: PENDING 상태에서 정상 cancel 확인")
     void cancelTest1() {
         // given
-        Order order = Order.builder()
-                .memberId(memberId)
-                .deliveryAddress(deliveryAddress)
-                .price(orderPrice)
-                .items(items)
-                .trackingId(trackingId)
-                .failureMessages(failureMessages)
-                .build();
+        Order order = createOrder();
 
         order.validateOrder();
         order.initializeOrder();
@@ -310,14 +233,7 @@ class OrderTest {
     @DisplayName("정상 cancel 확인1: CANCELLED 상태에서 정상 cancel 확인")
     void cancelTest2() {
         // given
-        Order order = Order.builder()
-                .memberId(memberId)
-                .deliveryAddress(deliveryAddress)
-                .price(orderPrice)
-                .items(items)
-                .trackingId(trackingId)
-                .failureMessages(failureMessages)
-                .build();
+        Order order = createOrder();
 
         order.validateOrder();
         order.initializeOrder();
@@ -339,14 +255,7 @@ class OrderTest {
     @DisplayName("정상 cancel 에러 확인: APPROVED 상태는 cancel 할 수 없다.")
     void cancelErrorTest() {
         // given
-        Order order = Order.builder()
-                .memberId(memberId)
-                .deliveryAddress(deliveryAddress)
-                .price(orderPrice)
-                .items(items)
-                .trackingId(trackingId)
-                .failureMessages(failureMessages)
-                .build();
+        Order order = createOrder();
 
         order.validateOrder();
         order.initializeOrder();
@@ -378,6 +287,17 @@ class OrderTest {
                 .quantity(quantity)
                 .price(productPrice)
                 .subTotal(productPrice.multiply(quantity))
+                .build();
+    }
+
+    private Order createOrder() {
+        return Order.builder()
+                .memberId(memberId)
+                .deliveryAddress(deliveryAddress)
+                .price(orderPrice)
+                .items(items)
+                .trackingId(trackingId)
+                .failureMessages(failureMessages)
                 .build();
     }
 }
