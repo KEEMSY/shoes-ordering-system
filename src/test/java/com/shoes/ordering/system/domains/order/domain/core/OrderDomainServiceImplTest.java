@@ -66,17 +66,21 @@ class OrderDomainServiceImplTest {
                 .build();
     }
 
-    @Test
-    @DisplayName("정상 OrderCreatedEvent 생성 확인")
-    void validateAndInitiateOrderTest() {
-        // given
-        Order order = Order.builder()
+    private Order createOrder() {
+        return Order.builder()
                 .deliveryAddress(deliveryAddress)
                 .price(orderPrice)
                 .items(items)
                 .trackingId(trackingId)
                 .failureMessages(failureMessages)
                 .build();
+    }
+
+    @Test
+    @DisplayName("정상 OrderCreatedEvent 생성 확인")
+    void validateAndInitiateOrderTest() {
+        // given
+        Order order = createOrder();
 
         // when
         OrderCreatedEvent orderCreatedEvent = orderDomainService.validateAndInitiateOrder(order);
@@ -91,13 +95,7 @@ class OrderDomainServiceImplTest {
     @DisplayName("정상 OrderPaidEvent 생성 확인")
     void payOrderTest() {
         // given
-        Order order = Order.builder()
-                .deliveryAddress(deliveryAddress)
-                .price(orderPrice)
-                .items(items)
-                .trackingId(trackingId)
-                .failureMessages(failureMessages)
-                .build();
+        Order order = createOrder();
 
         Order createdOrder = orderDomainService.validateAndInitiateOrder(order).getOrder();
 
@@ -115,13 +113,7 @@ class OrderDomainServiceImplTest {
     @DisplayName("정상 Order approve 확인")
     void approveOrderTest() {
         // given
-        Order order = Order.builder()
-                .deliveryAddress(deliveryAddress)
-                .price(orderPrice)
-                .items(items)
-                .trackingId(trackingId)
-                .failureMessages(failureMessages)
-                .build();
+        Order order = createOrder();
 
         Order createdOrder = orderDomainService.validateAndInitiateOrder(order).getOrder();
         Order paidOrder = orderDomainService.payOrder(createdOrder).getOrder();
@@ -137,13 +129,7 @@ class OrderDomainServiceImplTest {
     @DisplayName("정상 cancelOrder 확인")
     void cancelOrderPaymentTest() {
         // given
-        Order order = Order.builder()
-                .deliveryAddress(deliveryAddress)
-                .price(orderPrice)
-                .items(items)
-                .trackingId(trackingId)
-                .failureMessages(failureMessages)
-                .build();
+        Order order = createOrder();
 
         Order createdOrder = orderDomainService.validateAndInitiateOrder(order).getOrder();
         Order paidOrder = orderDomainService.payOrder(createdOrder).getOrder();
@@ -167,13 +153,7 @@ class OrderDomainServiceImplTest {
     @DisplayName("정상 cancelOrder 확인1: PENDING 상태")
     void cancelOrderTest1() {
         // given
-        Order order = Order.builder()
-                .deliveryAddress(deliveryAddress)
-                .price(orderPrice)
-                .items(items)
-                .trackingId(trackingId)
-                .failureMessages(failureMessages)
-                .build();
+        Order order = createOrder();
 
         Order createdOrder = orderDomainService.validateAndInitiateOrder(order).getOrder();
 
@@ -192,13 +172,7 @@ class OrderDomainServiceImplTest {
     @DisplayName("정상 cancelOrder 확인1: CANCELLING 상태")
     void cancelOrderTest2() {
         // given
-        Order order = Order.builder()
-                .deliveryAddress(deliveryAddress)
-                .price(orderPrice)
-                .items(items)
-                .trackingId(trackingId)
-                .failureMessages(failureMessages)
-                .build();
+        Order order = createOrder();
 
         Order createdOrder = orderDomainService.validateAndInitiateOrder(order).getOrder();
         Order paidOrder = orderDomainService.payOrder(createdOrder).getOrder();
@@ -206,7 +180,6 @@ class OrderDomainServiceImplTest {
         List<String> cancelFailureMessages = new ArrayList<>();
         cancelFailureMessages.add("Test Cancelled Order");
         orderDomainService.cancelOrderPayment(paidOrder, cancelFailureMessages);
-
 
         // when
         orderDomainService.cancelOrder(createdOrder, cancelFailureMessages);
