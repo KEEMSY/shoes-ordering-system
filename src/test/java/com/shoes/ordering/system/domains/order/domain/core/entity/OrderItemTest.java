@@ -47,17 +47,21 @@ class OrderItemTest {
 
     }
 
-    @Test
-    @DisplayName("OrderItem 생성 및 초기화 확인")
-    public void testInitializeOrderItem() {
-        // given
-        OrderItem orderItem = OrderItem.builder()
+    private OrderItem createOrderItem(Money price) {
+        return OrderItem.builder()
                 .orderItemId(orderItemId)
                 .product(product)
                 .quantity(quantity)
                 .price(price)
                 .subTotal(subTotal)
                 .build();
+    }
+
+    @Test
+    @DisplayName("OrderItem 생성 및 초기화 확인")
+    void initializeOrderItemTest() {
+        // given
+        OrderItem orderItem = createOrderItem(price);
 
         // when
         orderItem.initializeOrderItem(orderId, orderItemId);
@@ -69,17 +73,35 @@ class OrderItemTest {
 
     @Test
     @DisplayName("OrderItem 가격 유효성 확인")
-    public void testIsPriceValid() {
+    void isPriceValidTest1() {
         // given
-        OrderItem orderItem = OrderItem.builder()
-                .orderItemId(orderItemId)
-                .product(product)
-                .quantity(quantity)
-                .price(price)
-                .subTotal(subTotal)
-                .build();
+        OrderItem orderItem = createOrderItem(price);
 
         // when, then
         assertThat(orderItem.isPriceValid()).isTrue();
+    }
+
+    @Test
+    @DisplayName("OrderItem 가격 유효성 확인: price 가 0 보다 작을 경우")
+    void isPriceValidTest2() {
+        // given
+        Money wrongPrice = new Money(new BigDecimal("-100.00"));
+
+        OrderItem orderItem = createOrderItem(wrongPrice);
+
+        // when, then
+        assertThat(orderItem.isPriceValid()).isFalse();
+    }
+
+    @Test
+    @DisplayName("OrderItem 가격 유효성 확인: price 가 0 일 경우")
+    void isPriceValidTest3() {
+        // given
+        Money wrongPrice = new Money(new BigDecimal("0.00"));
+
+        OrderItem orderItem = createOrderItem(wrongPrice);
+
+        // when, then
+        assertThat(orderItem.isPriceValid()).isFalse();
     }
 }
