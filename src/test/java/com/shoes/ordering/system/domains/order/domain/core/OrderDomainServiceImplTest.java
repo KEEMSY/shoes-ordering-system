@@ -4,7 +4,7 @@ import com.shoes.ordering.system.domains.common.valueobject.Money;
 import com.shoes.ordering.system.domains.common.valueobject.StreetAddress;
 import com.shoes.ordering.system.domains.order.domain.core.entity.Order;
 import com.shoes.ordering.system.domains.order.domain.core.entity.OrderItem;
-import com.shoes.ordering.system.domains.order.domain.core.entity.TrackingId;
+import com.shoes.ordering.system.domains.order.domain.core.valueobject.TrackingId;
 import com.shoes.ordering.system.domains.order.domain.core.event.OrderCancelledEvent;
 import com.shoes.ordering.system.domains.order.domain.core.event.OrderCreatedEvent;
 import com.shoes.ordering.system.domains.order.domain.core.event.OrderPaidEvent;

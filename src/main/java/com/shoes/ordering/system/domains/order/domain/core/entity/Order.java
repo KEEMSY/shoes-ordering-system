@@ -8,6 +8,7 @@ import com.shoes.ordering.system.domains.order.domain.core.exception.OrderDomain
 import com.shoes.ordering.system.domains.order.domain.core.valueobject.OrderId;
 import com.shoes.ordering.system.domains.order.domain.core.valueobject.OrderItemId;
 import com.shoes.ordering.system.domains.order.domain.core.valueobject.OrderStatus;
+import com.shoes.ordering.system.domains.order.domain.core.valueobject.TrackingId;
 
 import java.util.List;
 import java.util.UUID;

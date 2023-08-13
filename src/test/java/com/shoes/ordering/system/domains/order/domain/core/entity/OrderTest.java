@@ -5,6 +5,7 @@ import com.shoes.ordering.system.domains.common.valueobject.StreetAddress;
 import com.shoes.ordering.system.domains.member.domain.core.valueobject.MemberId;
 import com.shoes.ordering.system.domains.order.domain.core.exception.OrderDomainException;
 import com.shoes.ordering.system.domains.order.domain.core.valueobject.OrderStatus;
+import com.shoes.ordering.system.domains.order.domain.core.valueobject.TrackingId;
 import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductId;
