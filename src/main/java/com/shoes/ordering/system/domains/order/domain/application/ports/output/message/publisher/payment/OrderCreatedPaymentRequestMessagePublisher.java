@@ -2,6 +2,8 @@ package com.shoes.ordering.system.domains.order.domain.application.ports.output.
 
 import com.shoes.ordering.system.domains.common.event.publisher.DomainEventPublisher;
 import com.shoes.ordering.system.domains.order.domain.core.event.OrderCreatedEvent;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface OrderCreatedPaymentRequestMessagePublisher extends DomainEventPublisher<OrderCreatedEvent> {
 }
