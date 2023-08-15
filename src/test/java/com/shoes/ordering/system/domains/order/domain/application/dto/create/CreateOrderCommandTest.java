@@ -1,11 +1,7 @@
 package com.shoes.ordering.system.domains.order.domain.application.dto.create;
 
 
-import com.shoes.ordering.system.domains.common.valueobject.Money;
-import com.shoes.ordering.system.domains.order.domain.core.entity.OrderItem;
-import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
-import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -70,23 +66,23 @@ class CreateOrderCommandTest {
 
     private OrderItem createOrderItem() {
         int quantity = 2;
-        Money productPrice = new Money(new BigDecimal("100.00"));
-        Product product = Product.builder()
-                .productId(new ProductId(UUID.randomUUID()))
-                .name("Test name")
-                .productCategory(ProductCategory.SHOES)
-                .description("Test Description")
-                .price(productPrice)
-                .build();
 
-        Money orderPrice = new Money(new BigDecimal("00.00"));
-        orderPrice = orderPrice.add(productPrice.multiply(quantity));
+        UUID productId = UUID.randomUUID();
+        String name = "Test name";
+        ProductCategory productCategory = ProductCategory.SHOES;
+        String description = "Test Description";
+        BigDecimal productPrice = new BigDecimal("100.00");
+
+        BigDecimal subTotal = new BigDecimal("00.00");
 
         return OrderItem.builder()
-                .product(product)
+                .productId(productId)
+                .name(name)
+                .productCategory(productCategory)
+                .description(description)
                 .quantity(quantity)
                 .price(productPrice)
-                .subTotal(productPrice.multiply(quantity))
+                .subTotal(productPrice.multiply(BigDecimal.valueOf(quantity)))
                 .build();
     }
 

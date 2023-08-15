@@ -1,7 +1,6 @@
 package com.shoes.ordering.system.domains.order.domain.application.dto.create;
 
 import com.shoes.ordering.system.domains.common.validation.SelfValidating;
-import com.shoes.ordering.system.domains.order.domain.core.entity.OrderItem;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
