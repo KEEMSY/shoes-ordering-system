@@ -48,8 +48,8 @@ public class OrderCreateHelper {
     private void checkMember(UUID memberId) {
         Optional<Member> member = memberRepository.findByMemberId(memberId);
         if (member.isEmpty()) {
-            log.warn("Could not find customer with member id: {}", memberId);
-            throw new OrderDomainException("Could not find member with customer id: " + member);
+            log.warn("Could not find member with member id: {}", memberId);
+            throw new OrderDomainException("Could not find member with member id: " + member);
         }
     }
 
