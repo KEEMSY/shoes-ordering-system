@@ -6,6 +6,7 @@ import com.shoes.ordering.system.domains.member.domain.core.valueobject.MemberId
 import com.shoes.ordering.system.domains.order.domain.application.dto.create.CreateOrderCommand;
 import com.shoes.ordering.system.domains.order.domain.application.dto.create.CreateOrderResponse;
 import com.shoes.ordering.system.domains.order.domain.application.dto.create.OrderAddress;
+import com.shoes.ordering.system.domains.order.domain.application.dto.track.TrackOrderResponse;
 import com.shoes.ordering.system.domains.order.domain.core.entity.Order;
 import com.shoes.ordering.system.domains.order.domain.core.entity.OrderItem;
 import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
@@ -65,6 +66,14 @@ public class OrderDataMapper {
                 .orderTrackingId(order.getTrackingId().getValue())
                 .orderStatus(order.getOrderStatus())
                 .message(message)
+                .build();
+    }
+
+    public TrackOrderResponse orderToTrackOrderResponse(Order order) {
+        return TrackOrderResponse.builder()
+                .orderTrackingId(order.getTrackingId().getValue())
+                .orderStatus(order.getOrderStatus())
+                .failureMessages(order.getFailureMessages())
                 .build();
     }
 }
