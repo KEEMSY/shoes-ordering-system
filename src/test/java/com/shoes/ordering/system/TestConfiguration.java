@@ -10,16 +10,12 @@ import com.shoes.ordering.system.domains.product.domain.application.ports.output
 import io.confluent.kafka.schemaregistry.avro.AvroSchema;
 import io.confluent.kafka.schemaregistry.client.MockSchemaRegistryClient;
 import io.confluent.kafka.schemaregistry.client.rest.exceptions.RestClientException;
-import io.confluent.kafka.serializers.KafkaAvroDeserializer;
-import io.confluent.kafka.serializers.KafkaAvroSerializer;
+
 
 import org.mockito.Mockito;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
-import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-import org.springframework.kafka.core.DefaultKafkaProducerFactory;
-import org.springframework.kafka.core.KafkaTemplate;
+
 
 import java.io.IOException;
 
@@ -67,41 +63,5 @@ public class TestConfiguration {
         mockSchemaRegistryClient.register("payment-request", paymentRequestAvroSchema);
 
         return mockSchemaRegistryClient;
-    }
-
-    @Bean
-    KafkaAvroSerializer kafkaAvroSerializer() throws IOException, RestClientException {
-        return new KafkaAvroSerializer(schemaRegistryClient());
-    }
-
-    @Bean
-    KafkaAvroDeserializer kafkaAvroDeserializer() throws IOException, RestClientException {
-        return new KafkaAvroDeserializer(schemaRegistryClient(), kafkaConsumerConfig.consumerConfigs());
-    }
-
-    @Bean
-    DefaultKafkaProducerFactory producerFactory() throws IOException, RestClientException {
-        return new DefaultKafkaProducerFactory(
-                kafkaProducerConfig.producerConfig(),
-                new KafkaAvroSerializer(),
-                kafkaAvroSerializer()
-        );
-    }
-
-    @Bean
-    public KafkaTemplate kafkaTemplate() throws IOException, RestClientException {
-        return new KafkaTemplate<>(producerFactory());
-    }
-
-    @Bean
-    public static DefaultKafkaConsumerFactory consumerFactory() throws IOException, RestClientException {
-        return new DefaultKafkaConsumerFactory<>(kafkaConsumerConfig.consumerConfigs());
-    }
-
-    @Bean
-    public static ConcurrentKafkaListenerContainerFactory kafkaListenerContainerFactory() throws IOException, RestClientException {
-        ConcurrentKafkaListenerContainerFactory factory = new ConcurrentKafkaListenerContainerFactory();
-        factory.setConsumerFactory(consumerFactory());
-        return factory;
     }
 }
