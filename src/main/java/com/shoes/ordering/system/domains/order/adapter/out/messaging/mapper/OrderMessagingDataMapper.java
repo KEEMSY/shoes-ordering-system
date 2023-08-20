@@ -5,6 +5,7 @@ import com.shoes.ordering.system.common.kafka.model.PaymentRequestAvroModel;
 import com.shoes.ordering.system.common.kafka.model.PaymentResponseAvroModel;
 import com.shoes.ordering.system.domains.order.domain.application.dto.message.PaymentResponse;
 import com.shoes.ordering.system.domains.order.domain.core.entity.Order;
+import com.shoes.ordering.system.domains.order.domain.core.event.OrderCancelledEvent;
 import com.shoes.ordering.system.domains.order.domain.core.event.OrderCreatedEvent;
 import org.springframework.stereotype.Component;
 
@@ -36,6 +37,18 @@ public class OrderMessagingDataMapper {
                 .paymentStatus(com.shoes.ordering.system.domains.common.valueobject.PaymentStatus.valueOf(
                         paymentResponseAvroModel.getPaymentStatus().name()))
                 .failureMessages(paymentResponseAvroModel.getFailureMessages())
+                .build();
+    }
+
+    public PaymentRequestAvroModel orderCancelledEventToPaymentRequestAvroModel(OrderCancelledEvent orderCancelledEvent) {
+        Order order = orderCancelledEvent.getOrder();
+        return PaymentRequestAvroModel.newBuilder()
+                .setId(UUID.randomUUID())
+                .setMemberId(order.getMemberId().getValue())
+                .setOrderId(order.getId().getValue())
+                .setPrice(order.getPrice().getAmount())
+                .setCreatedAt(orderCancelledEvent.getCreatedAt().toInstant())
+                .setPaymentOrderStatus(PaymentOrderStatus.CANCELLED)
                 .build();
     }
 }
