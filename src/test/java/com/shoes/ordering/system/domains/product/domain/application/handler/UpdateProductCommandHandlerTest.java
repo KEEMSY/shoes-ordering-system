@@ -17,7 +17,6 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -25,8 +24,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(classes = TestConfiguration.class)
@@ -36,7 +34,7 @@ public class UpdateProductCommandHandlerTest {
     private UpdateProductCommandHandler updateProductCommandHandler;
     @Autowired
     private ProductRepository productRepository;
-    @MockBean
+    @Autowired
     private ProductUpdatedRequestMessagePublisher productUpdatedRequestMessagePublisher;
 
     private Product product;
@@ -56,6 +54,7 @@ public class UpdateProductCommandHandlerTest {
 
         when(productRepository.save(any(Product.class))).thenReturn(product);
         when(productRepository.findByProductId(product.getId().getValue())).thenReturn(Optional.of(product));
+        doNothing().when(productUpdatedRequestMessagePublisher).publish(any(ProductUpdatedEvent.class));
     }
 
     @Test
