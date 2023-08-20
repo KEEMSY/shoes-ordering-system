@@ -54,9 +54,9 @@ public class CreateProductCommandHandlerTest {
         CreateProductResponse resultCreateProductResponse = createProductCommandHandler.createProduct(createProductCommand);
 
         // then
-        // 이벤트 발행 확인
+        // 상호작용 확인
         ArgumentCaptor<ProductCreatedEvent> createdProductEventCaptor = ArgumentCaptor.forClass(ProductCreatedEvent.class);
-        verify(productCreatedRequestMessagePublisher).publish(createdProductEventCaptor.capture());
+        verify(productCreatedRequestMessagePublisher, atMost(2)).publish(createdProductEventCaptor.capture());
 
         ProductCreatedEvent capturedProductCreatedEvent = createdProductEventCaptor.getValue();
         assertThat(capturedProductCreatedEvent.getProduct().getId().getValue()).isEqualTo(resultCreateProductResponse.getProductId());

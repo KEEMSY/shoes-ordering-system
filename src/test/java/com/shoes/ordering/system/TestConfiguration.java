@@ -41,9 +41,13 @@ public class TestConfiguration {
     @Bean
     public ProductRepository productRepository() { return Mockito.mock(ProductRepository.class); }
     @Bean
-    public ProductCreatedRequestMessagePublisher productCreatedRequestMessagePublisher() { return Mockito.mock(ProductCreatedRequestMessagePublisher.class); }
+    public ProductCreatedRequestMessagePublisher productCreatedRequestMessagePublisher() {
+        return Mockito.mock(ProductCreatedRequestMessagePublisher.class);
+    }
     @Bean
-    public ProductUpdatedRequestMessagePublisher productUpdatedRequestMessagePublisher() { return Mockito.mock(ProductUpdatedRequestMessagePublisher.class); }
+    public ProductUpdatedRequestMessagePublisher productUpdatedRequestMessagePublisher() {
+        return Mockito.mock(ProductUpdatedRequestMessagePublisher.class);
+    }
 
 
     @Bean
