@@ -33,7 +33,7 @@ order-service:
 
 kafka-config:
 #  bootstrap-servers: localhost:19092, localhost:29092, localhost:39092
-  bootstrap-servers:  ${spring.embedded.kafka.brokers}
+  bootstrap-servers:  ${spring.embedded.kafka.brokers:localhost:9092}
   schema-registry-url-key: schema.registry.url
   schema-registry-url: mock://
   num-of-partitions: 1
