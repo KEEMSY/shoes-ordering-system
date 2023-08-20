@@ -1,8 +1,8 @@
 package com.shoes.ordering.system.domains.order.adapter.out.messaging.mapper;
 
-import com.shoes.ordering.system.PaymentOrderStatus;
-import com.shoes.ordering.system.PaymentRequestAvroModel;
-import com.shoes.ordering.system.PaymentResponseAvroModel;
+import com.shoes.ordering.system.common.kafka.model.PaymentOrderStatus;
+import com.shoes.ordering.system.common.kafka.model.PaymentRequestAvroModel;
+import com.shoes.ordering.system.common.kafka.model.PaymentResponseAvroModel;
 import com.shoes.ordering.system.domains.order.domain.application.dto.message.PaymentResponse;
 import com.shoes.ordering.system.domains.order.domain.core.entity.Order;
 import com.shoes.ordering.system.domains.order.domain.core.event.OrderCreatedEvent;

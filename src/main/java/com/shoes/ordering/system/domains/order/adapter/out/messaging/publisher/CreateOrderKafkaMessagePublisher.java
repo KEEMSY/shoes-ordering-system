@@ -1,6 +1,6 @@
 package com.shoes.ordering.system.domains.order.adapter.out.messaging.publisher;
 
-import com.shoes.ordering.system.PaymentRequestAvroModel;
+import com.shoes.ordering.system.common.kafka.model.PaymentRequestAvroModel;
 import com.shoes.ordering.system.common.kafka.producer.service.KafkaProducer;
 import com.shoes.ordering.system.domains.order.adapter.out.messaging.mapper.OrderMessagingDataMapper;
 import com.shoes.ordering.system.domains.order.domain.application.config.OrderServiceConfigData;
