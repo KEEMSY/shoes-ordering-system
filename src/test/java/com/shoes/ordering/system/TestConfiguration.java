@@ -9,7 +9,6 @@ import com.shoes.ordering.system.domains.order.domain.application.ports.output.r
 import com.shoes.ordering.system.domains.product.domain.application.ports.output.message.publisher.ProductCreatedRequestMessagePublisher;
 import com.shoes.ordering.system.domains.product.domain.application.ports.output.message.publisher.ProductUpdatedRequestMessagePublisher;
 import com.shoes.ordering.system.domains.product.domain.application.ports.output.repository.ProductRepository;
-import io.confluent.kafka.schemaregistry.avro.AvroSchema;
 import io.confluent.kafka.schemaregistry.client.MockSchemaRegistryClient;
 import io.confluent.kafka.schemaregistry.client.rest.exceptions.RestClientException;
 
@@ -18,8 +17,12 @@ import org.mockito.Mockito;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import org.apache.avro.Schema;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 
 @SpringBootApplication(scanBasePackages = "com.shoes.ordering.system")
@@ -69,13 +72,27 @@ public class TestConfiguration {
         MockSchemaRegistryClient mockSchemaRegistryClient = new MockSchemaRegistryClient();
 
         // 스키마 생성
-        AvroSchema paymentRequestAvroSchema = new AvroSchema("{\"type\":\"record\",\"name\":\"PaymentRequestAvroModel\",\"namespace\":\"com.shoes.ordering.system\",\"fields\":[{\"name\":\"id\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"memberId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"orderId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"price\",\"type\":{\"type\":\"bytes\",\"logicalType\":\"decimal\",\"precision\":10,\"scale\":2}},{\"name\":\"createdAt\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}},{\"name\":\"paymentOrderStatus\",\"type\":{\"type\":\"enum\",\"name\":\"PaymentOrderStatus\",\"symbols\":[\"PENDING\",\"CANCELLED\"]}}]}");
-        AvroSchema createProductAvroSchema = new AvroSchema("{\"type\":\"record\",\"name\":\"CreateMemberRequestAvroModel\",\"namespace\":\"com.shoes.ordering.system\",\"fields\":[{\"name\":\"memberId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"password\",\"type\":\"string\"},{\"name\":\"email\",\"type\":\"string\"},{\"name\":\"memberKind\",\"type\":{\"type\":\"enum\",\"name\":\"MemberKind\",\"symbols\":[\"CUSTOMER\",\"SELLER\",\"ADMIN\"]}},{\"name\":\"memberStatus\",\"type\":{\"type\":\"enum\",\"name\":\"MemberStatus\",\"symbols\":[\"PENDING\",\"ACTIVATE\",\"DEACTIVATE\",\"WITHDRAWAL\"]}},{\"name\":\"phoneNumber\",\"type\":\"string\"},{\"name\":\"address\",\"type\":{\"type\":\"record\",\"name\":\"MemberAddress\",\"fields\":[{\"name\":\"street\",\"type\":\"string\"},{\"name\":\"city\",\"type\":\"string\"},{\"name\":\"state\",\"type\":\"string\"},{\"name\":\"postalCode\",\"type\":\"string\"}]}},{\"name\":\"createdAt\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}}]}");
+        Schema paymentRequestAvroSchema = loadSchemaFromClasspath("avro/payment_request.avsc");
+        Schema createProductAvroSchema = loadSchemaFromClasspath("avro/create_product_request.avsc");
 
         // 스키마 추가
         mockSchemaRegistryClient.register("payment-request", paymentRequestAvroSchema);
         mockSchemaRegistryClient.register("create-product-request", createProductAvroSchema);
 
         return mockSchemaRegistryClient;
+    }
+
+    private Schema loadSchemaFromClasspath(String schemaFilePath) {
+        try {
+            // 클래스 경로에서 스키마 파일을 읽어옴
+            Resource resource = new ClassPathResource(schemaFilePath);
+            InputStream inputStream = resource.getInputStream();
+
+            // 읽어온 스키마 파일을 파서로 파싱
+            Schema.Parser parser = new Schema.Parser();
+            return parser.parse(inputStream);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load Avro schema from classpath: " + schemaFilePath, e);
+        }
     }
 }
