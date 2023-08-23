@@ -24,12 +24,20 @@ product-service:
   create-product-request-topic-name: create-product-request
   update-product-request-topic-name: update-product-request
 
+order-service:
+  payment-request-topic-name: payment-request
+  payment-response-topic-name: payment-response
+
+
+
+
 kafka-config:
-  bootstrap-servers: localhost:19092, localhost:29092, localhost:39092
+#  bootstrap-servers: localhost:19092, localhost:29092, localhost:39092
+  bootstrap-servers:  ${spring.embedded.kafka.brokers:localhost:9092}
   schema-registry-url-key: schema.registry.url
-  schema-registry-url: http://localhost:8081
-  num-of-partitions: 3
-  replication-factor: 3
+  schema-registry-url: mock://
+  num-of-partitions: 1
+  replication-factor: 1
 
 kafka-producer-config:
   key-serializer-class: org.apache.kafka.common.serialization.StringSerializer
@@ -58,3 +66,8 @@ kafka-consumer-config:
   max-partition-fetch-bytes-default: 1048576
   max-partition-fetch-bytes-boost-factor: 1
   poll-timeout-ms: 150
+
+  payment-consumer-test-group-id: payment-topic-consumer-test
+
+  payment-consumer-group-id: payment-topic-consumer
+  member-group-id: member-topic-consumer
