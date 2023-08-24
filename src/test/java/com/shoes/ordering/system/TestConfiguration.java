@@ -1,7 +1,5 @@
 package com.shoes.ordering.system;
 
-import com.shoes.ordering.system.common.kafka.consumer.config.KafkaConsumerConfig;
-import com.shoes.ordering.system.common.kafka.producer.KafkaProducerConfig;
 import com.shoes.ordering.system.domains.member.domain.application.ports.output.repository.MemberRepository;
 import com.shoes.ordering.system.domains.order.domain.application.ports.output.message.publisher.payment.OrderCancelledPaymentRequestMessagePublisher;
 import com.shoes.ordering.system.domains.order.domain.application.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessagePublisher;
@@ -27,17 +25,6 @@ import java.io.InputStream;
 
 @SpringBootApplication(scanBasePackages = "com.shoes.ordering.system")
 public class TestConfiguration {
-
-    private final KafkaProducerConfig kafkaProducerConfig;
-
-    private static KafkaConsumerConfig kafkaConsumerConfig;
-
-    public TestConfiguration(KafkaProducerConfig kafkaProducerConfig,
-                             KafkaConsumerConfig kafkaConsumerConfig) {
-        this.kafkaProducerConfig = kafkaProducerConfig;
-        this.kafkaConsumerConfig = kafkaConsumerConfig;
-    }
-
 
     @Bean
     public MemberRepository memberRepository() { return Mockito.mock(MemberRepository.class); }
