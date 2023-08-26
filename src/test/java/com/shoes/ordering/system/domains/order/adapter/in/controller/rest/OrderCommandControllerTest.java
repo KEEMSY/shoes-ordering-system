@@ -99,8 +99,9 @@ class OrderCommandControllerTest {
     void createOrderError2Test() throws Exception {
         // given
         given(orderCommandService.createOrder(any(CreateOrderCommand.class)))
-                .willThrow(new ConstraintViolationException("Validation failed", new HashSet<>()));
-
+                .willAnswer(invocation -> {
+                    throw new Exception("UnExpected Error");
+                });
 
         // Convert the createProductCommand to JSON
         String content = asJsonString(null);
