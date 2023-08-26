@@ -93,11 +93,17 @@ class OrderPersistenceAdapterTest {
 
         // then
         assertThat(result).isPresent();
+
+        List<OrderItem> items = result.get().getItems();
+        for (OrderItem item : items) {
+            System.out.println("OrderItem: " + item.getProduct().getName());
+        }
+
         assertThat(result.get().getPrice().getAmount()).isEqualTo(productPrice);
     }
 
     @Test
-    @DisplayName("정상 findByTrackingId 에러 확인")
+    @DisplayName("정상 findByTrackingId 확인: 잘못된 TrackingId 로 주문 조회 시 미존재 확인")
     void findByTrackingIdErrorTest() {
         // given
         UUID unknownOrderTrackingId = UUID.randomUUID();
