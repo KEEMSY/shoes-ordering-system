@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Slf4j
-@ControllerAdvice
+@ControllerAdvice(basePackages = "com.shoes.ordering.system.domains.member.controller.rest")
 public class MemberGlobalExceptionHandler extends GlobalExceptionHandler {
 
     @ResponseBody
