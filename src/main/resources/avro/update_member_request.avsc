@@ -55,7 +55,7 @@
       "name": "address",
       "type": {
         "type": "record",
-        "name": "StreetAddress",
+        "name": "MemberAddress",
         "fields": [
           {
             "name": "street",
@@ -63,10 +63,6 @@
           },
           {
             "name": "city",
-            "type": "string"
-          },
-          {
-            "name": "state",
             "type": "string"
           },
           {
