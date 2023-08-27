@@ -1,0 +1,68 @@
+{
+    "type": "record",
+    "name": "PaymentResponseAvroModel",
+    "namespace": "com.shoes.ordering.system",
+    "fields": [
+        {
+            "name": "id",
+            "type": {
+                "type": "string",
+                "logicalType": "uuid"
+            }
+        },
+        {
+            "name": "orderId",
+            "type": {
+                "type": "string",
+                "logicalType": "uuid"
+            }
+        },
+        {
+            "name": "paymentId",
+            "type": {
+                "type": "string",
+                "logicalType": "uuid"
+            }
+        },
+        {
+            "name": "memberId",
+            "type": {
+                "type": "string",
+                "logicalType": "uuid"
+            }
+        },
+        {
+            "name": "price",
+            "type": {
+                "type": "bytes",
+                "logicalType": "decimal",
+                "precision": 10,
+                "scale": 2
+            }
+        },
+        {
+            "name": "createdAt",
+            "type": {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+            }
+        },
+        {
+            "name": "paymentStatus",
+            "type": {
+                "type": "enum",
+                "name": "PaymentStatus",
+                "symbols": ["COMPLETED", "CANCELLED", "FAILED"]
+            }
+        },
+        {
+            "name": "failureMessages",
+            "type": {
+                "type": "array",
+                "items":{
+                    "type":"string"
+                }
+            }
+        }
+    ]
+}

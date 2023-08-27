@@ -17,7 +17,7 @@ plugins {
 
 group 'com.shoes.ordering.system'
 version '1.0-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = "16"
 
 repositories {
     mavenCentral()
@@ -51,6 +51,8 @@ dependencies {
     }
 
     implementation("org.xerial.snappy:snappy-java:1.1.8.4")
+
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
 
     runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -118,3 +120,4 @@ configurations.all {
         }
     }
 }
+targetCompatibility = JavaVersion.VERSION_16

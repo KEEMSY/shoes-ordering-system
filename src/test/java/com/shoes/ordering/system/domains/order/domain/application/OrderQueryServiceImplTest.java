@@ -59,7 +59,7 @@ class OrderQueryServiceImplTest {
         OrderItem orderItem = createOrderItem(1, new BigDecimal("50.00"));
         Order targetOrder = createOrder(totalPrice, List.of(orderItem));
 
-        when(orderRepository.findByTrackingId(any(TrackingId.class))).thenReturn(Optional.of(targetOrder));
+        when(orderRepository.findByTrackingId(any(UUID.class))).thenReturn(Optional.of(targetOrder));
 
         // when
         TrackOrderResponse result = orderQueryService.trackOrder(trackOrderQuery);
@@ -76,7 +76,7 @@ class OrderQueryServiceImplTest {
         UUID unknownTrackingID = UUID.randomUUID();
         TrackOrderQuery wrongTrackOrderQuery = createTrackOrderQuery(unknownTrackingID);
 
-        when(orderRepository.findByTrackingId(any(TrackingId.class)))
+        when(orderRepository.findByTrackingId(any(UUID.class)))
                 .thenReturn(Optional.ofNullable(null));
 
         // when, then
