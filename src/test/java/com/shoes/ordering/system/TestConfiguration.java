@@ -1,5 +1,7 @@
 package com.shoes.ordering.system;
 
+import com.shoes.ordering.system.domains.member.domain.application.ports.output.message.publisher.MemberCreatedRequestMessagePublisher;
+import com.shoes.ordering.system.domains.member.domain.application.ports.output.message.publisher.MemberUpdateRequestMessagePublisher;
 import com.shoes.ordering.system.domains.member.domain.application.ports.output.repository.MemberRepository;
 import com.shoes.ordering.system.domains.order.domain.application.ports.output.message.publisher.payment.OrderCancelledPaymentRequestMessagePublisher;
 import com.shoes.ordering.system.domains.order.domain.application.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessagePublisher;
@@ -28,6 +30,15 @@ public class TestConfiguration {
 
     @Bean
     public MemberRepository memberRepository() { return Mockito.mock(MemberRepository.class); }
+    @Bean
+    public MemberCreatedRequestMessagePublisher memberCreatedRequestMessagePublisher(){
+        return Mockito.mock(MemberCreatedRequestMessagePublisher.class);
+    }
+    @Bean
+    public MemberUpdateRequestMessagePublisher memberUpdateRequestMessagePublisher(){
+        return Mockito.mock(MemberUpdateRequestMessagePublisher.class);
+    }
+
     @Bean
     public ProductRepository productRepository() { return Mockito.mock(ProductRepository.class); }
     @Bean
@@ -61,10 +72,12 @@ public class TestConfiguration {
         // 스키마 생성
         Schema paymentRequestAvroSchema = loadSchemaFromClasspath("avro/payment_request.avsc");
         Schema createProductAvroSchema = loadSchemaFromClasspath("avro/create_product_request.avsc");
+        Schema createMemberAvroSchema = loadSchemaFromClasspath("avro/create_member_request.avsc");
 
         // 스키마 추가
         mockSchemaRegistryClient.register("payment-request", paymentRequestAvroSchema);
         mockSchemaRegistryClient.register("create-product-request", createProductAvroSchema);
+        mockSchemaRegistryClient.register("create-member-request", createMemberAvroSchema);
 
         return mockSchemaRegistryClient;
     }

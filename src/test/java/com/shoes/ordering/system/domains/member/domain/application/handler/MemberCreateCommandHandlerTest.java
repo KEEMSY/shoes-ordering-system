@@ -32,7 +32,7 @@ public class MemberCreateCommandHandlerTest {
     private MemberRepository memberRepository;
     @Autowired
     private MemberDataMapper memberDataMapper;
-    @MockBean
+    @Autowired
     private MemberCreatedRequestMessagePublisher memberCreatedRequestMessagePublisher;
 
     @Test

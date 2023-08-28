@@ -35,7 +35,7 @@ public class MemberUpdateCommandHandlerTest {
     private MemberUpdateCommandHandler memberUpdateCommandHandler;
     @Autowired
     private MemberRepository memberRepository;
-    @MockBean
+    @Autowired
     private MemberUpdateRequestMessagePublisher memberUpdateRequestMessagePublisher;
 
     private Member member;
