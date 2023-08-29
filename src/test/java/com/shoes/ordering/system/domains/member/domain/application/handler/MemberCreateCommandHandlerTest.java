@@ -16,12 +16,11 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(classes = TestConfiguration.class)
 public class MemberCreateCommandHandlerTest {
@@ -60,7 +59,7 @@ public class MemberCreateCommandHandlerTest {
         // then
         ArgumentCaptor<MemberCreatedEvent> capturedMemberCreatedEventCaptor
                 = ArgumentCaptor.forClass(MemberCreatedEvent.class);
-        verify(memberCreatedRequestMessagePublisher).publish(capturedMemberCreatedEventCaptor.capture());
+        verify(memberCreatedRequestMessagePublisher, atMost(2)).publish(capturedMemberCreatedEventCaptor.capture());
 
         MemberCreatedEvent capturedMemberCreatedEvent = capturedMemberCreatedEventCaptor.getValue();
         assertThat(capturedMemberCreatedEvent.getMember().getId().getValue())

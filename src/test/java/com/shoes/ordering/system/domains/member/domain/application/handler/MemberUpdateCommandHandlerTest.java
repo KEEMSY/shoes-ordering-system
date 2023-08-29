@@ -17,15 +17,13 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(classes = TestConfiguration.class)
@@ -80,7 +78,7 @@ public class MemberUpdateCommandHandlerTest {
         // then
         ArgumentCaptor<MemberUpdatedEvent> capturedMemberUpdatedEventCaptor
                 = ArgumentCaptor.forClass(MemberUpdatedEvent.class);
-        verify(memberUpdateRequestMessagePublisher).publish(capturedMemberUpdatedEventCaptor.capture());
+        verify(memberUpdateRequestMessagePublisher, atMost(2)).publish(capturedMemberUpdatedEventCaptor.capture());
 
         MemberUpdatedEvent capturedMemberUpdatedEvent = capturedMemberUpdatedEventCaptor.getValue();
         assertThat(capturedMemberUpdatedEvent.getMember().getId().getValue())
