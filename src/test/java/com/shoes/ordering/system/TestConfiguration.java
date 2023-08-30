@@ -45,10 +45,12 @@ public class TestConfiguration {
     @Bean
     public ProductRepository productRepository() { return Mockito.mock(ProductRepository.class); }
     @Bean
+    @Primary
     public ProductCreatedRequestMessagePublisher productCreatedRequestMessagePublisher() {
         return Mockito.mock(ProductCreatedRequestMessagePublisher.class);
     }
     @Bean
+    @Primary
     public ProductUpdatedRequestMessagePublisher productUpdatedRequestMessagePublisher() {
         return Mockito.mock(ProductUpdatedRequestMessagePublisher.class);
     }
@@ -73,14 +75,18 @@ public class TestConfiguration {
         MockSchemaRegistryClient mockSchemaRegistryClient = new MockSchemaRegistryClient();
 
         // 스키마 생성
-        Schema paymentRequestAvroSchema = loadSchemaFromClasspath("avro/payment_request.avsc");
-        Schema createProductAvroSchema = loadSchemaFromClasspath("avro/create_product_request.avsc");
         Schema createMemberAvroSchema = loadSchemaFromClasspath("avro/create_member_request.avsc");
         Schema updateMemberAvroSchema = loadSchemaFromClasspath("avro/update_member_request.avsc");
+
+        Schema paymentRequestAvroSchema = loadSchemaFromClasspath("avro/payment_request.avsc");
+
+        Schema createProductAvroSchema = loadSchemaFromClasspath("avro/create_product_request.avsc");
+        Schema updateProductAvroSchema = loadSchemaFromClasspath("avro/create_product_request.avsc");
 
         // 스키마 추가
         mockSchemaRegistryClient.register("payment-request", paymentRequestAvroSchema);
         mockSchemaRegistryClient.register("create-product-request", createProductAvroSchema);
+        mockSchemaRegistryClient.register("update-product-request", updateProductAvroSchema);
         mockSchemaRegistryClient.register("create-member-request", createMemberAvroSchema);
         mockSchemaRegistryClient.register("update-member-request", updateMemberAvroSchema);
 
