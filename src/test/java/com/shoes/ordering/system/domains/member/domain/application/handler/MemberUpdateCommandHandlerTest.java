@@ -17,6 +17,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -33,7 +34,7 @@ public class MemberUpdateCommandHandlerTest {
     private MemberUpdateCommandHandler memberUpdateCommandHandler;
     @Autowired
     private MemberRepository memberRepository;
-    @Autowired
+    @MockBean
     private MemberUpdateRequestMessagePublisher memberUpdateRequestMessagePublisher;
 
     private Member member;
@@ -78,7 +79,7 @@ public class MemberUpdateCommandHandlerTest {
         // then
         ArgumentCaptor<MemberUpdatedEvent> capturedMemberUpdatedEventCaptor
                 = ArgumentCaptor.forClass(MemberUpdatedEvent.class);
-        verify(memberUpdateRequestMessagePublisher, atMost(2)).publish(capturedMemberUpdatedEventCaptor.capture());
+        verify(memberUpdateRequestMessagePublisher).publish(capturedMemberUpdatedEventCaptor.capture());
 
         MemberUpdatedEvent capturedMemberUpdatedEvent = capturedMemberUpdatedEventCaptor.getValue();
         assertThat(capturedMemberUpdatedEvent.getMember().getId().getValue())

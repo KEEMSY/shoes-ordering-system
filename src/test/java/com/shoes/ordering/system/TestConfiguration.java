@@ -18,6 +18,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import org.apache.avro.Schema;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -31,10 +32,12 @@ public class TestConfiguration {
     @Bean
     public MemberRepository memberRepository() { return Mockito.mock(MemberRepository.class); }
     @Bean
+    @Primary
     public MemberCreatedRequestMessagePublisher memberCreatedRequestMessagePublisher(){
         return Mockito.mock(MemberCreatedRequestMessagePublisher.class);
     }
     @Bean
+    @Primary
     public MemberUpdateRequestMessagePublisher memberUpdateRequestMessagePublisher(){
         return Mockito.mock(MemberUpdateRequestMessagePublisher.class);
     }

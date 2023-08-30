@@ -16,6 +16,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -31,7 +32,7 @@ public class MemberCreateCommandHandlerTest {
     private MemberRepository memberRepository;
     @Autowired
     private MemberDataMapper memberDataMapper;
-    @Autowired
+    @MockBean
     private MemberCreatedRequestMessagePublisher memberCreatedRequestMessagePublisher;
 
     @Test
@@ -59,7 +60,7 @@ public class MemberCreateCommandHandlerTest {
         // then
         ArgumentCaptor<MemberCreatedEvent> capturedMemberCreatedEventCaptor
                 = ArgumentCaptor.forClass(MemberCreatedEvent.class);
-        verify(memberCreatedRequestMessagePublisher, atMost(2)).publish(capturedMemberCreatedEventCaptor.capture());
+        verify(memberCreatedRequestMessagePublisher).publish(capturedMemberCreatedEventCaptor.capture());
 
         MemberCreatedEvent capturedMemberCreatedEvent = capturedMemberCreatedEventCaptor.getValue();
         assertThat(capturedMemberCreatedEvent.getMember().getId().getValue())
