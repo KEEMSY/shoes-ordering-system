@@ -1,5 +1,7 @@
 package com.shoes.ordering.system;
 
+import com.shoes.ordering.system.domains.member.domain.application.ports.output.message.publisher.MemberCreatedRequestMessagePublisher;
+import com.shoes.ordering.system.domains.member.domain.application.ports.output.message.publisher.MemberUpdateRequestMessagePublisher;
 import com.shoes.ordering.system.domains.member.domain.application.ports.output.repository.MemberRepository;
 import com.shoes.ordering.system.domains.order.domain.application.ports.output.message.publisher.payment.OrderCancelledPaymentRequestMessagePublisher;
 import com.shoes.ordering.system.domains.order.domain.application.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessagePublisher;
@@ -16,6 +18,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import org.apache.avro.Schema;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -29,12 +32,25 @@ public class TestConfiguration {
     @Bean
     public MemberRepository memberRepository() { return Mockito.mock(MemberRepository.class); }
     @Bean
+    @Primary
+    public MemberCreatedRequestMessagePublisher memberCreatedRequestMessagePublisher(){
+        return Mockito.mock(MemberCreatedRequestMessagePublisher.class);
+    }
+    @Bean
+    @Primary
+    public MemberUpdateRequestMessagePublisher memberUpdateRequestMessagePublisher(){
+        return Mockito.mock(MemberUpdateRequestMessagePublisher.class);
+    }
+
+    @Bean
     public ProductRepository productRepository() { return Mockito.mock(ProductRepository.class); }
     @Bean
+    @Primary
     public ProductCreatedRequestMessagePublisher productCreatedRequestMessagePublisher() {
         return Mockito.mock(ProductCreatedRequestMessagePublisher.class);
     }
     @Bean
+    @Primary
     public ProductUpdatedRequestMessagePublisher productUpdatedRequestMessagePublisher() {
         return Mockito.mock(ProductUpdatedRequestMessagePublisher.class);
     }
@@ -59,12 +75,20 @@ public class TestConfiguration {
         MockSchemaRegistryClient mockSchemaRegistryClient = new MockSchemaRegistryClient();
 
         // 스키마 생성
+        Schema createMemberAvroSchema = loadSchemaFromClasspath("avro/create_member_request.avsc");
+        Schema updateMemberAvroSchema = loadSchemaFromClasspath("avro/update_member_request.avsc");
+
         Schema paymentRequestAvroSchema = loadSchemaFromClasspath("avro/payment_request.avsc");
+
         Schema createProductAvroSchema = loadSchemaFromClasspath("avro/create_product_request.avsc");
+        Schema updateProductAvroSchema = loadSchemaFromClasspath("avro/create_product_request.avsc");
 
         // 스키마 추가
         mockSchemaRegistryClient.register("payment-request", paymentRequestAvroSchema);
         mockSchemaRegistryClient.register("create-product-request", createProductAvroSchema);
+        mockSchemaRegistryClient.register("update-product-request", updateProductAvroSchema);
+        mockSchemaRegistryClient.register("create-member-request", createMemberAvroSchema);
+        mockSchemaRegistryClient.register("update-member-request", updateMemberAvroSchema);
 
         return mockSchemaRegistryClient;
     }

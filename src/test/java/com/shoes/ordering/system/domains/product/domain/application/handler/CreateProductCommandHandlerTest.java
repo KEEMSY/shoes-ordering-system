@@ -15,6 +15,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
 
@@ -32,7 +33,7 @@ public class CreateProductCommandHandlerTest {
     private ProductRepository productRepository;
     @Autowired
     private ProductDataMapper productDataMapper;
-    @Autowired
+    @MockBean
     private ProductCreatedRequestMessagePublisher productCreatedRequestMessagePublisher;
 
     @Test
@@ -56,7 +57,7 @@ public class CreateProductCommandHandlerTest {
         // then
         // 상호작용 확인
         ArgumentCaptor<ProductCreatedEvent> createdProductEventCaptor = ArgumentCaptor.forClass(ProductCreatedEvent.class);
-        verify(productCreatedRequestMessagePublisher, atMost(2)).publish(createdProductEventCaptor.capture());
+        verify(productCreatedRequestMessagePublisher).publish(createdProductEventCaptor.capture());
 
         ProductCreatedEvent capturedProductCreatedEvent = createdProductEventCaptor.getValue();
         assertThat(capturedProductCreatedEvent.getProduct().getId().getValue()).isEqualTo(resultCreateProductResponse.getProductId());
