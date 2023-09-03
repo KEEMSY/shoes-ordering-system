@@ -4,9 +4,15 @@ on:
   push:
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
+    env:
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASS: test
+      DB_DATABASE: shoes_ordering_system
+
 
     steps:
       - uses: actions/checkout@v3
@@ -15,6 +21,19 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+
+      - name: Set timezone to KST
+        run: |
+          sudo rm /etc/localtime
+          sudo ln -s /usr/share/zoneinfo/Asia/Seoul /etc/localtime
+          
+      - name: Start Mysql
+        run: |
+          sudo systemctl start mysql
+          mysql -e "use mysql; FLUSH PRIVILEGES; ALTER USER '${{ env.DB_USER }}'@'localhost' IDENTIFIED BY '${{ env.DB_PASS }}';" -uroot -proot
+          mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASS }}
+    
+
       - name: Build with Gradle
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
