@@ -15,6 +15,7 @@ import java.util.UUID;
 @Entity
 public class OrderAddressEntity {
     @Id
+    @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
     @OneToOne(cascade = CascadeType.ALL)
