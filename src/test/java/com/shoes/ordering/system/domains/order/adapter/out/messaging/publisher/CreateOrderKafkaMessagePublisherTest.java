@@ -1,9 +1,8 @@
 package com.shoes.ordering.system.domains.order.adapter.out.messaging.publisher;
 
+import com.shoes.ordering.system.CustomKafkaTestConfig;
 import com.shoes.ordering.system.common.kafka.model.PaymentRequestAvroModel;
 import com.shoes.ordering.system.TestConfiguration;
-import com.shoes.ordering.system.common.kafka.config.KafkaConfigData;
-import com.shoes.ordering.system.common.kafka.config.KafkaConsumerConfigData;
 import com.shoes.ordering.system.domains.common.valueobject.Money;
 import com.shoes.ordering.system.domains.common.valueobject.StreetAddress;
 import com.shoes.ordering.system.domains.member.domain.core.valueobject.MemberId;
@@ -15,7 +14,6 @@ import com.shoes.ordering.system.domains.order.domain.core.valueobject.TrackingI
 import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductId;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -48,10 +46,9 @@ public class CreateOrderKafkaMessagePublisherTest {
     @Autowired
     private EmbeddedKafkaBroker embeddedKafkaBroker;
     @Autowired
-    private  KafkaConfigData kafkaConfigData;
-    @Autowired
-    private  KafkaConsumerConfigData kafkaConsumerConfigData;
+    private CustomKafkaTestConfig customKafkaTestConfig;
 
+    Long TIMEOUT_LIMIT = 1000L;
     private BigDecimal totalPrice = new BigDecimal("00.00");
     private int productQuantity = 1;
     private BigDecimal productPrice = new BigDecimal("50.00");
@@ -62,26 +59,22 @@ public class CreateOrderKafkaMessagePublisherTest {
     void publisherTest() {
         // given
         String targetTopic = "payment-request";
+        Map<String, Object> consumerProps = customKafkaTestConfig.createDefaultConsumerProps(embeddedKafkaBroker);
 
-        Map<String, Object> consumerProps
-                = KafkaTestUtils.consumerProps("testGroup", "false", embeddedKafkaBroker);
+        DefaultKafkaConsumerFactory<String, PaymentRequestAvroModel> consumerFactory
+                = new DefaultKafkaConsumerFactory<>(consumerProps);
 
-        consumerProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, kafkaConsumerConfigData.getKeyDeserializer());
-        consumerProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, kafkaConsumerConfigData.getValueDeserializer());
-        consumerProps.put(kafkaConfigData.getSchemaRegistryUrlKey(), kafkaConfigData.getSchemaRegistryUrl());
+        Consumer<String, PaymentRequestAvroModel> consumer = consumerFactory.createConsumer();
 
         // when
         OrderCreatedEvent orderCreatedEvent = createOrderCreatedEvent();
         createOrderKafkaMessagePublisher.publish(orderCreatedEvent);
 
         // then
-        DefaultKafkaConsumerFactory<String, PaymentRequestAvroModel> consumerFactory
-                = new DefaultKafkaConsumerFactory<>(consumerProps);
 
-        Consumer<String, PaymentRequestAvroModel> consumer = consumerFactory.createConsumer();
         embeddedKafkaBroker.consumeFromAnEmbeddedTopic(consumer, targetTopic);
         ConsumerRecord<String, PaymentRequestAvroModel> record
-                = KafkaTestUtils.getSingleRecord(consumer, targetTopic, 2000L);
+                = KafkaTestUtils.getSingleRecord(consumer, targetTopic, TIMEOUT_LIMIT);
 
         assertThat(record).isNotNull();
         assertThat(record.topic()).isEqualTo(targetTopic);

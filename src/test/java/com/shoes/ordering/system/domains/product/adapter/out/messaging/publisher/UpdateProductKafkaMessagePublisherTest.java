@@ -1,8 +1,7 @@
 package com.shoes.ordering.system.domains.product.adapter.out.messaging.publisher;
 
+import com.shoes.ordering.system.CustomKafkaTestConfig;
 import com.shoes.ordering.system.TestConfiguration;
-import com.shoes.ordering.system.common.kafka.config.KafkaConfigData;
-import com.shoes.ordering.system.common.kafka.config.KafkaConsumerConfigData;
 import com.shoes.ordering.system.common.kafka.model.UpdateProductRequestAvroModel;
 import com.shoes.ordering.system.domains.common.valueobject.Money;
 import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
@@ -10,7 +9,6 @@ import com.shoes.ordering.system.domains.product.domain.core.event.ProductUpdate
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductId;
 import org.apache.kafka.clients.consumer.Consumer;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,34 +36,30 @@ class UpdateProductKafkaMessagePublisherTest {
     @Autowired
     private EmbeddedKafkaBroker embeddedKafkaBroker;
     @Autowired
-    private KafkaConfigData kafkaConfigData;
-    @Autowired
-    private KafkaConsumerConfigData kafkaConsumerConfigData;
+    private CustomKafkaTestConfig customKafkaTestConfig;
+    private Long TIMEOUT_LIMIT = 1000L;
+
     @Test
     @DisplayName("정상 publish 확인: ProductUpdatedEvent 발행 확")
     void publishTest() {
         // given
         String targetTopic = "update-product-request";
+        Map<String, Object> consumerProps = customKafkaTestConfig.createDefaultConsumerProps(embeddedKafkaBroker);
 
-        Map<String, Object> consumerProps
-                = KafkaTestUtils.consumerProps("testProductUpdatedEventGroup", "false", embeddedKafkaBroker);
+        DefaultKafkaConsumerFactory<String, UpdateProductRequestAvroModel> consumerFactory
+                = new DefaultKafkaConsumerFactory<>(consumerProps);
 
-        consumerProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, kafkaConsumerConfigData.getKeyDeserializer());
-        consumerProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, kafkaConsumerConfigData.getValueDeserializer());
-        consumerProps.put(kafkaConfigData.getSchemaRegistryUrlKey(), kafkaConfigData.getSchemaRegistryUrl());
+        Consumer<String, UpdateProductRequestAvroModel> consumer = consumerFactory.createConsumer();
 
         // when
         ProductUpdatedEvent productUpdatedEvent = createProductUpdatedEvent();
         updateProductKafkaMessagePublisher.publish(productUpdatedEvent);
 
         // then
-        DefaultKafkaConsumerFactory<String, UpdateProductRequestAvroModel> consumerFactory
-                = new DefaultKafkaConsumerFactory<>(consumerProps);
 
-        Consumer<String, UpdateProductRequestAvroModel> consumer = consumerFactory.createConsumer();
         embeddedKafkaBroker.consumeFromAnEmbeddedTopic(consumer, targetTopic);
         ConsumerRecord<String, UpdateProductRequestAvroModel> record
-                = KafkaTestUtils.getSingleRecord(consumer, targetTopic, 1000L);
+                = KafkaTestUtils.getSingleRecord(consumer, targetTopic, TIMEOUT_LIMIT);
 
         assertThat(record).isNotNull();
         assertThat(record.topic()).isEqualTo(targetTopic);
