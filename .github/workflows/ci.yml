@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DB_HOST: 127.0.0.1
-      DB_PORT: 13306
+      DB_PORT: 3306
       DB_USER: root
       DB_PASS: test
       DB_DATABASE: shoes_ordering_system
