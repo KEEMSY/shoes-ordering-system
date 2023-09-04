@@ -17,6 +17,7 @@ import java.util.UUID;
 @Entity
 public class MemberEntity {
     @Id
+    @Column(columnDefinition = "BINARY(16)")
     private UUID memberId;
     private String name;
     private String password;
