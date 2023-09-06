@@ -37,6 +37,9 @@ dependencies {
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 
+    // redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
     implementation "org.apache.avro:avro:1.11.0"
 
     def springKafkaVersion = '2.8.2'
