@@ -8,8 +8,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
 import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
@@ -21,6 +26,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @SpringBootTest(classes = TestConfiguration.class)
 @DirtiesContext
 @Testcontainers
+@ContextConfiguration(initializers = ProductAppliedRedisRepositoryImplTest.ContainerPropertyInitializer.class)
 class ProductAppliedRedisRepositoryImplTest {
     private static final String REDIS_IMAGE = "redis:latest";
     private static final int REDIS_PORT = 6379;
@@ -32,7 +38,8 @@ class ProductAppliedRedisRepositoryImplTest {
     @Container
     private static final GenericContainer<?> redisContainer =
             new GenericContainer(DockerImageName.parse(REDIS_IMAGE))
-                    .withExposedPorts(REDIS_PORT);
+                    .withExposedPorts(REDIS_PORT)
+                    .waitingFor(Wait.forListeningPort());
 
     @BeforeAll
     static void beforeAll() {
@@ -69,5 +76,13 @@ class ProductAppliedRedisRepositoryImplTest {
 
         // then
         assertThat(result).isFalse();
+    }
+    static class ContainerPropertyInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+
+        @Override
+        public void initialize(ConfigurableApplicationContext context) {
+            TestPropertyValues.of("container.ports=" + redisContainer.getMappedPort(6379))
+                    .applyTo(context.getEnvironment());
+        }
     }
 }
