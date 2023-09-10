@@ -2,7 +2,6 @@ package com.shoes.ordering.system.domains.product.adapter.out.dataaccess.resposi
 
 import com.shoes.ordering.system.TestConfiguration;
 import com.shoes.ordering.system.common.redis.service.RedisService;
-import com.shoes.ordering.system.domains.product.adapter.out.dataaccess.respository.ProductAppliedRedisRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,7 +36,7 @@ class ProductAppliedRedisRepositoryImplTest {
     @Autowired
     private RedisService redisService;
     @Autowired
-    private ProductAppliedRedisRepository productAppliedRepository;
+    private ProductAppliedRedisRepositoryImpl productAppliedRepository;
 
     @Container
     private static final GenericContainer<?> redisContainer =
