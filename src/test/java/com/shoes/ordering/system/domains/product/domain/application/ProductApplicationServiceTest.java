@@ -7,8 +7,12 @@ import com.shoes.ordering.system.domains.product.domain.application.dto.create.C
 import com.shoes.ordering.system.domains.product.domain.application.dto.update.UpdateProductCommand;
 import com.shoes.ordering.system.domains.product.domain.application.dto.update.UpdateProductResponse;
 import com.shoes.ordering.system.domains.product.domain.application.ports.input.service.ProductApplicationService;
+import com.shoes.ordering.system.domains.product.domain.application.ports.output.message.publisher.ProductCreatedRequestMessagePublisher;
+import com.shoes.ordering.system.domains.product.domain.application.ports.output.message.publisher.ProductUpdatedRequestMessagePublisher;
 import com.shoes.ordering.system.domains.product.domain.application.ports.output.repository.ProductRepository;
 import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
+import com.shoes.ordering.system.domains.product.domain.core.event.ProductCreatedEvent;
+import com.shoes.ordering.system.domains.product.domain.core.event.ProductUpdatedEvent;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductId;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +28,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -34,6 +39,10 @@ public class ProductApplicationServiceTest {
     private ProductApplicationService productApplicationService;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private ProductCreatedRequestMessagePublisher productCreatedRequestMessagePublisher;
+    @Autowired
+    private ProductUpdatedRequestMessagePublisher productUpdatedRequestMessagePublisher;
 
     private CreateProductCommand createProductCommand;
     private UpdateProductCommand updateProductCommand;
@@ -54,6 +63,8 @@ public class ProductApplicationServiceTest {
 
         when(productRepository.save(any(Product.class))).thenReturn(product);
         when(productRepository.findByProductId(product.getId().getValue())).thenReturn(Optional.ofNullable(product));
+        doNothing().when(productCreatedRequestMessagePublisher).publish(any(ProductCreatedEvent.class));
+        doNothing().when(productUpdatedRequestMessagePublisher).publish(any(ProductUpdatedEvent.class));
     }
 
     @Test

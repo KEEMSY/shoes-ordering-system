@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Slf4j
-@ControllerAdvice
+@ControllerAdvice(basePackages = "com.shoes.ordering.system.domains.product.adapter.in.controller.rest")
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ProductGlobalExceptionHandler extends GlobalExceptionHandler {
 

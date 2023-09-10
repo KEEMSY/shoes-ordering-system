@@ -5,17 +5,17 @@
  */
 package com.shoes.ordering.system.common.kafka.model;
 
-import org.apache.avro.specific.SpecificData;
-import org.apache.avro.message.BinaryMessageEncoder;
 import org.apache.avro.message.BinaryMessageDecoder;
+import org.apache.avro.message.BinaryMessageEncoder;
 import org.apache.avro.message.SchemaStore;
+import org.apache.avro.specific.SpecificData;
 
 @org.apache.avro.specific.AvroGenerated
 public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -5144534442814942920L;
+  private static final long serialVersionUID = -6235093619947168158L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UpdateMemberRequestAvroModel\",\"namespace\":\"com.shoes.ordering.system\",\"fields\":[{\"name\":\"memberId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"name\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"password\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"email\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"memberKind\",\"type\":{\"type\":\"enum\",\"name\":\"MemberKind\",\"symbols\":[\"CUSTOMER\",\"SELLER\",\"ADMIN\"]}},{\"name\":\"memberStatus\",\"type\":{\"type\":\"enum\",\"name\":\"MemberStatus\",\"symbols\":[\"PENDING\",\"ACTIVATE\",\"DEACTIVATE\",\"WITHDRAWAL\"]}},{\"name\":\"phoneNumber\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"address\",\"type\":{\"type\":\"record\",\"name\":\"StreetAddress\",\"fields\":[{\"name\":\"street\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"city\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"state\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"postalCode\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}},{\"name\":\"createdAt\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UpdateMemberRequestAvroModel\",\"namespace\":\"com.shoes.ordering.system\",\"fields\":[{\"name\":\"memberId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"name\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"password\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"email\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"memberKind\",\"type\":{\"type\":\"enum\",\"name\":\"MemberKind\",\"symbols\":[\"CUSTOMER\",\"SELLER\",\"ADMIN\"]}},{\"name\":\"memberStatus\",\"type\":{\"type\":\"enum\",\"name\":\"MemberStatus\",\"symbols\":[\"PENDING\",\"ACTIVATE\",\"DEACTIVATE\",\"WITHDRAWAL\"]}},{\"name\":\"phoneNumber\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"address\",\"type\":{\"type\":\"record\",\"name\":\"MemberAddress\",\"fields\":[{\"name\":\"street\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"city\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"postalCode\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}},{\"name\":\"createdAt\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -76,13 +76,13 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
   }
 
   private java.util.UUID memberId;
-  private java.lang.String name;
-  private java.lang.String password;
-  private java.lang.String email;
+  private String name;
+  private String password;
+  private String email;
   private MemberKind memberKind;
   private MemberStatus memberStatus;
-  private java.lang.String phoneNumber;
-  private StreetAddress address;
+  private String phoneNumber;
+  private MemberAddress address;
   private java.time.Instant createdAt;
 
   /**
@@ -104,7 +104,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
    * @param address The new value for address
    * @param createdAt The new value for createdAt
    */
-  public UpdateMemberRequestAvroModel(java.util.UUID memberId, java.lang.String name, java.lang.String password, java.lang.String email, MemberKind memberKind, MemberStatus memberStatus, java.lang.String phoneNumber, StreetAddress address, java.time.Instant createdAt) {
+  public UpdateMemberRequestAvroModel(java.util.UUID memberId, String name, String password, String email, MemberKind memberKind, MemberStatus memberStatus, String phoneNumber, MemberAddress address, java.time.Instant createdAt) {
     this.memberId = memberId;
     this.name = name;
     this.password = password;
@@ -117,14 +117,14 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
   }
 
   @Override
-  public org.apache.avro.specific.SpecificData getSpecificData() { return MODEL$; }
+  public SpecificData getSpecificData() { return MODEL$; }
 
   @Override
   public org.apache.avro.Schema getSchema() { return SCHEMA$; }
 
   // Used by DatumWriter.  Applications should not call.
   @Override
-  public java.lang.Object get(int field$) {
+  public Object get(int field$) {
     switch (field$) {
     case 0: return memberId;
     case 1: return name;
@@ -161,7 +161,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
   // Used by DatumReader.  Applications should not call.
   @Override
   @SuppressWarnings(value="unchecked")
-  public void put(int field$, java.lang.Object value$) {
+  public void put(int field$, Object value$) {
     switch (field$) {
     case 0: memberId = (java.util.UUID)value$; break;
     case 1: name = value$ != null ? value$.toString() : null; break;
@@ -170,7 +170,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
     case 4: memberKind = (MemberKind)value$; break;
     case 5: memberStatus = (MemberStatus)value$; break;
     case 6: phoneNumber = value$ != null ? value$.toString() : null; break;
-    case 7: address = (StreetAddress)value$; break;
+    case 7: address = (MemberAddress)value$; break;
     case 8: createdAt = (java.time.Instant)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
@@ -197,7 +197,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
    * Gets the value of the 'name' field.
    * @return The value of the 'name' field.
    */
-  public java.lang.String getName() {
+  public String getName() {
     return name;
   }
 
@@ -206,7 +206,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
    * Sets the value of the 'name' field.
    * @param value the value to set.
    */
-  public void setName(java.lang.String value) {
+  public void setName(String value) {
     this.name = value;
   }
 
@@ -214,7 +214,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
    * Gets the value of the 'password' field.
    * @return The value of the 'password' field.
    */
-  public java.lang.String getPassword() {
+  public String getPassword() {
     return password;
   }
 
@@ -223,7 +223,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
    * Sets the value of the 'password' field.
    * @param value the value to set.
    */
-  public void setPassword(java.lang.String value) {
+  public void setPassword(String value) {
     this.password = value;
   }
 
@@ -231,7 +231,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
    * Gets the value of the 'email' field.
    * @return The value of the 'email' field.
    */
-  public java.lang.String getEmail() {
+  public String getEmail() {
     return email;
   }
 
@@ -240,7 +240,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
    * Sets the value of the 'email' field.
    * @param value the value to set.
    */
-  public void setEmail(java.lang.String value) {
+  public void setEmail(String value) {
     this.email = value;
   }
 
@@ -282,7 +282,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
    * Gets the value of the 'phoneNumber' field.
    * @return The value of the 'phoneNumber' field.
    */
-  public java.lang.String getPhoneNumber() {
+  public String getPhoneNumber() {
     return phoneNumber;
   }
 
@@ -291,7 +291,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
    * Sets the value of the 'phoneNumber' field.
    * @param value the value to set.
    */
-  public void setPhoneNumber(java.lang.String value) {
+  public void setPhoneNumber(String value) {
     this.phoneNumber = value;
   }
 
@@ -299,7 +299,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
    * Gets the value of the 'address' field.
    * @return The value of the 'address' field.
    */
-  public StreetAddress getAddress() {
+  public MemberAddress getAddress() {
     return address;
   }
 
@@ -308,7 +308,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
    * Sets the value of the 'address' field.
    * @param value the value to set.
    */
-  public void setAddress(StreetAddress value) {
+  public void setAddress(MemberAddress value) {
     this.address = value;
   }
 
@@ -371,14 +371,14 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
     implements org.apache.avro.data.RecordBuilder<UpdateMemberRequestAvroModel> {
 
     private java.util.UUID memberId;
-    private java.lang.String name;
-    private java.lang.String password;
-    private java.lang.String email;
+    private String name;
+    private String password;
+    private String email;
     private MemberKind memberKind;
     private MemberStatus memberStatus;
-    private java.lang.String phoneNumber;
-    private StreetAddress address;
-    private StreetAddress.Builder addressBuilder;
+    private String phoneNumber;
+    private MemberAddress address;
+    private MemberAddress.Builder addressBuilder;
     private java.time.Instant createdAt;
 
     /** Creates a new Builder */
@@ -425,7 +425,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
         fieldSetFlags()[7] = other.fieldSetFlags()[7];
       }
       if (other.hasAddressBuilder()) {
-        this.addressBuilder = StreetAddress.newBuilder(other.getAddressBuilder());
+        this.addressBuilder = MemberAddress.newBuilder(other.getAddressBuilder());
       }
       if (isValidValue(fields()[8], other.createdAt)) {
         this.createdAt = data().deepCopy(fields()[8].schema(), other.createdAt);
@@ -522,7 +522,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
       * Gets the value of the 'name' field.
       * @return The value.
       */
-    public java.lang.String getName() {
+    public String getName() {
       return name;
     }
 
@@ -532,7 +532,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
       * @param value The value of 'name'.
       * @return This builder.
       */
-    public UpdateMemberRequestAvroModel.Builder setName(java.lang.String value) {
+    public UpdateMemberRequestAvroModel.Builder setName(String value) {
       validate(fields()[1], value);
       this.name = value;
       fieldSetFlags()[1] = true;
@@ -562,7 +562,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
       * Gets the value of the 'password' field.
       * @return The value.
       */
-    public java.lang.String getPassword() {
+    public String getPassword() {
       return password;
     }
 
@@ -572,7 +572,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
       * @param value The value of 'password'.
       * @return This builder.
       */
-    public UpdateMemberRequestAvroModel.Builder setPassword(java.lang.String value) {
+    public UpdateMemberRequestAvroModel.Builder setPassword(String value) {
       validate(fields()[2], value);
       this.password = value;
       fieldSetFlags()[2] = true;
@@ -602,7 +602,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
       * Gets the value of the 'email' field.
       * @return The value.
       */
-    public java.lang.String getEmail() {
+    public String getEmail() {
       return email;
     }
 
@@ -612,7 +612,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
       * @param value The value of 'email'.
       * @return This builder.
       */
-    public UpdateMemberRequestAvroModel.Builder setEmail(java.lang.String value) {
+    public UpdateMemberRequestAvroModel.Builder setEmail(String value) {
       validate(fields()[3], value);
       this.email = value;
       fieldSetFlags()[3] = true;
@@ -722,7 +722,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
       * Gets the value of the 'phoneNumber' field.
       * @return The value.
       */
-    public java.lang.String getPhoneNumber() {
+    public String getPhoneNumber() {
       return phoneNumber;
     }
 
@@ -732,7 +732,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
       * @param value The value of 'phoneNumber'.
       * @return This builder.
       */
-    public UpdateMemberRequestAvroModel.Builder setPhoneNumber(java.lang.String value) {
+    public UpdateMemberRequestAvroModel.Builder setPhoneNumber(String value) {
       validate(fields()[6], value);
       this.phoneNumber = value;
       fieldSetFlags()[6] = true;
@@ -762,7 +762,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
       * Gets the value of the 'address' field.
       * @return The value.
       */
-    public StreetAddress getAddress() {
+    public MemberAddress getAddress() {
       return address;
     }
 
@@ -772,7 +772,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
       * @param value The value of 'address'.
       * @return This builder.
       */
-    public UpdateMemberRequestAvroModel.Builder setAddress(StreetAddress value) {
+    public UpdateMemberRequestAvroModel.Builder setAddress(MemberAddress value) {
       validate(fields()[7], value);
       this.addressBuilder = null;
       this.address = value;
@@ -792,12 +792,12 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
      * Gets the Builder instance for the 'address' field and creates one if it doesn't exist yet.
      * @return This builder.
      */
-    public StreetAddress.Builder getAddressBuilder() {
+    public MemberAddress.Builder getAddressBuilder() {
       if (addressBuilder == null) {
         if (hasAddress()) {
-          setAddressBuilder(StreetAddress.newBuilder(address));
+          setAddressBuilder(MemberAddress.newBuilder(address));
         } else {
-          setAddressBuilder(StreetAddress.newBuilder());
+          setAddressBuilder(MemberAddress.newBuilder());
         }
       }
       return addressBuilder;
@@ -809,7 +809,7 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
      * @return This builder.
      */
 
-    public UpdateMemberRequestAvroModel.Builder setAddressBuilder(StreetAddress.Builder value) {
+    public UpdateMemberRequestAvroModel.Builder setAddressBuilder(MemberAddress.Builder value) {
       clearAddress();
       addressBuilder = value;
       return this;
@@ -879,12 +879,12 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
       try {
         UpdateMemberRequestAvroModel record = new UpdateMemberRequestAvroModel();
         record.memberId = fieldSetFlags()[0] ? this.memberId : (java.util.UUID) defaultValue(fields()[0]);
-        record.name = fieldSetFlags()[1] ? this.name : (java.lang.String) defaultValue(fields()[1]);
-        record.password = fieldSetFlags()[2] ? this.password : (java.lang.String) defaultValue(fields()[2]);
-        record.email = fieldSetFlags()[3] ? this.email : (java.lang.String) defaultValue(fields()[3]);
+        record.name = fieldSetFlags()[1] ? this.name : (String) defaultValue(fields()[1]);
+        record.password = fieldSetFlags()[2] ? this.password : (String) defaultValue(fields()[2]);
+        record.email = fieldSetFlags()[3] ? this.email : (String) defaultValue(fields()[3]);
         record.memberKind = fieldSetFlags()[4] ? this.memberKind : (MemberKind) defaultValue(fields()[4]);
         record.memberStatus = fieldSetFlags()[5] ? this.memberStatus : (MemberStatus) defaultValue(fields()[5]);
-        record.phoneNumber = fieldSetFlags()[6] ? this.phoneNumber : (java.lang.String) defaultValue(fields()[6]);
+        record.phoneNumber = fieldSetFlags()[6] ? this.phoneNumber : (String) defaultValue(fields()[6]);
         if (addressBuilder != null) {
           try {
             record.address = this.addressBuilder.build();
@@ -893,13 +893,13 @@ public class UpdateMemberRequestAvroModel extends org.apache.avro.specific.Speci
             throw e;
           }
         } else {
-          record.address = fieldSetFlags()[7] ? this.address : (StreetAddress) defaultValue(fields()[7]);
+          record.address = fieldSetFlags()[7] ? this.address : (MemberAddress) defaultValue(fields()[7]);
         }
         record.createdAt = fieldSetFlags()[8] ? this.createdAt : (java.time.Instant) defaultValue(fields()[8]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
-      } catch (java.lang.Exception e) {
+      } catch (Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);
       }
     }
