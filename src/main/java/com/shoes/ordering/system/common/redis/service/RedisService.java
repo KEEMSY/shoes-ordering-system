@@ -44,8 +44,8 @@ public class RedisService {
     }
 
     // set (opsForSet)
-    public void setSetOps(String key, String... values){
-        redisTemplate.opsForSet().add(key, values);
+    public Long setSetOps(String key, String... values){
+        return redisTemplate.opsForSet().add(key, values);
     }
 
     public Set<String> getSetOps(String key){
