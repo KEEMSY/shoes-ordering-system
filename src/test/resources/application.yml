@@ -16,6 +16,10 @@ spring:
       hibernate.format_sql: true
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
 
+  redis:
+    host: localhost
+    port: ${REDIS_PORT:16379}
+
 member-service:
   create-member-request-topic-name: create-member-request
   update-member-request-topic-name: update-member-request

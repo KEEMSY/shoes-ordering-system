@@ -6,6 +6,7 @@ import com.shoes.ordering.system.domains.member.domain.application.ports.output.
 import com.shoes.ordering.system.domains.order.domain.application.ports.output.message.publisher.payment.OrderCancelledPaymentRequestMessagePublisher;
 import com.shoes.ordering.system.domains.order.domain.application.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessagePublisher;
 import com.shoes.ordering.system.domains.order.domain.application.ports.output.repository.OrderRepository;
+import com.shoes.ordering.system.domains.product.adapter.out.dataaccess.respository.ProductAppliedRedisRepository;
 import com.shoes.ordering.system.domains.product.domain.application.ports.output.message.publisher.ProductCreatedRequestMessagePublisher;
 import com.shoes.ordering.system.domains.product.domain.application.ports.output.message.publisher.ProductUpdatedRequestMessagePublisher;
 import com.shoes.ordering.system.domains.product.domain.application.ports.output.repository.ProductRepository;
@@ -44,6 +45,10 @@ public class TestConfiguration {
 
     @Bean
     public ProductRepository productRepository() { return Mockito.mock(ProductRepository.class); }
+    @Bean
+    public ProductAppliedRedisRepository productAppliedRedisRepository() {
+        return Mockito.mock(ProductAppliedRedisRepository.class);
+    }
     @Bean
     @Primary
     public ProductCreatedRequestMessagePublisher productCreatedRequestMessagePublisher() {
