@@ -20,13 +20,12 @@ public class ProductAppliedRedisRepositoryImpl implements ProductAppliedRedisRep
         String productIdStr = productId.toString();
         String memberIdStr = memberId.toString();
 
-        // Redis 집합에 userId가 있는지 확인
-        boolean memberIdExists = redisService.getSetOps(productIdStr).contains(memberIdStr);
-
-        if (memberIdExists) {
+        // Redis 집합에 memberId가 있는지 확인
+        Long memberIdExists = redisService.setSetOps(productIdStr, memberIdStr);
+        if (memberIdExists != 1) {
             return false;
         } else {
-            // Redis 집합에 UserId 추가
+            // Redis 집합에 memberId 추가
             redisService.setSetOps(productIdStr, memberIdStr);
             return true;
         }

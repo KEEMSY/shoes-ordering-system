@@ -20,6 +20,10 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -49,13 +53,13 @@ class ProductAppliedRedisRepositoryImplTest {
 
     @Test
     @DisplayName("addMemberIdToLimitedProduct 정상 확인: MemberId 정상 추가 확인")
-    public void addUserIdToProduct_SuccessTest() {
+    public void addMemberIdToLimitedProduct_SuccessTest() {
         // given
         UUID productId = UUID.randomUUID();
-        UUID userId = UUID.randomUUID();
+        UUID memberId = UUID.randomUUID();
 
         // when
-        boolean result = productAppliedRepository.addMemberIdToLimitedProduct(productId, userId);
+        boolean result = productAppliedRepository.addMemberIdToLimitedProduct(productId, memberId);
 
         // then
         assertThat(result).isTrue();
@@ -63,20 +67,54 @@ class ProductAppliedRedisRepositoryImplTest {
 
     @Test
     @DisplayName("addMemberIdToLimitedProduct 에러 확인: 이미 MemberId 가 추가된 경우")
-    public void addUserIdToProduct_FailureTest() {
+    public void addMemberIdToLimitedProduct_FailureTest() {
         // given
         UUID productId = UUID.randomUUID();
-        UUID userId = UUID.randomUUID();
+        UUID memberId = UUID.randomUUID();
         String productIdStr = productId.toString();
-        String memberIdStr = userId.toString();
+        String memberIdStr = memberId.toString();
         redisService.setSetOps(productIdStr, memberIdStr);
 
         // when
-        boolean result = productAppliedRepository.addMemberIdToLimitedProduct(productId, userId);
+        boolean result = productAppliedRepository.addMemberIdToLimitedProduct(productId, memberId);
 
         // then
         assertThat(result).isFalse();
     }
+
+    @Test
+    @DisplayName("addMemberIdToLimitedProduct 에러확인: 동시에 요청을 할 경우")
+    void addMemberIdToLimitedProduct_MultiMember() throws InterruptedException {
+        // given
+        int threadCount = 1000;
+        ExecutorService executorService = Executors.newFixedThreadPool(32);
+        CountDownLatch latch = new CountDownLatch(threadCount);
+
+        UUID memberId = UUID.randomUUID();
+        UUID productId = UUID.randomUUID();
+
+        AtomicInteger successfulCalls = new AtomicInteger(0);
+
+        // when
+        for(int i = 0; i < threadCount; i ++) {
+            executorService.submit(() -> {
+                try {
+                    boolean success = productAppliedRepository.addMemberIdToLimitedProduct(productId, memberId);
+                    if (success) {
+                        successfulCalls.incrementAndGet();
+                    }
+                } finally {
+                    latch.countDown();
+                }
+            });
+        }
+
+        latch.await();
+
+        // then
+        assertThat(successfulCalls.intValue()).isEqualTo(1);
+    }
+
     static class ContainerPropertyInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
         @Override
