@@ -28,4 +28,12 @@ public class OrderCommandController {
         log.info("Order created with tracking id: {}", createOrderResponse.getOrderTrackingId());
         return ResponseEntity.ok(createOrderResponse);
     }
+
+    @PostMapping("/limited")
+    public ResponseEntity<CreateOrderResponse> createLimitedOrder(@RequestBody CreateOrderCommand createOrderCommand) {
+        log.info("Creating limited order for member: {} ", createOrderCommand.getMemberId());
+        CreateOrderResponse createOrderResponse = orderCommandService.createLimitedOrder(createOrderCommand);
+        log.info("Limited Order created with tracking id: {}", createOrderResponse.getOrderTrackingId());
+        return ResponseEntity.ok(createOrderResponse);
+    }
 }
