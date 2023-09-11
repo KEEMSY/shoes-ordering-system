@@ -17,7 +17,7 @@ plugins {
 
 group 'com.shoes.ordering.system'
 version '1.0-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = "16"
 
 repositories {
     mavenCentral()
@@ -33,9 +33,14 @@ dependencies {
     implementation 'org.hibernate.validator:hibernate-validator'
     implementation 'javax.validation:validation-api:2.0.1.Final'
 
+    runtimeOnly 'mysql:mysql-connector-java'
+
     // querydsl
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+
+    // redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     implementation "org.apache.avro:avro:1.11.0"
 
@@ -52,9 +57,12 @@ dependencies {
 
     implementation("org.xerial.snappy:snappy-java:1.1.8.4")
 
-    runtimeOnly 'com.h2database:h2'
+    // forTest
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    testImplementation "org.testcontainers:junit-jupiter:1.19.0"
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+
 
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
@@ -118,3 +126,4 @@ configurations.all {
         }
     }
 }
+targetCompatibility = JavaVersion.VERSION_16

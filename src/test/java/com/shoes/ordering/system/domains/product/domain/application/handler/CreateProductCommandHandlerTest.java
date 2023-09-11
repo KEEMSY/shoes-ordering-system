@@ -21,8 +21,7 @@ import java.math.BigDecimal;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(classes = TestConfiguration.class)
@@ -50,12 +49,13 @@ public class CreateProductCommandHandlerTest {
 
         Product product = productDataMapper.creatProductCommandToProduct(createProductCommand);
         when(productRepository.save(any(Product.class))).thenReturn(product);
+        doNothing().when(productCreatedRequestMessagePublisher).publish(any(ProductCreatedEvent.class));
 
         // when
         CreateProductResponse resultCreateProductResponse = createProductCommandHandler.createProduct(createProductCommand);
 
         // then
-        // 이벤트 발행 확인
+        // 상호작용 확인
         ArgumentCaptor<ProductCreatedEvent> createdProductEventCaptor = ArgumentCaptor.forClass(ProductCreatedEvent.class);
         verify(productCreatedRequestMessagePublisher).publish(createdProductEventCaptor.capture());
 
