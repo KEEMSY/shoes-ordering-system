@@ -1,20 +1,20 @@
 spring:
   datasource:
-    url: 'jdbc:h2:mem:library'
-    username: 'user'
-    password: ''
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://localhost:${DB_PORT:13306}/shoes_ordering_system?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: test
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
+    open-in-view: true
     hibernate:
       ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      use-new-id-generator-mappings: false
+    show-sql: true
     properties:
-      hibernate:
-        format_sql: true
-        show_sql: true
-  h2:
-    console:
-      enabled: true
-      path: '/h2-console'
+      hibernate.format_sql: true
+      dialect: org.hibernate.dialect.MySQL8InnoDBDialect
 
 member-service:
   create-member-request-topic-name: create-member-request
@@ -24,12 +24,20 @@ product-service:
   create-product-request-topic-name: create-product-request
   update-product-request-topic-name: update-product-request
 
+order-service:
+  payment-request-topic-name: payment-request
+  payment-response-topic-name: payment-response
+
+
+
+
 kafka-config:
-  bootstrap-servers: localhost:19092, localhost:29092, localhost:39092
+#  bootstrap-servers: localhost:19092, localhost:29092, localhost:39092
+  bootstrap-servers:  ${spring.embedded.kafka.brokers:localhost:9092}
   schema-registry-url-key: schema.registry.url
-  schema-registry-url: http://localhost:8081
-  num-of-partitions: 3
-  replication-factor: 3
+  schema-registry-url: mock://
+  num-of-partitions: 1
+  replication-factor: 1
 
 kafka-producer-config:
   key-serializer-class: org.apache.kafka.common.serialization.StringSerializer
@@ -58,3 +66,5 @@ kafka-consumer-config:
   max-partition-fetch-bytes-default: 1048576
   max-partition-fetch-bytes-boost-factor: 1
   poll-timeout-ms: 150
+
+  payment-consumer-group-id: payment-topic-consumer
