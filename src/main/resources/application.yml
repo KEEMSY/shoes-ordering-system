@@ -22,6 +22,9 @@ spring:
     properties:
       hibernate.format_sql: true
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+  redis:
+    host: localhost
+    port: 6379
 
 member-service:
   create-member-request-topic-name: create-member-request
