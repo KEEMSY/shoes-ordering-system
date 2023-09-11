@@ -21,4 +21,9 @@ public class OrderCommandServiceImpl implements OrderCommandService {
     public CreateOrderResponse createOrder(CreateOrderCommand createOrderCommand) {
         return createOrderCommandHandler.createOrder(createOrderCommand);
     }
+
+    @Override
+    public CreateOrderResponse createLimitedOrder(CreateOrderCommand createOrderCommand) {
+        return createOrderCommandHandler.createLimitedOrder(createOrderCommand);
+    }
 }
