@@ -18,8 +18,11 @@ import java.util.UUID;
 @Entity
 public class OrderEntity {
     @Id
+    @Column(columnDefinition = "BINARY(16)")
     private UUID id;
+    @Column(columnDefinition = "BINARY(16)")
     private UUID memberId;
+    @Column(columnDefinition = "BINARY(16)")
     private UUID trackingId;
     private BigDecimal price;
     @Enumerated(EnumType.STRING)

@@ -66,10 +66,6 @@
             "type": "string"
           },
           {
-            "name": "state",
-            "type": "string"
-          },
-          {
             "name": "postalCode",
             "type": "string"
           }
