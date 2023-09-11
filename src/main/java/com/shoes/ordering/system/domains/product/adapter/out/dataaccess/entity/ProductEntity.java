@@ -18,6 +18,7 @@ import java.util.UUID;
 public class ProductEntity {
 
     @Id
+    @Column(columnDefinition = "BINARY(16)")
     private UUID productId;
     private String name;
     private String description;

@@ -34,20 +34,20 @@ public class UpdateMemberKafkaMessagePublisher implements MemberUpdateRequestMes
         log.info("Received MemberUpdatedEvent for memberId: {}", memberId);
 
         try {
-            UpdateMemberRequestAvroModel createMemberRequestAvroModel = memberMessagingDataMapper
+            UpdateMemberRequestAvroModel updateMemberRequestAvroModel = memberMessagingDataMapper
                     .memberUpdatedEventToUpdateMemberRequestAvroModel(domainEvent);
 
             kafkaProducer.send(memberServiceConfigData.getUpdateMemberRequestTopicName(),
                     memberId,
-                    createMemberRequestAvroModel,
+                    updateMemberRequestAvroModel,
                     memberKafkaMessageHelper.getKafkaCallback(memberServiceConfigData
                             .getUpdateMemberRequestTopicName(),
-                            createMemberRequestAvroModel,
+                            updateMemberRequestAvroModel,
                             memberId,
                             "UpdateMemberRequestAvroModel")
             );
-            log.info("CreateMemberRequestAvroModel sent to Kafka for member id: {}"
-                    , createMemberRequestAvroModel.getMemberId());
+            log.info("UpdateMemberRequestAvroModel sent to Kafka for member id: {}"
+                    , updateMemberRequestAvroModel.getMemberId());
         } catch (Exception e) {
             log.error("Error while sending UpdateMemberRequestAvroModel message to Kafka with member id: {}, error: {}"
                     ,memberId, e.getMessage() );
