@@ -7,5 +7,5 @@ import javax.validation.Valid;
 public interface ProductQueryService {
     TrackProductResponse trackProduct(@Valid TrackProductQuery trackProductQuery);
     TrackProductListResponse trackProductWithCategory(@Valid TrackProductListQuery trackProductListQuery);
-    TrackProductListResponse searchProduct(@Valid DynamicSearchProductQuery searchProductQuery);
+    TrackProductListResponse searchProducts(@Valid DynamicSearchProductQuery searchProductQuery);
 }
