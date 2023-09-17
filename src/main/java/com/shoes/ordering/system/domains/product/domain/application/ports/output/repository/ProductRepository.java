@@ -1,6 +1,6 @@
 package com.shoes.ordering.system.domains.product.domain.application.ports.output.repository;
 
-import com.shoes.ordering.system.domains.product.domain.application.dto.track.DynamicSearchProductQuery;
+import com.shoes.ordering.system.domains.product.adapter.out.dataaccess.adapter.ProductSearchPersistenceRequest;
 import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
 import org.springframework.stereotype.Component;
@@ -16,5 +16,5 @@ public interface ProductRepository {
 
     Optional<Product> findByProductId(UUID productId);
     Optional<List<Product>> findByProductCategory(List<ProductCategory> productCategory);
-    Optional<List<Product>> searchProductsByDynamicQuery(DynamicSearchProductQuery query);
+    Optional<List<Product>> searchProductsByDynamicQuery(ProductSearchPersistenceRequest productSearchPersistenceRequest);
 }

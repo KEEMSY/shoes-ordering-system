@@ -4,7 +4,6 @@ import com.shoes.ordering.system.domains.product.adapter.out.dataaccess.entity.P
 import com.shoes.ordering.system.domains.product.adapter.out.dataaccess.mapper.ProductDataAccessMapper;
 import com.shoes.ordering.system.domains.product.adapter.out.dataaccess.respository.ProductJpaRepository;
 import com.shoes.ordering.system.domains.product.adapter.out.dataaccess.respository.ProductQuerydslRepository;
-import com.shoes.ordering.system.domains.product.domain.application.dto.track.DynamicSearchProductQuery;
 import com.shoes.ordering.system.domains.product.domain.application.ports.output.repository.ProductRepository;
 import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
@@ -54,7 +53,7 @@ public class ProductPersistenceAdapter implements ProductRepository {
     }
 
     @Override
-    public Optional<List<Product>> searchProductsByDynamicQuery(DynamicSearchProductQuery query) {
+    public Optional<List<Product>> searchProductsByDynamicQuery(ProductSearchPersistenceRequest productSearchPersistenceRequest) {
         return Optional.empty();
     }
 }

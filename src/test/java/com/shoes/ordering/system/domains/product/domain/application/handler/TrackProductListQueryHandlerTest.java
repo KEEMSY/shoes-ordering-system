@@ -2,12 +2,12 @@ package com.shoes.ordering.system.domains.product.domain.application.handler;
 
 import com.shoes.ordering.system.TestConfiguration;
 import com.shoes.ordering.system.domains.common.valueobject.Money;
+import com.shoes.ordering.system.domains.product.adapter.out.dataaccess.adapter.ProductSearchPersistenceRequest;
 import com.shoes.ordering.system.domains.product.domain.application.dto.track.DynamicSearchProductQuery;
 import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductListQuery;
 import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductListResponse;
 import com.shoes.ordering.system.domains.product.domain.application.ports.output.repository.ProductRepository;
 import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
-import com.shoes.ordering.system.domains.product.domain.core.exception.ProductDomainException;
 import com.shoes.ordering.system.domains.product.domain.core.exception.ProductNotFoundException;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductId;
@@ -72,7 +72,7 @@ public class TrackProductListQueryHandlerTest {
         productList = List.of(product1, product2);
 
         when(productRepository.findByProductCategory(validProductCategoryList)).thenReturn(Optional.of(productList));
-        when(productRepository.searchProductsByDynamicQuery(any(DynamicSearchProductQuery.class))).thenReturn(Optional.of(productList));
+        when(productRepository.searchProductsByDynamicQuery(any(ProductSearchPersistenceRequest.class))).thenReturn(Optional.of(productList));
     }
 
     @Test
@@ -125,7 +125,7 @@ public class TrackProductListQueryHandlerTest {
     public void searchProductErrorTest_NoProducts() {
         // given
         DynamicSearchProductQuery dynamicSearchProductQuery = DynamicSearchProductQuery.builder().build();
-        when(productRepository.searchProductsByDynamicQuery(any(DynamicSearchProductQuery.class))).thenReturn(Optional.empty());
+        when(productRepository.searchProductsByDynamicQuery(any(ProductSearchPersistenceRequest.class))).thenReturn(Optional.empty());
 
         // when, then
         assertThatThrownBy(()-> trackProductListQueryHandler.searchProducts(dynamicSearchProductQuery))
