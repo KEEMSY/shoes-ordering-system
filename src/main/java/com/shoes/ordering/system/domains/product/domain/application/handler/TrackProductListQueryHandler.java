@@ -1,5 +1,6 @@
 package com.shoes.ordering.system.domains.product.domain.application.handler;
 
+import com.shoes.ordering.system.domains.product.domain.application.dto.track.DynamicSearchProductQuery;
 import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductListQuery;
 import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductListResponse;
 import com.shoes.ordering.system.domains.product.domain.application.mapper.ProductDataMapper;
@@ -32,9 +33,22 @@ public class TrackProductListQueryHandler {
                 productRepository.findByProductCategory(trackProductListQuery.getProductCategoryList());
 
         if (resultProductList.isEmpty()) {
-            log.warn("Could not fine product with product category: {}", trackProductListQuery.getProductCategoryList());
+            log.warn("Could not find products with product category: {}", trackProductListQuery.getProductCategoryList());
             throw new ProductNotFoundException("Could not fine product with product category: "
                     + trackProductListQuery.getProductCategoryList());
+        }
+        return productDataMapper.productListToTrackProductListResponse(resultProductList.get());
+    }
+
+    @Transactional
+    public TrackProductListResponse searchProducts(DynamicSearchProductQuery searchProductQuery) {
+        Optional<List<Product>> resultProductList =
+                productRepository
+                        .searchProductsByDynamicQuery(productDataMapper
+                                .dynamicSearchProductQueryToProductSearchPersistenceRequest(searchProductQuery));
+        if (resultProductList.isEmpty()) {
+            log.warn("Could not find any products");
+            throw new ProductNotFoundException("Could not find any products");
         }
         return productDataMapper.productListToTrackProductListResponse(resultProductList.get());
     }

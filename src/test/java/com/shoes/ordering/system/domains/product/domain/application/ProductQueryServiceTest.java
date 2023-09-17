@@ -2,10 +2,7 @@ package com.shoes.ordering.system.domains.product.domain.application;
 
 import com.shoes.ordering.system.TestConfiguration;
 import com.shoes.ordering.system.domains.common.valueobject.Money;
-import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductListQuery;
-import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductListResponse;
-import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductQuery;
-import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductResponse;
+import com.shoes.ordering.system.domains.product.domain.application.dto.track.*;
 import com.shoes.ordering.system.domains.product.domain.application.ports.input.service.ProductQueryService;
 import com.shoes.ordering.system.domains.product.domain.application.ports.output.repository.ProductRepository;
 import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
