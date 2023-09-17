@@ -54,7 +54,6 @@ class DynamicSearchProductQueryTest {
     void dynamicSearchProductQueryErrorTest_WrongName() {
         // given
         String wrongName = new String(new char[NAME_LENGTH_LIMIT + 1]).replace('\0', 'A');
-        System.out.println(wrongName.length());
 
         // when, then
         assertThatThrownBy(() -> DynamicSearchProductQuery.builder()
