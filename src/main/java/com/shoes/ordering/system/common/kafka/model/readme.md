@@ -1,11 +1,11 @@
-## KafkaModel 관련 
+## KafkaModel 관련
 
 나는 kafka 를 사용 간, 직렬화를 위해 avro 를 사용하기로 하였으며, `root/src/main/resources/avro` 경로 내의 `.avsc` 파일들을 통해 빌드 시, Avro 클래스 파일들을 생성된다.
-그리고 생성될(된) 파일들은 현 디렉토리에 생성하고자 했으나, 문제가 발생했다. 
+그리고 생성될(된) 파일들은 현 디렉토리에 생성하고자 했으나, 문제가 발생했다.
 
 - `root/src/main/java` 에 Avro 관련 클래스들이 생성된다.
 
-    *하나의 디렉토리로 모으기위해 현재 `root/src/main/java/avro/com/shose/ordering/system`에 생성되도록 수정하였다.*
+  *하나의 디렉토리로 모으기위해 현재 `root/src/main/java/avro/com/shose/ordering/system`에 생성되도록 수정하였다.*
 
 - 공식문서 및 많은 시도를 해보았지만, 해당 문제를 해결하지 못했다.
 
@@ -25,3 +25,15 @@
 
 - create-member-request(createMemberRequestTopicName)
 - update-member-request(updateMemberRequestTopicName)
+- create-product-request(createProductRequestTopicName)
+- update-product-request(updateProductRequestTopicName)
+
+<br> <hr>
+
+### 에러 처리 관련
+
+> org.apache.kafka.common.errors.SerializationException: Error serializing Avro message
+
+수정한 Avro 클래스만을 새롭게 생성하는 것이아니라, 전체 Avro 생성클래스를 업데이트해주자.. 수정한 .avsc 만 업데이트 했다가 해당 에러 때문에 해결이 안됬다.
+
+- 에러를 확인할 때에는, 에러 메시지만 보이므로, 에러를 catch 하는 부분에서 `Exception.printStackTrace()` 를 활용하여 전체 에러를 확인한다.

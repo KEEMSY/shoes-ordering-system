@@ -26,7 +26,6 @@ public class ProductTest {
                 .productCategory(ProductCategory.SHOES)
                 .description("Test Product Description")
                 .price(new Money(new BigDecimal("200.00")))
-                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
                 .build();
         // when
         product.initializeProduct();
@@ -48,7 +47,6 @@ public class ProductTest {
                 .productCategory(ProductCategory.SHOES)
                 .description("Test Product Description")
                 .price(invalidMoney)
-                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
                 .build();
         invalidPriceProduct.initializeProduct();
 
@@ -70,7 +68,6 @@ public class ProductTest {
                 .productCategory(invalidProductCategory)
                 .description("Test Product Description")
                 .price(new Money(new BigDecimal("200.00")))
-                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
                 .build();
         invalidPriceProduct.initializeProduct();
 

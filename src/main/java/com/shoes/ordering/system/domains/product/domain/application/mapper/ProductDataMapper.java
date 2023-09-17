@@ -1,5 +1,6 @@
 package com.shoes.ordering.system.domains.product.domain.application.mapper;
 
+import com.shoes.ordering.system.domains.common.valueobject.Money;
 import com.shoes.ordering.system.domains.product.domain.application.dto.create.CreateProductCommand;
 import com.shoes.ordering.system.domains.product.domain.application.dto.create.CreateProductResponse;
 import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductListResponse;
@@ -19,18 +20,17 @@ public class ProductDataMapper {
                 .name(createProductCommand.getName())
                 .productCategory(createProductCommand.getProductCategory())
                 .description(createProductCommand.getDescription())
-                .price(createProductCommand.getPrice())
-                .productImages(createProductCommand.getProductImages())
+                .price(new Money(createProductCommand.getPrice()))
                 .build();
     }
 
     public CreateProductResponse productToCreateProductResponse(Product product) {
         return CreateProductResponse.builder()
+                .productId(product.getId().getValue())
                 .name(product.getName())
                 .productCategory(product.getProductCategory())
                 .description(product.getDescription())
                 .price(product.getPrice())
-                .productImages(product.getProductImages())
                 .build();
     }
 
@@ -40,8 +40,7 @@ public class ProductDataMapper {
                 .name(updateProductCommand.getName())
                 .description(updateProductCommand.getDescription())
                 .productCategory(updateProductCommand.getProductCategory())
-                .price(updateProductCommand.getPrice())
-                .productImages(updateProductCommand.getProductImages())
+                .price(new Money(updateProductCommand.getPrice()))
                 .build();
     }
 
@@ -52,7 +51,6 @@ public class ProductDataMapper {
                 .productCategory(product.getProductCategory())
                 .description(product.getDescription())
                 .price(product.getPrice())
-                .productImages(product.getProductImages())
                 .build();
     }
 
@@ -63,7 +61,6 @@ public class ProductDataMapper {
                 .productCategory(product.getProductCategory())
                 .description(product.getDescription())
                 .price(product.getPrice())
-                .productImages(product.getProductImages())
                 .build();
     }
 

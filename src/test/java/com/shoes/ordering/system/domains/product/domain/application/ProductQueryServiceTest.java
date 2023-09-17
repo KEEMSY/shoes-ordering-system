@@ -9,10 +9,8 @@ import com.shoes.ordering.system.domains.product.domain.application.dto.track.Tr
 import com.shoes.ordering.system.domains.product.domain.application.ports.input.service.ProductQueryService;
 import com.shoes.ordering.system.domains.product.domain.application.ports.output.repository.ProductRepository;
 import com.shoes.ordering.system.domains.product.domain.core.entity.Product;
-import com.shoes.ordering.system.domains.product.domain.core.entity.ProductImage;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductId;
-import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductImageId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,6 +41,8 @@ public class ProductQueryServiceTest {
     private Product product1;
     private Product product2;
     private List<Product> productList;
+    private final List<String> inputValidProductCategoryList
+            = List.of(ProductCategory.SHOES.toString(), ProductCategory.CLOTHING.toString());
     private final List<ProductCategory> validProductCategoryList
             = List.of(ProductCategory.SHOES, ProductCategory.CLOTHING);
 
@@ -54,7 +54,6 @@ public class ProductQueryServiceTest {
                 .productCategory(ProductCategory.SHOES)
                 .description("Test Product Description")
                 .price(new Money(new BigDecimal("200.00")))
-                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
                 .build();
         product2 = Product.builder()
                 .productId(new ProductId(UUID.randomUUID()))
@@ -62,7 +61,6 @@ public class ProductQueryServiceTest {
                 .name("TestProductName2")
                 .description("Test Product2 Description")
                 .price(new Money(new BigDecimal("200.00")))
-                .productImages(List.of(new ProductImage(new ProductImageId(UUID.randomUUID()), "TestUrl")))
                 .build();
 
         productList = List.of(product1, product2);
@@ -93,7 +91,7 @@ public class ProductQueryServiceTest {
     public void trackProductListResponseTest() {
         // given
         trackProductListQuery = TrackProductListQuery.builder()
-                .productCategoryList(validProductCategoryList)
+                .productCategoryList(inputValidProductCategoryList)
                 .build();
 
         // when
