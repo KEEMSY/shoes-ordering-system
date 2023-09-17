@@ -1,8 +1,10 @@
 package com.shoes.ordering.system.domains.product.domain.application.mapper;
 
 import com.shoes.ordering.system.domains.common.valueobject.Money;
+import com.shoes.ordering.system.domains.product.adapter.out.dataaccess.adapter.ProductSearchPersistenceRequest;
 import com.shoes.ordering.system.domains.product.domain.application.dto.create.CreateProductCommand;
 import com.shoes.ordering.system.domains.product.domain.application.dto.create.CreateProductResponse;
+import com.shoes.ordering.system.domains.product.domain.application.dto.track.DynamicSearchProductQuery;
 import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductListResponse;
 import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductResponse;
 import com.shoes.ordering.system.domains.product.domain.application.dto.update.UpdateProductCommand;
@@ -67,6 +69,15 @@ public class ProductDataMapper {
     public TrackProductListResponse productListToTrackProductListResponse(List<Product> products) {
         return TrackProductListResponse.builder()
                 .productList(products)
+                .build();
+    }
+
+    public ProductSearchPersistenceRequest dynamicSearchProductQueryToProductSearchPersistenceRequest(DynamicSearchProductQuery dynamicSearchProductQuery) {
+        return ProductSearchPersistenceRequest.builder()
+                .name(dynamicSearchProductQuery.getName())
+                .productCategoryList(dynamicSearchProductQuery.getProductCategoryList())
+                .minPrice(dynamicSearchProductQuery.getMinPrice())
+                .maxPrice(dynamicSearchProductQuery.getMaxPrice())
                 .build();
     }
 }

@@ -43,7 +43,9 @@ public class TrackProductListQueryHandler {
     @Transactional
     public TrackProductListResponse searchProducts(DynamicSearchProductQuery searchProductQuery) {
         Optional<List<Product>> resultProductList =
-                productRepository.searchProductsByDynamicQuery(searchProductQuery);
+                productRepository
+                        .searchProductsByDynamicQuery(productDataMapper
+                                .dynamicSearchProductQueryToProductSearchPersistenceRequest(searchProductQuery));
         if (resultProductList.isEmpty()) {
             log.warn("Could not find any products");
             throw new ProductNotFoundException("Could not find any products");
