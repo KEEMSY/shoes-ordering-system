@@ -18,6 +18,7 @@ import com.shoes.ordering.system.domains.order.domain.core.entity.Order;
 import com.shoes.ordering.system.domains.order.domain.core.exception.OrderDomainException;
 import com.shoes.ordering.system.domains.order.domain.core.valueobject.OrderId;
 import com.shoes.ordering.system.domains.order.domain.core.valueobject.OrderStatus;
+import com.shoes.ordering.system.domains.product.adapter.out.dataaccess.respository.ProductAppliedRedisRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,11 +27,15 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(classes = TestConfiguration.class)
@@ -43,6 +48,8 @@ class OrderCommandServiceImplTest {
     private OrderRepository orderRepository;
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private ProductAppliedRedisRepository productAppliedRedisRepository;
 
     private CreateOrderCommand createOrderCommand;
     private CreateOrderCommand createOrderCommandWrongPrice;
@@ -137,6 +144,107 @@ class OrderCommandServiceImplTest {
         // when, then
         assertThatThrownBy(() -> orderCommandService.createOrder(createOrderCommandWrongProductPrice))
                 .isInstanceOf(OrderDomainException.class);
+    }
+
+    @Test
+    @DisplayName("정상 createLimitedOrder 테스트")
+    void createLimitedOrderTest() {
+        OrderItem orderItem1 = createOrderItem(1, new BigDecimal("50.00"));
+        OrderItem orderItem2 = createOrderItem(3, new BigDecimal("50.00"));
+
+        createOrderCommand = CreateOrderCommand.builder()
+                .memberId(MEMBER_ID)
+                .address(OrderAddress.builder()
+                        .street("123 Street")
+                        .postalCode("99999")
+                        .city("City")
+                        .build())
+                .price(PRICE)
+                .items(List.of(orderItem1, orderItem2)
+                )
+                .build();
+
+
+        Order order = createOrder(createOrderCommand);
+        Member member = createMember();
+
+        when(memberRepository.findByMemberId(MEMBER_ID)).thenReturn(Optional.of(member));
+        when(orderRepository.save(any(Order.class))).thenReturn(order);
+        when(productAppliedRedisRepository.addMemberIdToLimitedProduct(any(UUID.class), any(UUID.class)))
+                .thenReturn(true)
+                .thenReturn(false);
+
+        // when
+        CreateOrderResponse resultCreateOrderResponse = orderCommandService.createLimitedOrder(createOrderCommand);
+
+        // then
+        assertThat(resultCreateOrderResponse.getOrderStatus()).isEqualTo(OrderStatus.PENDING);
+        assertThat(resultCreateOrderResponse.getMessage()).isEqualTo("Order created successfully");
+        assertThat(resultCreateOrderResponse.getOrderTrackingId()).isNotNull();
+    }
+
+    @Test
+    @DisplayName("정상 createLimitedOrder 동시성 테스트: 하나의 ProductId 에 대하여 한번만 등록 가능하다.")
+    void createLimitedOrderTest_MultiMember() throws InterruptedException {
+        OrderItem orderItem1 = createOrderItem(1, new BigDecimal("50.00"));
+        OrderItem orderItem2 = createOrderItem(3, new BigDecimal("50.00"));
+
+        createOrderCommand = CreateOrderCommand.builder()
+                .memberId(MEMBER_ID)
+                .address(OrderAddress.builder()
+                        .street("123 Street")
+                        .postalCode("99999")
+                        .city("City")
+                        .build())
+                .price(PRICE)
+                .items(List.of(orderItem1, orderItem2)
+                )
+                .build();
+
+
+        Order order = createOrder(createOrderCommand);
+        Member member = createMember();
+
+        when(memberRepository.findByMemberId(MEMBER_ID)).thenReturn(Optional.of(member));
+        when(orderRepository.save(any(Order.class))).thenReturn(order);
+        when(productAppliedRedisRepository.addMemberIdToLimitedProduct(any(UUID.class), any(UUID.class)))
+                .thenReturn(true)
+                .thenReturn(false);
+
+        int threadCount = 1000;
+        ExecutorService executorService = Executors.newFixedThreadPool(32);
+        CountDownLatch latch = new CountDownLatch(threadCount);
+
+        AtomicInteger successfulCalls = new AtomicInteger(0);
+
+        // when
+        for(int i = 0; i < threadCount; i ++) {
+            executorService.submit(() -> {
+                try {
+                    CreateOrderResponse resultCreateOrderResponse = orderCommandService.createLimitedOrder(createOrderCommand);
+                    successfulCalls.incrementAndGet();
+
+                    assertThat(resultCreateOrderResponse.getOrderStatus()).isEqualTo(OrderStatus.PENDING);
+                    assertThat(resultCreateOrderResponse.getMessage()).isEqualTo("Order created successfully");
+                    assertThat(resultCreateOrderResponse.getOrderTrackingId()).isNotNull();
+
+                } catch (Exception e) {
+                  assertThat(e).isInstanceOf(OrderDomainException.class);
+                } finally {
+                    latch.countDown();
+                }
+            });
+        }
+        latch.await();
+
+        // then
+        assertThat(successfulCalls.intValue()).isEqualTo(1);
+    }
+
+    private Order createOrder(CreateOrderCommand createOrderCommand) {
+        Order order = orderDataMapper.createOrderCommandToOrder(createOrderCommand);
+        order.initializeOrder();
+        return order;
     }
 
     private Member createMember() {

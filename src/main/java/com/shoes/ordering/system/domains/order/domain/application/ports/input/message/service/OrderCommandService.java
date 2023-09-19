@@ -8,5 +8,5 @@ import javax.validation.Valid;
 public interface OrderCommandService {
 
     CreateOrderResponse createOrder(@Valid CreateOrderCommand createOrderCommand);
-
+    CreateOrderResponse createLimitedOrder(@Valid CreateOrderCommand createOrderCommand);
 }
