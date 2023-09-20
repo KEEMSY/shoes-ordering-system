@@ -154,7 +154,7 @@ class ProductPersistenceAdapterTest {
     }
 
     @Test
-    @DisplayName("정상 searchProductsByDynamicQuery 테스트: 정상 가격 범주 내 Product 조회 확인")
+    @DisplayName("정상 searchProductsByDynamicQuery 테스트: 정상 ProductCategory 내 Product 조회 확인")
     void searchProductsByDynamicQueryTest_ProductCategoryList() {
         // given
         ProductEntity shoesProductEntity1
