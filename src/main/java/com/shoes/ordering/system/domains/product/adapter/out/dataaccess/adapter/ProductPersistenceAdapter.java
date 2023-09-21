@@ -53,7 +53,7 @@ public class ProductPersistenceAdapter implements ProductRepository {
     }
 
     @Override
-    public Optional<List<Product>> searchProductsByDynamicQuery(ProductSearchPersistenceRequest productSearchPersistenceRequest) {
-        return Optional.empty();
+    public List<Product> searchProductsByDynamicQuery(ProductSearchPersistenceRequest productSearchPersistenceRequest) {
+        return null;
     }
 }
