@@ -33,8 +33,8 @@ public class ProductQuerydslRepositoryImpl implements ProductQuerydslRepository 
     }
 
     @Override
-    public Optional<List<ProductEntity>> searchProductsByDynamicQuery(ProductSearchPersistenceRequest productSearchPersistenceRequest) {
-        List<ProductEntity> result = jpaQueryFactory
+    public List<ProductEntity> searchProductsByDynamicQuery(ProductSearchPersistenceRequest productSearchPersistenceRequest) {
+        return jpaQueryFactory
                 .select(productEntity)
                 .from(productEntity)
                 .where(
@@ -43,7 +43,6 @@ public class ProductQuerydslRepositoryImpl implements ProductQuerydslRepository 
                         productCategoryIn(productSearchPersistenceRequest.getProductCategoryList())
                 )
                 .fetch();
-        return Optional.of(result);
     }
 
     private BooleanExpression nameContains(String name) {

@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface ProductQuerydslRepository {
     Optional<List<ProductEntity>> findByProductCategory(List<ProductCategory> productCategory);
-    Optional<List<ProductEntity>> searchProductsByDynamicQuery(ProductSearchPersistenceRequest productSearchPersistenceRequest);
+    List<ProductEntity> searchProductsByDynamicQuery(ProductSearchPersistenceRequest productSearchPersistenceRequest);
 }
