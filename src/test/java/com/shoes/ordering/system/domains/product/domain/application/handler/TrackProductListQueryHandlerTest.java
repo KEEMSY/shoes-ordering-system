@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -72,7 +73,7 @@ public class TrackProductListQueryHandlerTest {
         productList = List.of(product1, product2);
 
         when(productRepository.findByProductCategory(validProductCategoryList)).thenReturn(Optional.of(productList));
-        when(productRepository.searchProductsByDynamicQuery(any(ProductSearchPersistenceRequest.class))).thenReturn(Optional.of(productList));
+        when(productRepository.searchProductsByDynamicQuery(any(ProductSearchPersistenceRequest.class))).thenReturn(productList);
     }
 
     @Test
@@ -125,7 +126,7 @@ public class TrackProductListQueryHandlerTest {
     public void searchProductErrorTest_NoProducts() {
         // given
         DynamicSearchProductQuery dynamicSearchProductQuery = DynamicSearchProductQuery.builder().build();
-        when(productRepository.searchProductsByDynamicQuery(any(ProductSearchPersistenceRequest.class))).thenReturn(Optional.empty());
+        when(productRepository.searchProductsByDynamicQuery(any(ProductSearchPersistenceRequest.class))).thenReturn(new ArrayList<>());
 
         // when, then
         assertThatThrownBy(()-> trackProductListQueryHandler.searchProducts(dynamicSearchProductQuery))

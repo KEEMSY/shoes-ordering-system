@@ -16,5 +16,5 @@ public interface ProductRepository {
 
     Optional<Product> findByProductId(UUID productId);
     Optional<List<Product>> findByProductCategory(List<ProductCategory> productCategory);
-    Optional<List<Product>> searchProductsByDynamicQuery(ProductSearchPersistenceRequest productSearchPersistenceRequest);
+    List<Product> searchProductsByDynamicQuery(ProductSearchPersistenceRequest productSearchPersistenceRequest);
 }

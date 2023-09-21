@@ -42,7 +42,7 @@ public class TrackProductListQueryHandler {
 
     @Transactional
     public TrackProductListResponse searchProducts(DynamicSearchProductQuery searchProductQuery) {
-        Optional<List<Product>> resultProductList =
+        List<Product> resultProductList =
                 productRepository
                         .searchProductsByDynamicQuery(productDataMapper
                                 .dynamicSearchProductQueryToProductSearchPersistenceRequest(searchProductQuery));
@@ -50,6 +50,6 @@ public class TrackProductListQueryHandler {
             log.warn("Could not find any products");
             throw new ProductNotFoundException("Could not find any products");
         }
-        return productDataMapper.productListToTrackProductListResponse(resultProductList.get());
+        return productDataMapper.productListToTrackProductListResponse(resultProductList);
     }
 }
