@@ -146,11 +146,11 @@ class ProductPersistenceAdapterTest {
                 .build();
 
         // when
-        Optional<List<Product>> result
+        List<Product> result
                 = productPersistenceAdapter.searchProductsByDynamicQuery(productSearchPersistenceRequest);
 
         // then
-        result.ifPresent(products -> assertThat(products.size()).isEqualTo(2));
+        assertThat(result.size()).isEqualTo(2);
     }
 
     @Test
@@ -176,11 +176,11 @@ class ProductPersistenceAdapterTest {
                 .build();
 
         // when
-        Optional<List<Product>> result
+        List<Product> result
                 = productPersistenceAdapter.searchProductsByDynamicQuery(productSearchPersistenceRequest);
 
         // then
-        result.ifPresent(products -> assertThat(products.size()).isEqualTo(1));
+        assertThat(result.size()).isEqualTo(1);
     }
 
     @Test
@@ -206,11 +206,11 @@ class ProductPersistenceAdapterTest {
                 .build();
 
         // when
-        Optional<List<Product>> result
+        List<Product> result
                 = productPersistenceAdapter.searchProductsByDynamicQuery(productSearchPersistenceRequest);
 
         // then
-        result.ifPresent(products -> assertThat(products.size()).isEqualTo(2));
+        assertThat(result.size()).isEqualTo(2);
     }
 
     @Test
@@ -236,10 +236,10 @@ class ProductPersistenceAdapterTest {
                 .build();
 
         // when
-        Optional<List<Product>> result
+        List<Product> result
                 = productPersistenceAdapter.searchProductsByDynamicQuery(productSearchPersistenceRequest);
 
         // then
-        result.ifPresent(products -> assertThat(products).isEmpty());
+        assertThat(result).isEmpty();
     }
 }
