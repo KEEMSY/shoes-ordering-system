@@ -51,4 +51,14 @@ public class ProductPersistenceAdapter implements ProductRepository {
                         .collect(Collectors.toList()));
 
     }
+
+    @Override
+    public List<Product> searchProductsByDynamicQuery(ProductSearchPersistenceRequest productSearchPersistenceRequest) {
+        List<ProductEntity> productEntities
+                = productQuerydslRepository.searchProductsByDynamicQuery(productSearchPersistenceRequest);
+
+        return productEntities.stream()
+                .map(productDataAccessMapper::productEntityToProduct)
+                .collect(Collectors.toList());
+    }
 }
