@@ -2,16 +2,17 @@ package com.shoes.ordering.system.domains.product.adapter.out.dataaccess.adapter
 
 import com.shoes.ordering.system.domains.common.valueobject.Money;
 import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
+
 import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+
 @Getter
 public class ProductSearchPersistenceRequest {
     private final String name;
-    @NotNull
-    private final List<ProductCategory> productCategoryList;
+    @NotNull private final List<ProductCategory> productCategoryList;
     @NotNull private final Money minPrice;
     @NotNull private final Money maxPrice;
 
@@ -59,4 +60,3 @@ public class ProductSearchPersistenceRequest {
         }
     }
 }
-
