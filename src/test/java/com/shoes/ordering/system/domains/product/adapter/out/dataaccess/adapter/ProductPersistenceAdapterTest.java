@@ -214,7 +214,7 @@ class ProductPersistenceAdapterTest {
     }
 
     @Test
-    @DisplayName("정상 searchProductsByDynamicQuery 테스트: Product 가 존재하지 않을 경우 Optional.empty 를 반환한다.")
+    @DisplayName("정상 searchProductsByDynamicQuery 테스트: Product 가 존재하지 않을 경우 빈 리스트를 반환한다.")
     void searchProductsByDynamicQueryTest_Empty() {
         // given
         ProductEntity shoesProductEntity1
