@@ -34,17 +34,19 @@ class ProductPersistenceAdapterTest {
     @Autowired
     ProductDataAccessMapper productDataAccessMapper;
 
+    private final BigDecimal PRODUCT_PRICE = new BigDecimal("200.00");
+
     @AfterEach
     public void clean() {
         productJpaRepository.deleteAll();
     }
-    private ProductEntity createProductEntity(UUID productId, String name, ProductCategory productCategory) {
+    private ProductEntity createProductEntity(UUID productId, String name, ProductCategory productCategory, BigDecimal price) {
         return ProductEntity.builder()
                 .productId(productId)
                 .productCategory(productCategory)
                 .name(name)
                 .description("Test Product Description")
-                .price(new BigDecimal("200.00"))
+                .price(price)
                 .build();
     }
 
@@ -54,7 +56,7 @@ class ProductPersistenceAdapterTest {
                 .productCategory(productCategory)
                 .name(name)
                 .description("Test Product Description")
-                .price(new Money(new BigDecimal("200.00")))
+                .price(new Money(PRODUCT_PRICE))
                 .build();
     }
     @Test
@@ -79,8 +81,8 @@ class ProductPersistenceAdapterTest {
         // given
         UUID productId = UUID.randomUUID();
 
-        ProductEntity productEntity1 = createProductEntity(productId, "TestName1", ProductCategory.SHOES);
-        ProductEntity productEntity2 = createProductEntity(UUID.randomUUID(), "TestName2", ProductCategory.CLOTHING);
+        ProductEntity productEntity1 = createProductEntity(productId, "TestName1", ProductCategory.SHOES, PRODUCT_PRICE);
+        ProductEntity productEntity2 = createProductEntity(UUID.randomUUID(), "TestName2", ProductCategory.CLOTHING, PRODUCT_PRICE);
 
         productJpaRepository.saveAll(List.of(productEntity1, productEntity2));
 
@@ -97,12 +99,12 @@ class ProductPersistenceAdapterTest {
     void findByProductCategoryTest() {
         // given
         ProductEntity shoesProductEntity1
-                = createProductEntity(UUID.randomUUID(), "TestName1", ProductCategory.SHOES);
+                = createProductEntity(UUID.randomUUID(), "TestName1", ProductCategory.SHOES, PRODUCT_PRICE);
         ProductEntity shoesProductEntity2
-                = createProductEntity(UUID.randomUUID(), "TestName2", ProductCategory.SHOES);
+                = createProductEntity(UUID.randomUUID(), "TestName2", ProductCategory.SHOES, PRODUCT_PRICE);
 
         ProductEntity clothingProductEntity1
-                = createProductEntity(UUID.randomUUID(), "TestName3", ProductCategory.CLOTHING);
+                = createProductEntity(UUID.randomUUID(), "TestName3", ProductCategory.CLOTHING, PRODUCT_PRICE);
 
         productJpaRepository.saveAll(List.of(shoesProductEntity1, shoesProductEntity2, clothingProductEntity1));
 
@@ -119,5 +121,125 @@ class ProductPersistenceAdapterTest {
         // then
         resultsWithShoesCategory.ifPresent(products -> assertThat(products.size()).isEqualTo(2));
         resultsWithAllCategories.ifPresent(products -> assertThat(products.size()).isEqualTo(3));
+    }
+
+    @Test
+    @DisplayName("정상 searchProductsByDynamicQuery 테스트: 가격 범주 내 Product 조회 확인")
+    void searchProductsByDynamicQueryTest_Price() {
+        // given
+        ProductEntity shoesProductEntity1
+                = createProductEntity(UUID.randomUUID(), "TestName1", ProductCategory.SHOES, PRODUCT_PRICE);
+        ProductEntity shoesProductEntity2
+                = createProductEntity(UUID.randomUUID(), "TestName2", ProductCategory.SHOES, PRODUCT_PRICE.add(new BigDecimal("100.00")));
+
+        ProductEntity clothingProductEntity1
+                = createProductEntity(UUID.randomUUID(), "TestName3", ProductCategory.CLOTHING, PRODUCT_PRICE);
+
+        productJpaRepository.saveAll(List.of(shoesProductEntity1, shoesProductEntity2, clothingProductEntity1));
+
+
+        List<ProductCategory> productCategoryList = List.of(ProductCategory.SHOES, ProductCategory.CLOTHING);
+        ProductSearchPersistenceRequest productSearchPersistenceRequest = ProductSearchPersistenceRequest.builder()
+                .minPrice(new Money(new BigDecimal("0.00")))
+                .maxPrice(new Money(PRODUCT_PRICE))
+                .productCategoryList(productCategoryList)
+                .build();
+
+        // when
+        List<Product> result
+                = productPersistenceAdapter.searchProductsByDynamicQuery(productSearchPersistenceRequest);
+
+        // then
+        assertThat(result.size()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("정상 searchProductsByDynamicQuery 테스트: 정상 ProductCategory 내 Product 조회 확인")
+    void searchProductsByDynamicQueryTest_ProductCategoryList() {
+        // given
+        ProductEntity shoesProductEntity1
+                = createProductEntity(UUID.randomUUID(), "TestName1", ProductCategory.SHOES, PRODUCT_PRICE);
+        ProductEntity shoesProductEntity2
+                = createProductEntity(UUID.randomUUID(), "TestName2", ProductCategory.SHOES, PRODUCT_PRICE.add(new BigDecimal("100.00")));
+
+        ProductEntity clothingProductEntity1
+                = createProductEntity(UUID.randomUUID(), "TestName3", ProductCategory.CLOTHING, PRODUCT_PRICE);
+
+        productJpaRepository.saveAll(List.of(shoesProductEntity1, shoesProductEntity2, clothingProductEntity1));
+
+
+        List<ProductCategory> productCategoryWithShoes = List.of(ProductCategory.SHOES);
+        ProductSearchPersistenceRequest productSearchPersistenceRequest = ProductSearchPersistenceRequest.builder()
+                .minPrice(new Money(new BigDecimal("0.00")))
+                .maxPrice(new Money(PRODUCT_PRICE))
+                .productCategoryList(productCategoryWithShoes)
+                .build();
+
+        // when
+        List<Product> result
+                = productPersistenceAdapter.searchProductsByDynamicQuery(productSearchPersistenceRequest);
+
+        // then
+        assertThat(result.size()).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("정상 searchProductsByDynamicQuery 테스트: Name 조회는 대소문자를 구분하지 않는다.")
+    void searchProductsByDynamicQueryTest_Name() {
+        // given
+        ProductEntity shoesProductEntity1
+                = createProductEntity(UUID.randomUUID(), "TestName1", ProductCategory.SHOES, PRODUCT_PRICE);
+        ProductEntity shoesProductEntity2
+                = createProductEntity(UUID.randomUUID(), "testName1", ProductCategory.SHOES, PRODUCT_PRICE);
+
+        ProductEntity clothingProductEntity1
+                = createProductEntity(UUID.randomUUID(), "TestName1", ProductCategory.CLOTHING, PRODUCT_PRICE);
+
+        productJpaRepository.saveAll(List.of(shoesProductEntity1, shoesProductEntity2, clothingProductEntity1));
+
+
+        List<ProductCategory> productCategoryWithShoes = List.of(ProductCategory.SHOES);
+        ProductSearchPersistenceRequest productSearchPersistenceRequest = ProductSearchPersistenceRequest.builder()
+                .minPrice(new Money(new BigDecimal("0.00")))
+                .maxPrice(new Money(PRODUCT_PRICE))
+                .productCategoryList(productCategoryWithShoes)
+                .build();
+
+        // when
+        List<Product> result
+                = productPersistenceAdapter.searchProductsByDynamicQuery(productSearchPersistenceRequest);
+
+        // then
+        assertThat(result.size()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("정상 searchProductsByDynamicQuery 테스트: Product 가 존재하지 않을 경우 빈 리스트를 반환한다.")
+    void searchProductsByDynamicQueryTest_Empty() {
+        // given
+        ProductEntity shoesProductEntity1
+                = createProductEntity(UUID.randomUUID(), "TestName1", ProductCategory.SHOES, PRODUCT_PRICE);
+        ProductEntity shoesProductEntity2
+                = createProductEntity(UUID.randomUUID(), "testName1", ProductCategory.SHOES, PRODUCT_PRICE);
+
+        ProductEntity clothingProductEntity1
+                = createProductEntity(UUID.randomUUID(), "TestName1", ProductCategory.CLOTHING, PRODUCT_PRICE);
+
+        productJpaRepository.saveAll(List.of(shoesProductEntity1, shoesProductEntity2, clothingProductEntity1));
+
+
+        List<ProductCategory> productCategoryWithShoes = List.of(ProductCategory.SHOES);
+        ProductSearchPersistenceRequest productSearchPersistenceRequest = ProductSearchPersistenceRequest.builder()
+                .minPrice(new Money(PRODUCT_PRICE.add(new BigDecimal("100.00"))))
+                .maxPrice(new Money(PRODUCT_PRICE.add(new BigDecimal("200.00"))))
+                .productCategoryList(productCategoryWithShoes)
+                .build();
+
+        // when
+        List<Product> result
+                = productPersistenceAdapter.searchProductsByDynamicQuery(productSearchPersistenceRequest);
+
+        // then
+        assertThat(result).isEmpty();
     }
 }
