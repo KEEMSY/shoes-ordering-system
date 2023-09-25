@@ -1,17 +1,13 @@
 package com.shoes.ordering.system.domains.product.adapter.in.controller.rest;
 
-import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductListQuery;
-import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductListResponse;
-import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductQuery;
-import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductResponse;
+import com.shoes.ordering.system.domains.common.valueobject.Money;
+import com.shoes.ordering.system.domains.product.domain.application.dto.track.*;
 import com.shoes.ordering.system.domains.product.domain.application.ports.input.service.ProductQueryService;
-import com.shoes.ordering.system.domains.product.domain.core.exception.ProductDomainException;
-import com.shoes.ordering.system.domains.product.domain.core.valueobject.ProductCategory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,6 +39,37 @@ public class ProductQueryController {
         TrackProductListResponse trackProductListResponse
                 = productQueryService.trackProductWithCategory(trackProductListQuery);
         log.info("Return product with ProductCategories: {}", trackProductListQuery.getProductCategoryList());
+        return ResponseEntity.ok(trackProductListResponse);
+    }
+
+    @GetMapping("/search/dynamic")
+    public ResponseEntity<TrackProductListResponse> searchProductsByDynamic(
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "productCategoryList", required = false) List<String> productCategoryList,
+            @RequestParam(name = "minPrice", required = false) BigDecimal minPrice,
+            @RequestParam(name = "maxPrice", required = false) BigDecimal maxPrice
+    ) {
+        DynamicSearchProductQuery.Builder queryBuilder = DynamicSearchProductQuery.builder()
+                .name(name)
+                .productCategoryList(productCategoryList);
+
+        if (minPrice != null) {
+            queryBuilder.minPrice(new Money(minPrice));
+        }
+
+        if (maxPrice != null) {
+            queryBuilder.maxPrice(new Money(maxPrice));
+        }
+
+        DynamicSearchProductQuery dynamicSearchProductQuery = queryBuilder.build();
+        TrackProductListResponse trackProductListResponse
+                = productQueryService.searchProducts(dynamicSearchProductQuery);
+        log.info("Return product with Name: {}, ProductCategories: {}, minPrice: {}, maxPrice: {}"
+                ,dynamicSearchProductQuery.getName()
+                , dynamicSearchProductQuery.getProductCategoryList()
+                ,dynamicSearchProductQuery.getMinPrice()
+                , dynamicSearchProductQuery.getMaxPrice());
+
         return ResponseEntity.ok(trackProductListResponse);
     }
 }
