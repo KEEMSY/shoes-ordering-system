@@ -323,4 +323,21 @@ public class ProductQueryControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message")
                 .value("Invalid product categories: INVALID_CATEGORY"));
     }
+
+    @Test
+    @DisplayName("정상 searchProductsByDynamicErrorTest: Products 가 존재하지 않는 경우: 404 NotFound")
+    void searchProductsByDynamicErrorTest_ProductNotFoundException() throws Exception {
+        // given
+        String unknownProductName = "unknownProductName";
+        when(productQueryService.searchProducts(any(DynamicSearchProductQuery.class)))
+                .thenThrow(new ProductNotFoundException("Could not find any products"));
+
+        // when and then
+        mockMvc.perform(MockMvcRequestBuilders.get("/products/search/dynamic")
+                        .param("name", unknownProductName)
+                        .header("Content-Type", "application/json"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
+                .value("Could not find any products"));
+    }
 }

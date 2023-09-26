@@ -64,7 +64,7 @@ public class ProductQueryController {
         DynamicSearchProductQuery dynamicSearchProductQuery = queryBuilder.build();
         TrackProductListResponse trackProductListResponse
                 = productQueryService.searchProducts(dynamicSearchProductQuery);
-        log.info("Return product with Name: {}, ProductCategories: {}, minPrice: {}, maxPrice: {}"
+        log.info("Search products with Name: {}, ProductCategories: {}, minPrice: {}, maxPrice: {}"
                 ,dynamicSearchProductQuery.getName()
                 , dynamicSearchProductQuery.getProductCategoryList()
                 ,dynamicSearchProductQuery.getMinPrice()
