@@ -1,9 +1,6 @@
 package com.shoes.ordering.system.domains.product.domain.application;
 
-import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductListQuery;
-import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductListResponse;
-import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductQuery;
-import com.shoes.ordering.system.domains.product.domain.application.dto.track.TrackProductResponse;
+import com.shoes.ordering.system.domains.product.domain.application.dto.track.*;
 import com.shoes.ordering.system.domains.product.domain.application.handler.TrackProductListQueryHandler;
 import com.shoes.ordering.system.domains.product.domain.application.handler.TrackProductQueryHandler;
 import com.shoes.ordering.system.domains.product.domain.application.ports.input.service.ProductQueryService;
@@ -33,6 +30,11 @@ public class ProductQueryServiceImpl implements ProductQueryService {
     @Override
     public TrackProductListResponse trackProductWithCategory(TrackProductListQuery trackProductListQuery) {
         return trackProductListQueryHandler.trackProductWithCategory(trackProductListQuery);
+    }
+
+    @Override
+    public TrackProductListResponse searchProducts(DynamicSearchProductQuery searchProductQuery) {
+        return trackProductListQueryHandler.searchProducts(searchProductQuery);
     }
 
 }
