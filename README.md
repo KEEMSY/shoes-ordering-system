@@ -1,68 +1,60 @@
 # Shoes Ordering System
 
-진행 중
+*진행 중*
 
-## **Context**
+## Description
 
-- [신발 주문 시스템을 계획하게 된 배경](https://github.com/KEEMSY/shoes-ordering-system/wiki/%EC%8B%A0%EB%B0%9C-%EC%A3%BC%EB%AC%B8-%EC%8B%9C%EC%8A%A4%ED%85%9C%EC%9D%84-%EA%B3%84%ED%9A%8D%ED%95%98%EA%B2%8C-%EB%90%9C-%EB%B0%B0%EA%B2%BD)
+신발 주문 시스템 프로젝트는 **도메인 중심 설계(Domain-Driven Design, DDD), 클린 아키텍처(Ports and Adapters)** 를 적용한 내부 아키텍처 설계를 적용하고 **Kafka**를 활용한 **이벤트 기반 아키텍처(Event-Driven Architecture, EDA)** 를 결합한 프로젝트 입니다. 
 
+ 프로젝트의 핵심 목표는 **도메인 중심의 개발**과 **클린 아키텍처** 를 통한 **유지보수성 강화** 입니다. DDD의 원칙을 적용하여 각 **도메인의 응집도**를 높이고 **풍부한 도메인 모델** 을 형성하고자 하였습니다.
 
-<br><hr>
-
-## **Decision**
-
-- [신발 주문 시스템 분석 - 도메인](https://github.com/KEEMSY/shoes-ordering-system/wiki/%EC%8B%A0%EB%B0%9C-%EC%A3%BC%EB%AC%B8-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EB%B6%84%EC%84%9D---%EB%8F%84%EB%A9%94%EC%9D%B8)
-- [신발 주문 시스템 분석 - 아키텍처](https://github.com/KEEMSY/shoes-ordering-system/wiki/%EC%8B%A0%EB%B0%9C-%EC%A3%BC%EB%AC%B8-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EB%B6%84%EC%84%9D---%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98)
-
-<br><hr>
-
-## **Consequence**
-
-> **내부 아키텍처 설계**
-
-- [도메인 설계](https://github.com/KEEMSY/shoes-ordering-system/wiki/%EC%8B%A0%EB%B0%9C-%EC%A3%BC%EB%AC%B8-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EC%84%A4%EA%B3%84---%EB%8F%84%EB%A9%94%EC%9D%B8)
-    - [Member](https://github.com/KEEMSY/shoes-ordering-system/wiki/%EC%8B%A0%EB%B0%9C-%EC%A3%BC%EB%AC%B8-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EB%B6%84%EC%84%9D---%EB%8F%84%EB%A9%94%EC%9D%B8-:-Member)
-    - [Product](https://github.com/KEEMSY/shoes-ordering-system/wiki/%EC%8B%A0%EB%B0%9C-%EC%A3%BC%EB%AC%B8-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EB%B6%84%EC%84%9D---%EB%8F%84%EB%A9%94%EC%9D%B8-:-Product)
-    - Order
-    - Payment
-
-<br>
-
-> **외부 아키텍처 설계**
-
-- [아키텍처 설계](https://github.com/KEEMSY/shoes-ordering-system/wiki/%EC%8B%A0%EB%B0%9C-%EC%A3%BC%EB%AC%B8-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EC%84%A4%EA%B3%84---%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98)
+ 기존 주문시스템에서의 **주문과 결제 도메인의 강한 결합 문제**를 해결하기 위해 **이벤트 기반 아키텍처** 를 도입했습니다. **주문 시, 결제 실패로 주문이 실패하는 것이 아닌, 오로지 주문 도메인 로직의 문제 시에만 실패할 수 있도록 설계** 했습니다.
 
 
 <br><hr>
 
-## 소개
+## Flow
 
-신발 주문 시스템 프로젝트의 목표는 도메인 주도 설계(DDD), 클린 아키텍처(포트 및 어댑터) 및 이벤트 기반 아키텍처 접근 방식을 결합하여
-도메인 중심의 구조화되고 모듈식이며 그리고 확장 가능한 시스템을 설계하는 것이다.
-이에 더해, 신발 주문 영역의 요구 사항을 충족하고 향후 개발 및 개선을 위한 효율적이고 유연한 프로젝트를 목표로 설정하였다.
+> **Overal Flow**
 
-<br>
+<img width="1245" alt="스크린샷 2023-10-23 오후 2 55 38" src="https://github.com/KEEMSY/shoes-ordering-system/assets/96563125/edea2daa-762d-41bf-9905-cf423f6e1be6">
 
-> **도메인 분석 및 설계(Domain Driven Design)**
+*개발은 비용적인 문제로인해, 로컬환경에서 디버그서버 및 컨테이너를 통해 개발 및 테스트를 진행했습니다.* 
 
-프로젝트의 초기 단계에서, 신발 주문 시스템을 분석하고 설계하기 위해 도메인 주도 설계 원칙에 중점을 두었다.
-핵심 도메인 개념, 동작 및 비즈니스 규칙을 식별함으로써 도메인에 대한 이해를 하고, 특정 도메인 요구 사항에 맞는
-솔루션을 개발하는 것이 목표이다.
-
-<br>
-
-> **클린아키텍처(Ports and Adapters)**
-
-클린 아키텍처 원칙, 특히 포트 및 어댑터 패턴을 프로젝트 설계에 적용하기 위해 노력했다.
-이 접근법은 관심사의 분리와 서로 다른 계층 간의 명확한 경계 설정을 강조하며, 각 계층의 의존성은 도메인 계층을 향해야 한다.
-포트/인터페이스 및 해당 어댑터/구현 클래스를 정의함으로써, 외부 시스템 및 내부 구성 요소를
-변경할 수 있는 유연한 아키텍처를 달성하는 것을 목표로 하였다.
+- 개발 과정은 `local 개발 및 테스트 -> git push, git action 을 통한 CI 확보 -> 완료된 main 를 기준으로 로컬 컨테이너 환경 구성` 을 거쳐 진행 되었습니다.   
+- 기본 구성요소는 다음과 같이 설정되어 있습니다.
+    - Nginx(1) 
+    - WAS(3)
+    - Kafka Brokers(3)
+    - MySQL(1)
+    - Redis(1)
 
 <br>
 
-> **이벤트 기반 아키텍처(Event Driven Architecture)**
+> **Internal FLow**
 
-이 프로젝트의 핵심은 이벤트 기반 아키텍처의 적용이라고 말할 수 있다.
-이벤트 기반 설계 원칙을 채택함으로써 서비스 간 느슨한 결합을 촉진하고 이벤트 기반 워크플로를 활성화하며
-신발 주문 시스템의 전반적인 확장성과 성능을 향상시키는 것을 목표로 하였다.
+<img width="1854" alt="스크린샷 2023-10-23 오후 4 23 29" src="https://github.com/KEEMSY/shoes-ordering-system/assets/96563125/aa165b6a-3082-4347-827d-3bac85ce8995">
+
+
+- `Ports and Adapters` 적용으로 크게 `Adapter` 와 `Domain` 으로 구성됩니다.
+    - Adapter: domain 에서 제공하는 Port 를 구현한 구현체이며, `In`, `Out` Adapter 로 구분된다.
+        - In: Domain 계층을 호출하며, 전체적인 흐름을 주도하는 어댑터이다. `Controller` 어댑터가 이에 해당한다.
+        - Out: Domain 계층에 의해 호출되며, 주도되는 어댑터이다. `DataAccess(영속성관련)`, `Messaging` `외부 서비스` 어댑터들이 이에 해당한다.
+    - Domain: 도메인로직(비즈니스로직)이 존재하며, 인터페이스를 제공 `Port` 를 제공하며, `Port` 를 통해 의존성의 방향을 도메인을 향하게 한다.
+
+<br><hr>
+
+## Skills
+
+|Infra|BackEnd|
+|--|--|
+|<img width="100%" src="https://github.com/KEEMSY/shoes-ordering-system/assets/96563125/18b47165-c620-4d3c-9c22-ac00e44442b4" />|<img width="100%" src="https://github.com/KEEMSY/shoes-ordering-system/assets/96563125/e9895118-da48-457d-bdb4-06eab1c7cff6" />|
+
+
+<br><hr>
+
+## ETC
+
+### [프로젝트 세팅]()
+### [ADRs](https://github.com/KEEMSY/shoes-ordering-system/wiki)
 
