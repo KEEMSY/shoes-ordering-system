@@ -55,6 +55,6 @@
 
 ## ETC
 
-### [프로젝트 세팅]()
+### [프로젝트 세팅](https://github.com/KEEMSY/shoes-ordering-system/wiki/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%B8%ED%8C%85)
 ### [ADRs](https://github.com/KEEMSY/shoes-ordering-system/wiki)
 
