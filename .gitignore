@@ -76,12 +76,22 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 
-# docker volume
-src/main/java/com/shoes/ordering/system/common/infra/docker-compose/volumes/kafka/broker-1/*
-src/main/java/com/shoes/ordering/system/common/infra/docker-compose/volumes/kafka/broker-2/*
-src/main/java/com/shoes/ordering/system/common/infra/docker-compose/volumes/kafka/broker-3/*
+### docker volume ###
 
-src/main/java/com/shoes/ordering/system/common/infra/docker-compose/volumes/zookeeper/*
+# Local
+src/main/java/com/shoes/ordering/system/common/infra/docker-compose/local/volumes/kafka/broker-1/*
+src/main/java/com/shoes/ordering/system/common/infra/docker-compose/local/volumes/kafka/broker-2/*
+src/main/java/com/shoes/ordering/system/common/infra/docker-compose/local/volumes/kafka/broker-3/*
+
+src/main/java/com/shoes/ordering/system/common/infra/docker-compose/local/volumes/zookeeper/*
+
+# Container
+src/main/java/com/shoes/ordering/system/common/infra/docker-compose/container/volumes/kafka/broker-1/*
+src/main/java/com/shoes/ordering/system/common/infra/docker-compose/container/volumes/kafka/broker-2/*
+src/main/java/com/shoes/ordering/system/common/infra/docker-compose/container/volumes/kafka/broker-3/*
+
+src/main/java/com/shoes/ordering/system/common/infra/docker-compose/container/volumes/zookeeper/*
+
 
 # Avro Class
 src/main/java/avro/com/shoes/ordering/system/*
