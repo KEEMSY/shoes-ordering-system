@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  spring-app1:
+    image: my-spring-app:latest
+    container_name: shoes-ordering-app1
+    depends_on:
+      - spring-mysql
+      - spring-redis
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://spring-mysql-container:3306/shoes_ordering_system?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: test
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-broker-1:19092, kafka-broker-2:29092, kafka-broker-3:39092
+
+      SPRING_PROFILES_ACTIVE: "container"
+    ports:
+      - "1111:9191"
+    networks:
+      - ${GLOBAL_NETWORK}
+
+  spring-app2:
+    image: my-spring-app:latest
+    container_name: shoes-ordering-app2
+    depends_on:
+      - spring-mysql
+      - spring-redis
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://spring-mysql:3306/shoes_ordering_system?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: test
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      SPRING_PROFILES_ACTIVE: "container"
+    ports:
+      - "2121:9191"
+    networks:
+      - ${GLOBAL_NETWORK}
+
+  spring-mysql:
+    image: mysql:8.0
+    container_name: spring-mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: shoes_ordering_system
+    ports:
+      - "23306:3306"
+    networks:
+      - ${GLOBAL_NETWORK}
+
+  spring-redis:
+    container_name: spring-redis-container
+    image: redis:latest
+    ports:
+    - "26379:6379"
+    networks:
+      - ${GLOBAL_NETWORK}
+
