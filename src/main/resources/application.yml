@@ -106,9 +106,6 @@ spring:
     activate:
       on-profile: "container"
   datasource:
-    SPRING_DATASOURCE_URL: jdbc:mysql://spring-mysql-container:3306/shoes_ordering_system?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: root
-    password: test
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
