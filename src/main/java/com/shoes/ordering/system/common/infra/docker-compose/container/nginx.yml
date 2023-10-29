@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  web-nginx:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: shoes-ordering-nginx
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    privileged: true
+    networks:
+      - ${GLOBAL_NETWORK}

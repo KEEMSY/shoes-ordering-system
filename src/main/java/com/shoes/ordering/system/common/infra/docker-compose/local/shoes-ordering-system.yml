@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  spring-mysql:
+    image: mysql:8.0
+    container_name: spring-mysql-local
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: shoes_ordering_system
+    ports:
+      - "13306:3306"
+    networks:
+      - ${GLOBAL_NETWORK}
+
+  spring-redis:
+    container_name: spring-redis-local
+    image: redis:latest
+    ports:
+    - "16379:6379"
+    networks:
+      - ${GLOBAL_NETWORK}

@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  spring-mysql:
+    image: mysql:8.0
+    container_name: spring-mysql-test
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: shoes_ordering_system
+    ports:
+      - "3306:3306"
+    networks:
+      - ${GLOBAL_NETWORK}
