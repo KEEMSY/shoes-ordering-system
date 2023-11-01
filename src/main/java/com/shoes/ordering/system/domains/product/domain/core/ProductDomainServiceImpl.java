@@ -8,9 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+import static com.shoes.ordering.system.domains.common.config.DomainConstants.UTC;
+
 @Slf4j
 public class ProductDomainServiceImpl implements ProductDomainService{
-    private static final String UTC = "UTC";
     @Override
     public ProductCreatedEvent validateAndInitiateProduct(Product product) {
         product.initializeProduct();
