@@ -8,10 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+import static com.shoes.ordering.system.domains.common.config.DomainConstants.UTC;
+
 @Slf4j
 public class MemberDomainServiceImpl implements MemberDomainService{
 
-    private static final String UTC = "UTC";
     @Override
     public MemberCreatedEvent validateAndInitiateMember(Member member) {
         member.initializeMember();
