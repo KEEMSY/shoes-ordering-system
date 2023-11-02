@@ -47,6 +47,8 @@ class paymentDomainServiceImplTest {
         CreditHistory creditHistory = createCreditHistory(memberId, validTotalCreditAmount, TransactionType.CREDIT);
         creditHistories.add(creditHistory);
 
+        Money expectedTotalCreditAmount = validTotalCreditAmount.subtract(validPrice);
+
         // when
         PaymentEvent paymentCompletedEvent =  paymentDomainService
                 .validateAndInitiatePayment(payment, creditEntry, creditHistories, failureMessages);
@@ -55,7 +57,7 @@ class paymentDomainServiceImplTest {
         assertThat(paymentCompletedEvent).isNotNull();
         assertThat(payment.getId()).isNotNull();
         assertThat(payment.getPaymentStatus()).isEqualTo(PaymentStatus.COMPLETED);
-        assertThat(creditEntry.getTotalCreditAmount().getAmount()).isEqualTo(new BigDecimal("50.00"));
+        assertThat(creditEntry.getTotalCreditAmount().getAmount()).isEqualTo(expectedTotalCreditAmount.getAmount());
     }
 
     @Test
