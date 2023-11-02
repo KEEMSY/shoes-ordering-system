@@ -6,6 +6,7 @@ import com.shoes.ordering.system.domains.payment.domain.core.PaymentDomainServic
 import com.shoes.ordering.system.domains.payment.domain.core.entity.CreditEntry;
 import com.shoes.ordering.system.domains.payment.domain.core.entity.CreditHistory;
 import com.shoes.ordering.system.domains.payment.domain.core.entity.Payment;
+import com.shoes.ordering.system.domains.payment.domain.core.event.PaymentCancelledEvent;
 import com.shoes.ordering.system.domains.payment.domain.core.event.PaymentCompletedEvent;
 import com.shoes.ordering.system.domains.payment.domain.core.event.PaymentEvent;
 import com.shoes.ordering.system.domains.payment.domain.core.event.PaymentFailedEvent;
@@ -50,7 +51,20 @@ public class PaymentDomainServiceImpl implements PaymentDomainService {
                                                  CreditEntry creditEntry,
                                                  List<CreditHistory> creditHistories,
                                                  List<String> failureMessages) {
-        return null;
+        payment.validatePayment(failureMessages);
+        payment.initializePayment();
+        addCreditEntry(payment, creditEntry);
+        updateCreditHistory(payment, creditHistories, TransactionType.CREDIT);
+
+        if (failureMessages.isEmpty()) {
+            log.info("Payment is cancelled for order id: {}", payment.getOrderId().getValue());
+            payment.updateStatus(PaymentStatus.CANCELLED);
+            return new PaymentCancelledEvent(payment, ZonedDateTime.now(ZoneId.of(UTC)));
+        } else {
+            log.info("Payment cancellation is failed for orderId: {}", payment.getOrderId().getValue());
+            payment.updateStatus(PaymentStatus.FAILED);
+            return new PaymentFailedEvent(payment, ZonedDateTime.now(ZoneId.of(UTC)),failureMessages);
+        }
     }
 
     private void validateCreditEntry(Payment payment, CreditEntry creditEntry, List<String> failureMessages) {
@@ -100,4 +114,9 @@ public class PaymentDomainServiceImpl implements PaymentDomainService {
                 .map(CreditHistory::getAmount)
                 .reduce(Money.ZERO, Money::add);
     }
+
+    private void addCreditEntry(Payment payment, CreditEntry creditEntry) {
+        creditEntry.addCreditAmount(payment.getPrice());
+    }
+
 }

@@ -22,7 +22,7 @@ import java.util.UUID;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class PaymentServiceImplTest {
+class paymentDomainServiceImplTest {
 
     private final PaymentDomainService paymentDomainService = new PaymentDomainServiceImpl();
 
@@ -141,6 +141,47 @@ class PaymentServiceImplTest {
 
         // then
         assertThat(paymentFailedEvent).isNotNull();
+        assertThat(payment.getPaymentStatus()).isEqualTo(PaymentStatus.FAILED);
+    }
+
+    @Test
+    @DisplayName("정상 PaymentCancelledEvent 생성 확인")
+    void validateAndCancelPaymentTest() {
+        // given
+        Payment payment = createPayment(validPrice);
+        CreditEntry creditEntry = createCreditEntry(validTotalCreditAmount);
+        CreditHistory creditHistory = createCreditHistory(memberId, validTotalCreditAmount, TransactionType.CREDIT);
+        creditHistories.add(creditHistory);
+
+        // when
+        PaymentEvent paymentCancelledEvent = paymentDomainService
+                .validateAndCancelPayment(payment, creditEntry, creditHistories, failureMessages);
+
+        // then
+        assertThat(paymentCancelledEvent).isNotNull();
+        assertThat(payment.getId()).isNotNull();
+        assertThat(payment.getPaymentStatus()).isEqualTo(PaymentStatus.CANCELLED);
+        assertThat(creditEntry.getTotalCreditAmount().getAmount())
+                .isEqualTo(validTotalCreditAmount.add(validPrice).getAmount());
+    }
+
+    @Test
+    @DisplayName("취소 요청 시, 정상 PaymentFailedEvent 생성 확인: Payment 가 유효하지 않음 경우")
+    void validateAndCancelPaymentWithWrongPaymentTest() {
+        // given
+        Money invalidPrice = new Money(new BigDecimal("0.00"));
+        Payment payment = createPayment(invalidPrice);
+        CreditEntry creditEntry = createCreditEntry(validTotalCreditAmount);
+        CreditHistory creditHistory = createCreditHistory(memberId, validTotalCreditAmount, TransactionType.CREDIT);
+        creditHistories.add(creditHistory);
+
+        // when
+        PaymentEvent paymentFailedEvent = paymentDomainService
+                .validateAndCancelPayment(payment, creditEntry, creditHistories, failureMessages);
+
+        // then
+        assertThat(paymentFailedEvent).isNotNull();
+        assertThat(payment.getId()).isNotNull();
         assertThat(payment.getPaymentStatus()).isEqualTo(PaymentStatus.FAILED);
     }
 
