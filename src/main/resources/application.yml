@@ -30,6 +30,10 @@ order-service:
   payment-request-topic-name: payment-request
   payment-response-topic-name: payment-response
 
+payment-service:
+  payment-request-topic-name: payment-request
+  payment-response-topic-name: payment-response
+
 kafka-producer-config:
   key-serializer-class: org.apache.kafka.common.serialization.StringSerializer
   value-serializer-class: io.confluent.kafka.serializers.KafkaAvroSerializer
