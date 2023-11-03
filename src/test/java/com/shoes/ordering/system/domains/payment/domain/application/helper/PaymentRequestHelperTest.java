@@ -1,0 +1,135 @@
+package com.shoes.ordering.system.domains.payment.domain.application.helper;
+
+import com.shoes.ordering.system.TestConfiguration;
+import com.shoes.ordering.system.domains.common.valueobject.Money;
+import com.shoes.ordering.system.domains.common.valueobject.PaymentOrderStatus;
+import com.shoes.ordering.system.domains.member.domain.core.valueobject.MemberId;
+import com.shoes.ordering.system.domains.payment.domain.application.dto.PaymentRequest;
+import com.shoes.ordering.system.domains.payment.domain.application.exception.PaymentApplicationServiceException;
+import com.shoes.ordering.system.domains.payment.domain.application.ports.output.repository.CreditEntryRepository;
+import com.shoes.ordering.system.domains.payment.domain.application.ports.output.repository.CreditHistoryRepository;
+import com.shoes.ordering.system.domains.payment.domain.core.entity.CreditEntry;
+import com.shoes.ordering.system.domains.payment.domain.core.entity.CreditHistory;
+import com.shoes.ordering.system.domains.payment.domain.core.event.PaymentCompletedEvent;
+import com.shoes.ordering.system.domains.payment.domain.core.event.PaymentEvent;
+import com.shoes.ordering.system.domains.payment.domain.core.valueobject.TransactionType;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.*;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.given;
+
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@SpringBootTest(classes = TestConfiguration.class)
+class PaymentRequestHelperTest {
+
+    @Autowired
+    private CreditEntryRepository creditEntryRepository;
+    @Autowired
+    private CreditHistoryRepository creditHistoryRepository;
+
+    @Autowired
+    private PaymentRequestHelper paymentRequestHelper;
+
+    private final String stringOrderId = UUID.randomUUID().toString();
+    private final String stringMemberId = UUID.randomUUID().toString();
+    private final BigDecimal validPrice = new BigDecimal("50.00");
+
+    @BeforeEach
+    void setup() {
+        // creditEntryRepository Mocking
+        CreditEntry expectedCreditEntryResponse = createCreditEntry(validPrice);
+        given(creditEntryRepository.findByMemberId(any(MemberId.class))).willReturn(Optional.of(expectedCreditEntryResponse));
+
+        // creditHistoryRepository Mocking
+        CreditHistory creditHistory = createCreditHistory(validPrice, TransactionType.CREDIT);
+        List<CreditHistory> expectedCreditHistories = new ArrayList<>();
+        expectedCreditHistories.add(creditHistory);
+        given(creditHistoryRepository.findByMemberId(any(MemberId.class))).willReturn(Optional.of(expectedCreditHistories));
+    }
+
+    @Test
+    @DisplayName("정상 Payment 저장 확인: PaymentCompletedEvent 확인")
+    void persistPaymentTest() {
+        // given
+        PaymentOrderStatus paymentOrderStatus = PaymentOrderStatus.PENDING;
+        PaymentRequest paymentRequest = createPaymentRequest(stringMemberId, validPrice, paymentOrderStatus);
+
+        // when
+        PaymentEvent expectedPaymentEvent = paymentRequestHelper.persistPayment(paymentRequest);
+
+        // then
+        assertThat(expectedPaymentEvent).isNotNull();
+        assertThat(expectedPaymentEvent.getClass()).isEqualTo(PaymentCompletedEvent.class);
+    }
+
+    @Test
+    @DisplayName("정상 Payment 저장 에러 확인: CreditEntry 를 찾을 수 없을 경우")
+    void persistPaymentCreditEntryRepositoryErrorTest() {
+        // given
+        given(creditEntryRepository.findByMemberId(any(MemberId.class)))
+                .willReturn(Optional.empty());
+
+        PaymentOrderStatus paymentOrderStatus = PaymentOrderStatus.PENDING;
+        String unknownMemberId = UUID.randomUUID().toString();
+        PaymentRequest paymentRequest = createPaymentRequest(unknownMemberId, validPrice, paymentOrderStatus);
+
+        // when, then
+        assertThatThrownBy(() ->{ paymentRequestHelper.persistPayment(paymentRequest); })
+                .isInstanceOf(PaymentApplicationServiceException.class)
+                .hasMessage("Could not find credit for memberId: " + unknownMemberId);
+    }
+
+    @Test
+    @DisplayName("정상 Payment 저장 에러 확인: CreditHistories 를 찾을 수 없을 경우")
+    void persistPaymentCreditHistoryRepositoryErrorTest() {
+        // given
+        given(creditHistoryRepository.findByMemberId(any(MemberId.class)))
+                .willReturn(Optional.empty());
+
+        PaymentOrderStatus paymentOrderStatus = PaymentOrderStatus.PENDING;
+        String unknownMemberId = UUID.randomUUID().toString();
+        PaymentRequest paymentRequest = createPaymentRequest(unknownMemberId, validPrice, paymentOrderStatus);
+
+        // when, then
+        assertThatThrownBy(() ->{ paymentRequestHelper.persistPayment(paymentRequest); })
+                .isInstanceOf(PaymentApplicationServiceException.class)
+                .hasMessage("Could not find credit history for memberId: " + unknownMemberId);
+    }
+
+    private CreditEntry createCreditEntry(BigDecimal totalCreditAmount) {
+        return CreditEntry.builder()
+                .memberId(new MemberId(UUID.fromString(stringMemberId)))
+                .totalCreditAmount(new Money(totalCreditAmount))
+                .build();
+    }
+
+    private PaymentRequest createPaymentRequest(String stringMemberId, BigDecimal price, PaymentOrderStatus paymentOrderStatus) {
+        return PaymentRequest.builder()
+                .id(UUID.randomUUID().toString())
+                .orderId(stringOrderId)
+                .memberId(stringMemberId)
+                .price(price)
+                .createdAt(Instant.now())
+                .paymentOrderStatus(paymentOrderStatus)
+                .build();
+    }
+
+    private CreditHistory createCreditHistory(BigDecimal amount, TransactionType transactionType) {
+        return CreditHistory.builder()
+                .memberId(new MemberId(UUID.fromString(stringMemberId)))
+                .amount(new Money(amount))
+                .transactionType(transactionType)
+                .build();
+    }
+}
