@@ -1,8 +1,7 @@
-package com.shoes.ordering.system.domains.payment.domain;
+package com.shoes.ordering.system.domains.payment.domain.core;
 
 import com.shoes.ordering.system.domains.common.valueobject.Money;
 import com.shoes.ordering.system.domains.common.valueobject.PaymentStatus;
-import com.shoes.ordering.system.domains.payment.domain.core.PaymentDomainService;
 import com.shoes.ordering.system.domains.payment.domain.core.entity.CreditEntry;
 import com.shoes.ordering.system.domains.payment.domain.core.entity.CreditHistory;
 import com.shoes.ordering.system.domains.payment.domain.core.entity.Payment;
@@ -13,6 +12,7 @@ import com.shoes.ordering.system.domains.payment.domain.core.event.PaymentFailed
 import com.shoes.ordering.system.domains.payment.domain.core.valueobject.CreditHistoryId;
 import com.shoes.ordering.system.domains.payment.domain.core.valueobject.TransactionType;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -22,6 +22,7 @@ import java.util.UUID;
 import static com.shoes.ordering.system.domains.common.config.DomainConstants.UTC;
 
 @Slf4j
+@Component
 public class PaymentDomainServiceImpl implements PaymentDomainService {
     @Override
     public PaymentEvent validateAndInitiatePayment(Payment payment,
