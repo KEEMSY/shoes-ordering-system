@@ -3,13 +3,19 @@ package com.shoes.ordering.system.domains.payment.domain.application.helper;
 import com.shoes.ordering.system.TestConfiguration;
 import com.shoes.ordering.system.domains.common.valueobject.Money;
 import com.shoes.ordering.system.domains.common.valueobject.PaymentOrderStatus;
+import com.shoes.ordering.system.domains.common.valueobject.PaymentStatus;
 import com.shoes.ordering.system.domains.member.domain.core.valueobject.MemberId;
+import com.shoes.ordering.system.domains.order.domain.core.valueobject.OrderId;
 import com.shoes.ordering.system.domains.payment.domain.application.dto.PaymentRequest;
 import com.shoes.ordering.system.domains.payment.domain.application.exception.PaymentApplicationServiceException;
+import com.shoes.ordering.system.domains.payment.domain.application.mapper.PaymentDataMapper;
 import com.shoes.ordering.system.domains.payment.domain.application.ports.output.repository.CreditEntryRepository;
 import com.shoes.ordering.system.domains.payment.domain.application.ports.output.repository.CreditHistoryRepository;
+import com.shoes.ordering.system.domains.payment.domain.application.ports.output.repository.PaymentRepository;
 import com.shoes.ordering.system.domains.payment.domain.core.entity.CreditEntry;
 import com.shoes.ordering.system.domains.payment.domain.core.entity.CreditHistory;
+import com.shoes.ordering.system.domains.payment.domain.core.entity.Payment;
+import com.shoes.ordering.system.domains.payment.domain.core.event.PaymentCancelledEvent;
 import com.shoes.ordering.system.domains.payment.domain.core.event.PaymentCompletedEvent;
 import com.shoes.ordering.system.domains.payment.domain.core.event.PaymentEvent;
 import com.shoes.ordering.system.domains.payment.domain.core.valueobject.TransactionType;
@@ -34,9 +40,13 @@ import static org.mockito.BDDMockito.given;
 class PaymentRequestHelperTest {
 
     @Autowired
+    private PaymentRepository paymentRepository;
+    @Autowired
     private CreditEntryRepository creditEntryRepository;
     @Autowired
     private CreditHistoryRepository creditHistoryRepository;
+    @Autowired
+    private PaymentDataMapper paymentDataMapper;
 
     @Autowired
     private PaymentRequestHelper paymentRequestHelper;
@@ -105,6 +115,39 @@ class PaymentRequestHelperTest {
         assertThatThrownBy(() ->{ paymentRequestHelper.persistPayment(paymentRequest); })
                 .isInstanceOf(PaymentApplicationServiceException.class)
                 .hasMessage("Could not find credit history for memberId: " + unknownMemberId);
+    }
+
+    @Test
+    @DisplayName("정상 Payment 취소 저장 확인")
+    void persisCancelPaymentTest() {
+        // given
+        PaymentOrderStatus paymentOrderStatus = PaymentOrderStatus.CANCELLED;
+        PaymentRequest paymentRequest = createPaymentRequest(stringMemberId, validPrice, paymentOrderStatus);
+
+        Payment expectedPayment = paymentDataMapper.paymentRequestToPayment(paymentRequest);
+        given(paymentRepository.findByOrderId(any(OrderId.class))).willReturn(Optional.of(expectedPayment));
+
+        // when
+        PaymentEvent expectedPaymentEvent = paymentRequestHelper.persisCancelPayment(paymentRequest);
+
+        // then
+        assertThat(expectedPaymentEvent).isNotNull();
+        assertThat(expectedPayment.getPaymentStatus()).isEqualTo(PaymentStatus.CANCELLED);
+        assertThat(expectedPaymentEvent.getClass()).isEqualTo(PaymentCancelledEvent.class);
+    }
+
+    @Test
+    @DisplayName("정상 Payment 취소 간 저장 에러 확인: Payment 를 찾을 수 없을 경우")
+    void persisCancelPaymentErrorTest() {
+        // given
+        given(paymentRepository.findByOrderId(any(OrderId.class))).willReturn(Optional.empty());
+
+        PaymentOrderStatus paymentOrderStatus = PaymentOrderStatus.CANCELLED;
+        PaymentRequest paymentRequest = createPaymentRequest(stringMemberId, validPrice, paymentOrderStatus);
+
+        // when, then
+        assertThatThrownBy(() -> {paymentRequestHelper.persisCancelPayment(paymentRequest);})
+                .isInstanceOf(PaymentApplicationServiceException.class);
     }
 
     private CreditEntry createCreditEntry(BigDecimal totalCreditAmount) {

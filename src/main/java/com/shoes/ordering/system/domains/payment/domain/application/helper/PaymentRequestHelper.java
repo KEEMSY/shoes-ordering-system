@@ -1,6 +1,7 @@
 package com.shoes.ordering.system.domains.payment.domain.application.helper;
 
 import com.shoes.ordering.system.domains.member.domain.core.valueobject.MemberId;
+import com.shoes.ordering.system.domains.order.domain.core.valueobject.OrderId;
 import com.shoes.ordering.system.domains.payment.domain.application.dto.PaymentRequest;
 import com.shoes.ordering.system.domains.payment.domain.application.exception.PaymentApplicationServiceException;
 import com.shoes.ordering.system.domains.payment.domain.application.mapper.PaymentDataMapper;
@@ -53,6 +54,29 @@ public class PaymentRequestHelper {
 
         PaymentEvent paymentEvent
                 = paymentDomainService.validateAndInitiatePayment(payment, creditEntry, creditHistories,failureMessages);
+        persisDBObjects(payment, creditEntry, creditHistories, failureMessages);
+        return paymentEvent;
+    }
+
+    @Transactional
+    public PaymentEvent persisCancelPayment(PaymentRequest paymentRequest) {
+        log.info("Received payment rollback event for order id: {}", paymentRequest.getOrderId());
+        Optional<Payment> paymentResponse = paymentRepository
+                .findByOrderId(new OrderId(UUID.fromString(paymentRequest.getOrderId())));
+
+        if (paymentResponse.isEmpty()) {
+            log.error("Payment with orderId: {} could not be found!", paymentRequest.getOrderId());
+            throw new PaymentApplicationServiceException("Payment with orderId: "
+                    + paymentRequest.getOrderId() + "could not be found");
+        }
+        Payment payment = paymentResponse.get();
+        CreditEntry creditEntry = getCreditEntry(payment.getMemberId());
+        List<CreditHistory> creditHistories = getCreditHistory(payment.getMemberId());
+        List<String> failureMessages = new ArrayList<>();
+
+        PaymentEvent paymentEvent = paymentDomainService
+                .validateAndCancelPayment(payment, creditEntry, creditHistories, failureMessages);
+
         persisDBObjects(payment, creditEntry, creditHistories, failureMessages);
         return paymentEvent;
     }
