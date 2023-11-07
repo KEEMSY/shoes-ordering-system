@@ -6,6 +6,9 @@ import com.shoes.ordering.system.domains.member.domain.application.ports.output.
 import com.shoes.ordering.system.domains.order.domain.application.ports.output.message.publisher.payment.OrderCancelledPaymentRequestMessagePublisher;
 import com.shoes.ordering.system.domains.order.domain.application.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessagePublisher;
 import com.shoes.ordering.system.domains.order.domain.application.ports.output.repository.OrderRepository;
+import com.shoes.ordering.system.domains.payment.domain.application.ports.output.message.publisher.PaymentCancelledMessagePublisher;
+import com.shoes.ordering.system.domains.payment.domain.application.ports.output.message.publisher.PaymentCompletedMessagePublisher;
+import com.shoes.ordering.system.domains.payment.domain.application.ports.output.message.publisher.PaymentFailedMessagePublisher;
 import com.shoes.ordering.system.domains.payment.domain.application.ports.output.repository.CreditEntryRepository;
 import com.shoes.ordering.system.domains.payment.domain.application.ports.output.repository.CreditHistoryRepository;
 import com.shoes.ordering.system.domains.payment.domain.application.ports.output.repository.PaymentRepository;
@@ -86,6 +89,18 @@ public class TestConfiguration {
     @Bean
     public CreditHistoryRepository creditHistoryRepository() {
         return Mockito.mock(CreditHistoryRepository.class);
+    }
+    @Bean
+    public PaymentCompletedMessagePublisher paymentCompletedMessagePublisher() {
+        return Mockito.mock(PaymentCompletedMessagePublisher.class);
+    }
+    @Bean
+    public PaymentCancelledMessagePublisher paymentCancelledMessagePublisher() {
+        return Mockito.mock(PaymentCancelledMessagePublisher.class);
+    }
+    @Bean
+    public PaymentFailedMessagePublisher paymentFailedMessagePublisher() {
+        return Mockito.mock(PaymentFailedMessagePublisher.class);
     }
 
 
