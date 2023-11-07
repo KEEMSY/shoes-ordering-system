@@ -70,7 +70,7 @@ class PaymentRequestHelperTest {
 
     @Test
     @DisplayName("정상 Payment 저장 확인: PaymentCompletedEvent 확인")
-    void persistPaymentTest() {
+    void persistPayment_CompletedOrderStatus_ShouldReturnCompletedEvent() {
         // given
         PaymentOrderStatus paymentOrderStatus = PaymentOrderStatus.PENDING;
         PaymentRequest paymentRequest = createPaymentRequest(stringMemberId, validPrice, paymentOrderStatus);
@@ -79,13 +79,12 @@ class PaymentRequestHelperTest {
         PaymentEvent expectedPaymentEvent = paymentRequestHelper.persistPayment(paymentRequest);
 
         // then
-        assertThat(expectedPaymentEvent).isNotNull();
-        assertThat(expectedPaymentEvent.getClass()).isEqualTo(PaymentCompletedEvent.class);
+        assertThat(expectedPaymentEvent).isNotNull().isInstanceOf(PaymentCompletedEvent.class);
     }
 
     @Test
     @DisplayName("정상 Payment 저장 에러 확인: CreditEntry 를 찾을 수 없을 경우")
-    void persistPaymentCreditEntryRepositoryErrorTest() {
+    void persistPayment_CreditEntryNotFound_ShouldThrowException() {
         // given
         given(creditEntryRepository.findByMemberId(any(MemberId.class)))
                 .willReturn(Optional.empty());
@@ -102,7 +101,7 @@ class PaymentRequestHelperTest {
 
     @Test
     @DisplayName("정상 Payment 저장 에러 확인: CreditHistories 를 찾을 수 없을 경우")
-    void persistPaymentCreditHistoryRepositoryErrorTest() {
+    void persistPayment_CreditHistoriesNotFound_ShouldThrowException() {
         // given
         given(creditHistoryRepository.findByMemberId(any(MemberId.class)))
                 .willReturn(Optional.empty());
@@ -119,7 +118,7 @@ class PaymentRequestHelperTest {
 
     @Test
     @DisplayName("정상 Payment 취소 저장 확인")
-    void persisCancelPaymentTest() {
+    void persisCancelPayment_ValidData_ShouldReturnCancelledEvent() {
         // given
         PaymentOrderStatus paymentOrderStatus = PaymentOrderStatus.CANCELLED;
         PaymentRequest paymentRequest = createPaymentRequest(stringMemberId, validPrice, paymentOrderStatus);
@@ -131,14 +130,13 @@ class PaymentRequestHelperTest {
         PaymentEvent expectedPaymentEvent = paymentRequestHelper.persisCancelPayment(paymentRequest);
 
         // then
-        assertThat(expectedPaymentEvent).isNotNull();
+        assertThat(expectedPaymentEvent).isNotNull().isInstanceOf(PaymentCancelledEvent.class);
         assertThat(expectedPayment.getPaymentStatus()).isEqualTo(PaymentStatus.CANCELLED);
-        assertThat(expectedPaymentEvent.getClass()).isEqualTo(PaymentCancelledEvent.class);
     }
 
     @Test
     @DisplayName("정상 Payment 취소 간 저장 에러 확인: Payment 를 찾을 수 없을 경우")
-    void persisCancelPaymentErrorTest() {
+    void persisCancelPayment_PaymentNotFound_ShouldThrowException() {
         // given
         given(paymentRepository.findByOrderId(any(OrderId.class))).willReturn(Optional.empty());
 
