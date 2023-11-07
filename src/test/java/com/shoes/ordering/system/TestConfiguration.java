@@ -6,6 +6,12 @@ import com.shoes.ordering.system.domains.member.domain.application.ports.output.
 import com.shoes.ordering.system.domains.order.domain.application.ports.output.message.publisher.payment.OrderCancelledPaymentRequestMessagePublisher;
 import com.shoes.ordering.system.domains.order.domain.application.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessagePublisher;
 import com.shoes.ordering.system.domains.order.domain.application.ports.output.repository.OrderRepository;
+import com.shoes.ordering.system.domains.payment.domain.application.ports.output.message.publisher.PaymentCancelledMessagePublisher;
+import com.shoes.ordering.system.domains.payment.domain.application.ports.output.message.publisher.PaymentCompletedMessagePublisher;
+import com.shoes.ordering.system.domains.payment.domain.application.ports.output.message.publisher.PaymentFailedMessagePublisher;
+import com.shoes.ordering.system.domains.payment.domain.application.ports.output.repository.CreditEntryRepository;
+import com.shoes.ordering.system.domains.payment.domain.application.ports.output.repository.CreditHistoryRepository;
+import com.shoes.ordering.system.domains.payment.domain.application.ports.output.repository.PaymentRepository;
 import com.shoes.ordering.system.domains.product.adapter.out.dataaccess.respository.ProductAppliedRedisRepository;
 import com.shoes.ordering.system.domains.product.domain.application.ports.output.message.publisher.ProductCreatedRequestMessagePublisher;
 import com.shoes.ordering.system.domains.product.domain.application.ports.output.message.publisher.ProductUpdatedRequestMessagePublisher;
@@ -70,6 +76,31 @@ public class TestConfiguration {
     @Bean
     public OrderCancelledPaymentRequestMessagePublisher orderCancelledPaymentRequestMessagePublisher() {
         return Mockito.mock(OrderCancelledPaymentRequestMessagePublisher.class);
+    }
+
+    @Bean
+    public PaymentRepository paymentRepository() {
+        return Mockito.mock(PaymentRepository.class);
+    }
+    @Bean
+    public CreditEntryRepository creditEntryRepository() {
+        return Mockito.mock(CreditEntryRepository.class);
+    }
+    @Bean
+    public CreditHistoryRepository creditHistoryRepository() {
+        return Mockito.mock(CreditHistoryRepository.class);
+    }
+    @Bean
+    public PaymentCompletedMessagePublisher paymentCompletedMessagePublisher() {
+        return Mockito.mock(PaymentCompletedMessagePublisher.class);
+    }
+    @Bean
+    public PaymentCancelledMessagePublisher paymentCancelledMessagePublisher() {
+        return Mockito.mock(PaymentCancelledMessagePublisher.class);
+    }
+    @Bean
+    public PaymentFailedMessagePublisher paymentFailedMessagePublisher() {
+        return Mockito.mock(PaymentFailedMessagePublisher.class);
     }
 
 

@@ -35,7 +35,9 @@ order-service:
   payment-request-topic-name: payment-request
   payment-response-topic-name: payment-response
 
-
+payment-service:
+  payment-request-topic-name: payment-request
+  payment-response-topic-name: payment-response
 
 
 kafka-config:
