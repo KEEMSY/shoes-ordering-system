@@ -31,6 +31,7 @@ public class PaymentPersistenceAdapter implements PaymentRepository {
 
     @Override
     public Optional<Payment> findByOrderId(OrderId orderId) {
-        return null;
+        return paymentJpaRepository.findByOrderId(orderId.getValue())
+                .map(paymentDataAccessMapper::paymentEntityToPayment);
     }
 }

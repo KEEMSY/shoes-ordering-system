@@ -59,6 +59,34 @@ class PaymentPersistenceAdapterTest {
 
     }
 
+    @Test
+    @DisplayName("orderId 를 통한 정상 Payment 조회 확인")
+    void findByOrderId_ShouldReturnOptionalPayment() {
+        // given
+        Payment payment = createPayment(validPrice);
+        paymentJpaRepository.save(paymentDataAccessMapper.paymentToPaymentEntity(payment));
+
+        // when
+        Optional<Payment> foundPayment = paymentPersistenceAdapter.findByOrderId(orderId);
+
+        // then
+        assertThat(foundPayment).isPresent();
+
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 orderId 를 조회 시, Payment 미존재 확인")
+    void findByOrderId_ShouldReturnOptionalEmpty() {
+        // given
+        OrderId unknownOrderId = new OrderId(UUID.randomUUID());
+
+        // when
+        Optional<Payment> foundPayment = paymentPersistenceAdapter.findByOrderId(unknownOrderId);
+
+        // then
+        assertThat(foundPayment).isEmpty();
+    }
+
     private Payment createPayment(Money price) {
         Payment payment = Payment.builder()
                 .orderId(orderId)
