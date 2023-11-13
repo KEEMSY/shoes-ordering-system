@@ -63,6 +63,7 @@ kafka-consumer-config:
   poll-timeout-ms: 150
 
   payment-consumer-group-id: payment-topic-consumer
+  payment-consumer-payment-group-id: payment-topic-payment-consumer
 
 ---
 # Local Profile Configurations
